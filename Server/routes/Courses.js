@@ -9,10 +9,13 @@ export const courseRouter=Router();
 courseRouter.post("/purchase",userMiddleware,async (req,res)=>{
     const userId=req.userId;
     const courseId=req.body.courseId;
+    console.log(req.userId)
     // Check the payment here
-    const isPurchased=await purchaseModel.find({
-        courseId
+    const isPurchased=await purchaseModel.exists({
+        courseId,
+        userId
     })
+    console.log(isPurchased)
     if(isPurchased) return res.json({
         message:"course already purchased"
     })

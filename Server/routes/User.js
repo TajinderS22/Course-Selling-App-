@@ -27,6 +27,7 @@ userRouter.post("/signup",async (req,res)=>{
         firstname,
         lastname
     }
+    console.log(data)
 
     try {
         zodschema.parse(data);
@@ -69,7 +70,7 @@ userRouter.post("/signin",async (req,res)=>{
             email
         })
 
-        if(!User) return res.status(400).json({"message":"User is not registered"})
+        if(!User) return res.status(403).json({"message":"User is not registered"})
         
         const passwordMatched= await bcrypt.compare(password,User.password)
 
@@ -86,7 +87,7 @@ userRouter.post("/signin",async (req,res)=>{
             // WE can add cookies logic here 
         }
 
-        res.status(200).json({message:"Loging Successful",token:token})
+        res.status(200).json({message:"Loging Successful",token:token, user: User})
 
     }catch(e){
         console.error("error during signin",e)
@@ -95,8 +96,36 @@ userRouter.post("/signin",async (req,res)=>{
 
 })
 
+
+userRouter.post("/verify",async(req,res)=>{
+    const token=req.headers.authorization
+
+    console.log(token)
+    const decoded=jwt.verify(token,process.env.JWT_USER_PASSWORD)
+    const user = await userModel.findOne({
+        _id:decoded.id
+    })
+    if(!token) return null
+    console.log(user)
+    if(user){
+    res.json({user})
+    } 
+        
+    
+})
+
+userRouter.get("/verify",async(req,res)=>{
+    const jwt=req.headers.Authorization
+    res.json({
+        text:"fuckyourself"
+    })
+})
+
 userRouter.get("/purchases",userMiddleware,async(req,res)=>{
     const userId=req.userId
+    console.log(req.userId)
+    const jwt = req.headers.authorization;
+    if (!jwt) return res.status(401).json({ message: "Token missing" });
     const purchasedCourses=await purchaseModel.find({
         userId
     })

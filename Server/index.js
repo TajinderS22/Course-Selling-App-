@@ -3,11 +3,15 @@ import { userRouter } from './routes/User.js';
 import { courseRouter } from './routes/Courses.js';
 import { adminRouter } from './routes/Admin.js';
 import mongoose from "mongoose";
+import cors from 'cors'
 
 
 
 const app=express()
 const port =3000;
+app.use(cors({
+    allowedHeaders: ['Content-Type', 'Authorization']
+}))
 
 app.use(express.json())
 app.use("/user",userRouter)

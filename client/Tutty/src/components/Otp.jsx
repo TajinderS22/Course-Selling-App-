@@ -26,12 +26,14 @@ const Otp = ({number}) => {
                     }}
                     onBack={()=>{
                         if(index==0) return
-                        if(index<number) setisEnabled(false)
                         const newValue = [...value];
-                        newValue[index ] = ""; // also clear previous box
-                        setValue(newValue);
-                    
-                        ref.current[index-1].focus();
+                        if(newValue[index]!=""){
+                            if(index<=number) setisEnabled(false)
+                            ref.current[index].focus(); 
+                        }else{
+                            ref.current[index-1].focus()
+                            
+                        }
                     }}
                     value={value}
                     setValue={setValue}
@@ -84,7 +86,7 @@ const OtpSubBox = ({ reference, onDone, onBack, value, setValue, index }) => {
                 } else {
                     // Prevent invalid char from sticking
                     const newValue = [...value];
-                    newValue[index] = null;
+                    newValue[index] = "";
                     setValue(newValue);
                 }
             }}

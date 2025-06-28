@@ -5,7 +5,6 @@ const Test = () => {
   return (
     <div className='h-screen bg-amber-100 '>
         <Otp number={6}/>
-        hi
     </div>
   )
 }
