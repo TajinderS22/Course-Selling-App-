@@ -3,10 +3,8 @@ import { userModel } from "../db.js";
 
 export const userMiddleware=async (req,res,next)=>{
     const token= req?.headers?.authorization;
-    // console.log(token)
-    const decoded=jwt.verify(token,process.env.JWT_USER_PASSWORD)
-    // console.log(decoded.id)
 
+    const decoded=jwt.verify(token,process.env.JWT_USER_PASSWORD)
     if(decoded){
         req.userId= decoded.id;
         next()

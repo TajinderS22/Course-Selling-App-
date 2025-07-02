@@ -22,7 +22,6 @@ const BuyCourse = () => {
         setCourses(response?.data?.courses);
         
     }
-    
 
     const ifSessionActive=async()=>{
         try {
@@ -62,13 +61,13 @@ const BuyCourse = () => {
     },[user,jwt])
 
   return (
-    <div>
+    <div className='dark:bg-slate-800 pb-6'>
         <Navbar></Navbar>
         
         {courses?
-            <div className='h-fit min-h-[800px] p-6  bg-[#ADEED9]/30 ' >
-                <p className='text-2xl lg:text-3xl font-semibold text-teal-900 mx-auto w-11/12 m-6 mb-0' >Buy from wide Range of courses covering all the fields.</p>
-                <div className='flex flex-wrap  w-11/12 justify-around md:px-14 mx-auto'>
+            <div className='h-fit min-h-[800px] p-6 dark:bg-slate-800 dark:text-amber-50 bg-[#ADEED9]/30 ' >
+                <p className='text-2xl lg:text-3xl font-semibold dark:text-amber-100 text-teal-900 mx-auto w-11/12 m-6 mb-0' >Buy from wide Range of courses covering all the fields.</p>
+                <div className='flex flex-wrap  md:w-11/12 justify-around md:px-14 mx-auto'>
                     {courses.map((x)=>{
                         return(
                             <CourseCard key={x._id} data={x}/>

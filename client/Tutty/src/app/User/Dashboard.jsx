@@ -27,7 +27,6 @@ const Dashboard = () => {
       })
       const user=response.data.user
 
-      console.log(response)
 
       if (response.status === 200) {
         setUser(user)
@@ -53,13 +52,13 @@ const Dashboard = () => {
   // const [open] = useState(isMdUp);
 
   return (
-    <div className='h-fit min-h-[90svh]'>
+    <div className=' h-fit min-h-[90svh] '>
         <Navbar></Navbar>
-        <div className='flex  min-h-[95svh]  '>
+        <div className='  flex  min-h-[95svh]   '>
             <div className='hidden md:block'>
               <Sidebar ></Sidebar>
             </div>
-            <div className='overflow-y-scroll w-full'>
+            <div className='overflow-y-scroll w-full '>
               <UserContainer ></UserContainer>
             </div>
             

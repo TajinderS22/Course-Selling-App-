@@ -54,11 +54,15 @@ const Dashboard = () => {
     <div className='h-fit min-h-[90svh]'>
         <Navbar></Navbar>
         <div className='flex h-fit min-h-[95svh]'>
-            <Sidebar></Sidebar>
-            <AdminContainer/>
+            <div className='not-md:hidden '>
+              <Sidebar></Sidebar>
+            </div>
+            <div className='overflow-y-scroll w-full'>
+              <AdminContainer/>
+            </div>
         </div>
     </div>
   )
 }
 
-export default Dashboard
+export default Dashboard  

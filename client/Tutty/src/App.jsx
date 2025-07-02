@@ -10,7 +10,8 @@ import AuthenticationAdmin from './app/Admin/AuthenticationAdmin';
 import AdminDashBoard from './app/Admin/AdminDashBoard'
 import CreateCourse from './app/Admin/CreateCourse';
 import BuyCourse from './components/BuyCourse';
-
+import AboutUs from './components/AboutUs';
+import Footer from './components/Footer'
 
 
 function App() {
@@ -42,6 +43,10 @@ function App() {
     {
       path:"/buyCourse",
       element:<BuyCourse/>
+    },
+    {
+      path:"/Aboutus",
+      element:<AboutUs/>
     }
   ]);
   return (
@@ -51,6 +56,7 @@ function App() {
           <RouterProvider router={router}/>
         </RecoilRoot>
       </AppProvider>
+      <Footer/>
     </div>
   );
 }

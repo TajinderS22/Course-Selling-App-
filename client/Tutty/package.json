@@ -11,10 +11,12 @@
   },
   "dependencies": {
     "dotenv": "^17.0.1",
+    "lucide-react": "^0.525.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router": "^7.6.2",
-    "recoil": "^0.7.7"
+    "recoil": "^0.7.7",
+    "tailwind-scrollbar-hide": "^4.0.0"
   },
   "proxy": "http://192.168.1.7:5000",
   "devDependencies": {

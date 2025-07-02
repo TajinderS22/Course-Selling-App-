@@ -24,6 +24,7 @@ const Authentication = () => {
       const ifSessionActive = async () => {
         try {
           console.log(jwtFromStorage)
+          if(!jwtFromStorage) return
           const response = await axios.post(SERVER_ADDRESS+"/user/verify", {}, {
             headers: {
               authorization: `${jwtFromStorage}`
@@ -49,9 +50,7 @@ const Authentication = () => {
       useEffect(() => {
         if (!user && jwtFromStorage) {
           ifSessionActive()
-        } else if (!jwtFromStorage) {
-          navigate('/authentication')
-        }
+        } 
       }, [user, jwtFromStorage])
      
     }
@@ -116,21 +115,21 @@ const signup=async ({email,password,firstname,lastname})=>{
 
 
 return (
-    <div className=' bg-[#e8fffdcf]'>
+    <div className=' bg-[#e8fffdcf] dark:bg-slate-800 dark:text-amber-50'>
         <Navbar/>
         <div className=' h-[90svh] flex relative top-48  justify-center '>
             
-            <div action=""  className='flex flex-col justify-around h-fit min-h-[400px] rounded-md bg-[#0fa3b1]/50 p-4 /12 min-w-[300px] w-fit '>
+            <div action=""  className='flex flex-col justify-around h-fit min-h-[400px] rounded-md dark:bg-[#25303ea1] bg-[#0fa3b1]/50 p-4 /12 min-w-[300px] w-fit '>
                 <p className=' text-2xl font-medium max-w-[400px] m-4   '>
                   {onSignup?"Sign Up to the New Version of yourself":"Login to your bright future"}</p>
                 {onSignup&&
-                <input ref={fNameRef} type="text" className='bg-[#ede7e3] m-2 p-2   rounded-lg' placeholder='First Name ' />
+                <input ref={fNameRef} type="text" className='bg-[#ede7e3] dark:bg-slate-700/40 m-2 p-2   rounded-lg' placeholder='First Name ' />
                 }
                 {onSignup&& 
-                <input ref={lNameRef} type="text" className='bg-[#ede7e3] m-2 p-2 rounded-lg' placeholder='Last Name ' />
+                <input ref={lNameRef} type="text" className='bg-[#ede7e3] dark:bg-slate-700/40 m-2 p-2 rounded-lg' placeholder='Last Name ' />
                 }
-                <input ref={emailRef} type="text" className='bg-[#ede7e3] m-2 p-2   rounded-lg' placeholder='email@gmail.com ' />
-                <input ref={passwordRef} type="password" className='bg-[#ede7e3] m-2 p-2   rounded-lg ' placeholder='password ' />
+                <input ref={emailRef} type="text" className='bg-[#ede7e3] dark:bg-slate-700/40 m-2 p-2   rounded-lg' placeholder='email@gmail.com ' />
+                <input ref={passwordRef} type="password" className='bg-[#ede7e3] dark:bg-slate-700/40 m-2 p-2   rounded-lg ' placeholder='password ' />
 
                 <p className='m-3 text-red-700 font-semibold'>
                   {authenticationMessage}

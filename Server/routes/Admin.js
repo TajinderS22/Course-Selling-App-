@@ -100,10 +100,10 @@ adminRouter.post("/signup",async (req,res)=>{
 
 adminRouter.post("/course",adminMiddleware,async(req,res)=>{
     const adminId=req.userId;
-    const {title,discription,price,imageUrl}=req.body;
-
+    const {title,description,price,imageUrl}=req.body;
+    console.log(req.body)
     const course=await courseModel.create({
-        title,discription,price,imageUrl,
+        title,description,price,imageUrl,
         creatorId:adminId
     })
 
@@ -116,7 +116,7 @@ adminRouter.post("/course",adminMiddleware,async(req,res)=>{
 
 adminRouter.put("/course",adminMiddleware,async(req,res)=>{
     const adminId=req.userId;
-    const {title,discription,price,imageUrl,courseId}=req.body;
+    const {title,description,price,imageUrl,courseId}=req.body;
 
     const course=await courseModel.updateOne({
         // make sure to have both checks 
@@ -127,7 +127,7 @@ adminRouter.put("/course",adminMiddleware,async(req,res)=>{
     },
         {
             title,
-            discription,
+            description,
             price,
             imageUrl,
         }
@@ -139,9 +139,27 @@ adminRouter.put("/course",adminMiddleware,async(req,res)=>{
     })
 })
 
+adminRouter.post("/verify",async(req,res)=>{
+    const token=req.headers.authorization
+
+    console.log(token)
+    const decoded=jwt.verify(token,process.env.JWT_ADMIN_PASSWORD)
+    const user = await adminModel.findOne({
+        _id:decoded.id
+    })
+    if(!token) return null
+    console.log(user)
+    if(user){
+    res.json({user})
+    } 
+        
+    
+})
+
 adminRouter.get("/course/bulk",adminMiddleware,async(req,res)=>{
     const adminId=req.userId;
     // const {title,discription,price,imageUrl}=req.body;
+    console.log("I got here")
 
     const course=await courseModel.find({
        creatorId:adminId

@@ -9,9 +9,7 @@ import cors from 'cors'
 
 const app=express()
 const port =3000;
-app.use(cors({
-    allowedHeaders: ['Content-Type', 'Authorization']
-}))
+app.use(cors())
 
 app.use(express.json())
 app.use("/user",userRouter)

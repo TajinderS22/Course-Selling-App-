@@ -11,8 +11,9 @@ const Home = () => {
     const {setOnSignup}=useContext(AppContext)
   return (
     <div className='mx-auto dark:bg-slate-800 dark:text-white bg-[#e8fffdcf] min-h-[100svh]'>
+        
         <Navbar/>
-        <div className=' flex not-md:flex-col-reverse justify-between mt-16'>
+        <div className='pb-6 flex not-md:flex-col-reverse justify-between mt-16'>
             <div className='mx-6 mt-8 max-w-[600px] xl:ml-32 pr-4'>
                 <p className='md:text-4xl text-3xl font-bold max-w-[600px]'>
                     Shape Your Future with Expert-Led Courses

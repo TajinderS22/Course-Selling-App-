@@ -23,17 +23,19 @@ const Courses = () => {
     const data={_id:"1",}
     return(
     <div>  
-        <CourseCard data={data}/>
+        <CourseCard k={1} data={data}/>
     </div>
     )
     }
   return(
     
-    <div className='md:flex not-md:flex-col md:overflow-scroll overflow-y-auto h-fit pb-8  mx-auto mt-24 border-b-2 border-cyan-700 '>
+    <div className='md:flex  not-md:flex-col not-md:items-center overflow-scroll h-fit pb-8  mx-auto mt-24 border-b-2 border-cyan-700 not-md:max-h-[1320px] not-md:overflow-clip '>
       
       {allCourses.map((course)=>{
         return(
-            <CourseCard data={course}/>
+            <div className='hover:scale-115 hover:mx-12 transform duration-300'>
+              <CourseCard data={course}/>
+            </div>
 
         )
       })}

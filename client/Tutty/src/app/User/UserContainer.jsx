@@ -36,7 +36,7 @@ const MainContent = () => {
   return (
     <div className=' w-full max-w-[1920px] bg-[url("https://images.unsplash.com/photo-1491466424936-e304919aada7?q=80&w=1469&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")] bg-cover bg-center h-96 '>
         
-        <div className='dark:bg-slate-800  bg-slate-100 rounded-lg relative w-full min-h-[400px] h-fit  top-[200px] z-20  px-4 md:px-12 flex not-lg:flex-col not-lg:items-center'>
+        <div className='dark:bg-slate-800  bg-slate-100  relative w-full min-h-[400px] h-fit  top-[200px] z-20  px-4 md:px-12 flex not-lg:flex-col not-lg:items-center'>
             <div className={`block md:hidden top-0   ${open&&"w-[30px] "} h-fit backdrop-blur-2xl bg-amber-200 rounded-2xl  pr-96  z-30`}>
                 <Sidebar/>
             </div>
@@ -75,8 +75,7 @@ const MainContent = () => {
         </div> */}
     </div>
   )
-}
-}
+}}
 
 
 const WorkComp = ({time,task, status})=>{

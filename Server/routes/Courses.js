@@ -9,6 +9,8 @@ export const courseRouter=Router();
 courseRouter.post("/purchase",userMiddleware,async (req,res)=>{
     const userId=req.userId;
     const courseId=req.body.courseId;
+    console.log(req.path)
+    
     console.log(req.userId)
     // Check the payment here
     const isPurchased=await purchaseModel.exists({
@@ -31,9 +33,12 @@ courseRouter.post("/purchase",userMiddleware,async (req,res)=>{
 
 courseRouter.get("/preview",async (req,res)=>{
     const allCourses= await courseModel.find({})
+
     res.json({
         message: "alll the courses",
         courses:allCourses
     })
+
+    
 })
     
