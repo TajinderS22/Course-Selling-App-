@@ -6,19 +6,14 @@ const tailwindcssConfig= {
     darkMode: 'selector',
     theme: {
       extend: {
-        colors: {
-          blue: {
-            200: "#8094ad",
-            500: "#19406a",
-            700: "#002b5b",
-          },
-          green: {
-            400: "#36c6c0"
-          },
-          slate: {
-            200: "#e4e8ee",
+        keyframes: {
+          shimmer: {
+            '0%': { backgroundPosition: '-100% 0' },
+            '100%': { backgroundPosition: '100% 0' },
           }
-  
+        },
+        animation: {
+          shimmer: 'shimmer 1.5s infinite linear',
         }
       },
     },

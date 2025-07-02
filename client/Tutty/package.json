@@ -10,12 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "dotenv": "^17.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router": "^7.6.2",
     "recoil": "^0.7.7"
   },
-  "proxy": "http://localhost:5000",
+  "proxy": "http://192.168.1.7:5000",
   "devDependencies": {
     "@eslint/js": "^9.25.0",
     "@tailwindcss/vite": "^4.1.11",

@@ -4,8 +4,12 @@ import { createBrowserRouter, RouterProvider } from 'react-router'
 import Home from './components/Home/Home'
 import Authentication from './components/Authentication/Authentication';
 import { AppProvider } from './context/AppContext';
-import Dashboard from './components/User/Dashboard';
+import Dashboard from './app/User/Dashboard';
 import { RecoilRoot } from 'recoil';
+import AuthenticationAdmin from './app/Admin/AuthenticationAdmin';
+import AdminDashBoard from './app/Admin/AdminDashBoard'
+import CreateCourse from './app/Admin/CreateCourse';
+import BuyCourse from './components/BuyCourse';
 
 
 
@@ -22,6 +26,22 @@ function App() {
     {
       path:"/dashboard",
       element: <Dashboard/>
+    },
+    {
+      path:"/admin/authentication",
+      element:<AuthenticationAdmin/>
+    },
+    {
+      path:"/admin/dashboard",
+      element:<AdminDashBoard/>
+    },
+    {
+      path:"/admin/create-course",
+      element:<CreateCourse/>
+    },
+    {
+      path:"/buyCourse",
+      element:<BuyCourse/>
     }
   ]);
   return (

@@ -1,35 +1,41 @@
 
-import React, { useState,useEffect } from 'react'
-import useBreakpoint from '../../hooks/useBreakpoint';
+import React, { useState,useEffect, useContext } from 'react'
+import useBreakpoint from '../hooks/useBreakpoint';
+import { AppContext } from '../context/AppContext';
 
 const Sidebar = () => {
     const isMdUp = useBreakpoint();
-    const [open, setOpen] = useState(isMdUp);
+    const {open, setOpen} = useContext(AppContext);
 
   useEffect(() => {
     setOpen(isMdUp); 
   }, [isMdUp]);
   const [isDark,setisDark]=useState(document.querySelector("html").classList[0]=='dark')
     useEffect(() => {
-        setisDark(document.querySelector("html").classList[0]=='dark')                            
+        setisDark(document.querySelector("html").classList[0]=='dark')                             
     }, [])
+    // console.log(open)
     
   return (
-    <div className={`pt-8 ${open?"md:w-80 w-full":"w-16 bg-opacity-50"} text-black dark:text-white z-30 transform-all ease-in-out not-md:rounded-r-xl not-sm:bg-transparent h-[swh] rounded-b-xl py-6 md:relative fixed duration-300 dark:bg-slate-600 bg-slate-300 `}>
+    <div className={`fixed md:sticky md:h-[100svh] h-fit not-md:${open&&'w-[600px]'}   `}>
+        <div className={` sticky top-0 pt-8 ${open&&"md:w-72"} text-black dark:text-white  transform-all ease-in-out not-md:rounded-r-xl  rounded-b-xl py-6 not-md:bg-transparent not-md:h-12   z-10   duration-300 md:dark:bg-slate-700 bg-slate-300 md:h-[100%] not-md:${open&& 'h-[600px] ' } not-md:flex not-md:flex-col ${open&&"not-md:w-[320px] not-md:bg-slate-600 " }
+        not-md:${open&&'w-[300px]'}
+         `
+        }>
         
         {(open)?
-            <div className='flex justify-between mx-4 items-center'>
+            <div className='flex justify-between mx-4 items-center '>
                 <button className={`bg-teal-400/40  rounded-md h-12 p-2`}
                 onClick={()=>{
                     setOpen(!open)
                 }}
                 >
-                WebPort
+                Tutty
                 </button>
                 <img className='h-14 hidden md:block rounded-md' src="https://images.pexels.com/photos/18932250/pexels-photo-18932250.jpeg" alt="profile image of User" />
             </div>
             :
-            <div className={`block ${open&&"hidden"} stick   relative mx-4 cursor-pointer`} onClick={()=>{
+            <div className={`block relative mx-4 cursor-pointer`} onClick={()=>{
                 setOpen(!open)
             }}>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
@@ -42,10 +48,10 @@ const Sidebar = () => {
         }
         
         
-        <div className={` items-center mt-8 ${open?"block":"hidden"} md:block `}>
+        <div className={` items-center mt-8 ${open?"block":"hidden"} not-md:flex-1 md:block   `}>
            {
             
-            <div className='dark:bg-slate-600 bg-slate-300'>
+            <div className={`dark:bg-slate-600 bg-slate-300 not-md:rounded-lg not-md:bg-zinc-600 not-md:text-white `}>
                  <SidebarComp open={open} text={"Home"} icon={
                  <svg className='h-6'viewBox="0 0 48 48">
                  <path d="M39.5,43h-9c-1.381,0-2.5-1.119-2.5-2.5v-9c0-1.105-0.895-2-2-2h-4c-1.105,0-2,0.895-2,2v9c0,1.381-1.119,2.5-2.5,2.5h-9	C7.119,43,6,41.881,6,40.5V21.413c0-2.299,1.054-4.471,2.859-5.893L23.071,4.321c0.545-0.428,1.313-0.428,1.857,0L39.142,15.52	C40.947,16.942,42,19.113,42,21.411V40.5C42,41.881,40.881,43,39.5,43z">
@@ -119,6 +125,7 @@ const Sidebar = () => {
         </div>
         
             
+        </div>
     </div>
   )
 }

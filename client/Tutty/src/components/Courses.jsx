@@ -2,13 +2,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import CourseCard from './CourseCard';
+import { SERVER_ADDRESS } from '../Secrets/Secrets';
 
 const Courses = () => {
   const [allCourses,setAllCourses]=useState(null);
   useEffect(()=>{
     try {
         const getAllCourses=async()=>{
-            const response= await axios.get("http://localhost:3000/course/preview")
+            const response= await axios.get(SERVER_ADDRESS+"/course/preview")
             setAllCourses(response.data.courses)
         }
         getAllCourses()

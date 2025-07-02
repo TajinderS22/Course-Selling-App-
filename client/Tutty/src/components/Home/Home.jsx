@@ -1,12 +1,16 @@
-import React from 'react'
+import React,{useContext} from 'react'
 import Navbar from '../Navbar'
 import Courses from '../Courses'
 import HomePageChooseUs from './HomePageChooseUs'
 import HomePageCategories from './HomePageCategories'
+import { Link } from 'react-router'
+import { AppContext } from '../../context/AppContext'
+
 
 const Home = () => {
+    const {setOnSignup}=useContext(AppContext)
   return (
-    <div className='mx-auto bg-[#e8fffdcf] min-h-[100svh]'>
+    <div className='mx-auto dark:bg-slate-800 dark:text-white bg-[#e8fffdcf] min-h-[100svh]'>
         <Navbar/>
         <div className=' flex not-md:flex-col-reverse justify-between mt-16'>
             <div className='mx-6 mt-8 max-w-[600px] xl:ml-32 pr-4'>
@@ -16,9 +20,15 @@ const Home = () => {
                 <p className='text-lg font-normal mt-6 md:max-w-[300px] '> 
                     Kickstart your career with 100+ high-quality, job-focused courses. Learn at your pace, anytime, anywhere.
                 </p>
-                <button className='bg-[#0ABAB5] p-3 rounded-lg mt-6 ml-4' >
+                <Link to='/authentication'>
+                <button className='bg-[#0ABAB5] p-3 rounded-lg mt-6 ml-4' 
+                    onClick={()=>{
+                        setOnSignup(true)
+                    }}
+                >
                     Sign up
                 </button>
+                </Link>
             </div>
 
             <div>
@@ -27,7 +37,7 @@ const Home = () => {
         </div>
 
         {/* Courses Preview */}
-        <div className='text-center relative top-18 text-6xl font-semibold text-[#014442] bg-[#56DFCF]/40 p-6 md:rounded-[50%] rounded-[40%] mx-2 '>
+        <div className='text-center relative top-18 text-6xl font-semibold dark:bg-slate-700 dark:text-[#98faeba1] text-[#014442] bg-[#56DFCF]/40 p-6 md:rounded-[50%] rounded-[40%] mx-2 '>
             Browse All Courses
         </div>
         <Courses/>

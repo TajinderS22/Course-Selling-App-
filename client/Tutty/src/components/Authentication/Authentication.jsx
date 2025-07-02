@@ -6,6 +6,7 @@ import axios from 'axios'
 import { useNavigate} from 'react-router'
 import { useRecoilState } from 'recoil'
 import { UserAtom } from '../../recoil/userAtom'
+import { SERVER_ADDRESS } from '../../Secrets/Secrets'
 
 const Authentication = () => {
     const {onSignup,setOnSignup}=useContext(AppContext)
@@ -23,7 +24,7 @@ const Authentication = () => {
       const ifSessionActive = async () => {
         try {
           console.log(jwtFromStorage)
-          const response = await axios.post("http://localhost:3000/user/verify", {}, {
+          const response = await axios.post(SERVER_ADDRESS+"/user/verify", {}, {
             headers: {
               authorization: `${jwtFromStorage}`
             }
@@ -85,7 +86,7 @@ const login = async ({ email, password }) => {
     console.log("Sending data:", data);
     try {
 
-      const response = await axios.post("http://localhost:3000/user/signin", data);
+      const response = await axios.post(SERVER_ADDRESS+"/user/signin", data);
       if (response.status === 200) {
         const jwtToken = response.data.token;
         // Save token
@@ -106,7 +107,7 @@ const login = async ({ email, password }) => {
 const signup=async ({email,password,firstname,lastname})=>{
   const data={email,password,firstname,lastname}
   console.log(data)
-  const response=await axios.post("http://localhost:3000/user/signup",data)
+  const response=await axios.post(SERVER_ADDRESS+"/user/signup",data)
   console.log(response)
   await alert(response.data.message)
   setOnSignup(false)
@@ -119,7 +120,7 @@ return (
         <Navbar/>
         <div className=' h-[90svh] flex relative top-48  justify-center '>
             
-            <div action=""  className='flex flex-col justify-around h-fit min-h-[400px] rounded-md bg-[#0fa3b1]/50 p-4 /12 min-w-[400px] w-fit '>
+            <div action=""  className='flex flex-col justify-around h-fit min-h-[400px] rounded-md bg-[#0fa3b1]/50 p-4 /12 min-w-[300px] w-fit '>
                 <p className=' text-2xl font-medium max-w-[400px] m-4   '>
                   {onSignup?"Sign Up to the New Version of yourself":"Login to your bright future"}</p>
                 {onSignup&&

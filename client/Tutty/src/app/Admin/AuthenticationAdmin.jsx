@@ -1,13 +1,14 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React,{useContext, useRef,useEffect} from 'react'
-import Navbar from '../Navbar'
+import Navbar from '../../components/Navbar'
 import { AppContext } from '../../context/AppContext'
 import axios from 'axios'
 import { useNavigate} from 'react-router'
 import { useRecoilState } from 'recoil'
-import { UserAtom } from '../../recoil/userAtom'
+import { AdminAtom } from '../../recoil/adminAtom'
+import { SERVER_ADDRESS } from '../../Secrets/Secrets'
 
-const Authentication = () => {
+const AuthenticationAdmin = () => {
     const {onSignup,setOnSignup}=useContext(AppContext)
     const {authenticationMessage,setAuthenticationMessage}=useContext(AppContext)
     const fNameRef=useRef()
@@ -16,24 +17,24 @@ const Authentication = () => {
     const passwordRef=useRef()
     const navigate=useNavigate()
 
-    const [user,setUser] = useRecoilState(UserAtom);
+    const [user,setUser] = useRecoilState(AdminAtom);
 
-    const jwtFromStorage=localStorage.getItem('jwt')
+    const jwtFromStorage=localStorage.getItem('jwtAdmin')
     if(jwtFromStorage){
       const ifSessionActive = async () => {
         try {
-          console.log(jwtFromStorage)
-          const response = await axios.post("http://localhost:3000/user/verify", {}, {
+          // console.log(jwtFromStorage)
+          const response = await axios.post(SERVER_ADDRESS+"/admin/verify", {}, {
             headers: {
               authorization: `${jwtFromStorage}`
             }
           })
-          console.log(response)
+          // console.log(response)
           const user=response?.data?.user
     
           if (response.status === 200) {
             setUser(user)
-            navigate('/dashboard')
+            navigate('/admin/dashboard')
           } else {
             setUser(false)
             navigate('/authentication')
@@ -82,18 +83,18 @@ const Authentication = () => {
 
 const login = async ({ email, password }) => {
     const data = { email, password };
-    console.log("Sending data:", data);
+    // console.log("Sending data:", data);
     try {
 
-      const response = await axios.post("http://localhost:3000/user/signin", data);
+      const response = await axios.post(SERVER_ADDRESS+"/admin/signin", data);
       if (response.status === 200) {
         const jwtToken = response.data.token;
         // Save token
-        localStorage.setItem("jwt", jwtToken);
-        console.log("after saving")
+        localStorage.setItem("jwtAdmin", jwtToken);
+        // console.log("after saving")
         // Set global state if using Recoil
         setUser(response.data.user);
-        navigate('/dashboard');
+        navigate('/admin/dashboard');
       }
     } catch (error) {
       const msg = error?.response?.data?.message || "Login failed";
@@ -105,9 +106,9 @@ const login = async ({ email, password }) => {
 
 const signup=async ({email,password,firstname,lastname})=>{
   const data={email,password,firstname,lastname}
-  console.log(data)
-  const response=await axios.post("http://localhost:3000/user/signup",data)
-  console.log(response)
+  // console.log(data)
+  const response=await axios.post(SERVER_ADDRESS+"/admin/signup",data)
+  // console.log(response)
   await alert(response.data.message)
   setOnSignup(false)
 }
@@ -119,7 +120,7 @@ return (
         <Navbar/>
         <div className=' h-[90svh] flex relative top-48  justify-center '>
             
-            <div action=""  className='flex flex-col justify-around h-fit min-h-[400px] rounded-md bg-[#0fa3b1]/50 p-4 /12 min-w-[400px] w-fit '>
+            <div action=""  className='flex flex-col justify-around h-fit min-h-[400px] rounded-md bg-[#0fa3b1]/50 p-4 /12 min-w-[300px] w-fit '>
                 <p className=' text-2xl font-medium max-w-[400px] m-4   '>
                   {onSignup?"Sign Up to the New Version of yourself":"Login to your bright future"}</p>
                 {onSignup&&
@@ -178,4 +179,4 @@ return (
   )
 }
 
-export default Authentication;
+export default AuthenticationAdmin;
