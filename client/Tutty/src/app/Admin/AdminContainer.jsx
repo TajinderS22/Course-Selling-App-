@@ -7,31 +7,36 @@ import CourseCard from '../../components/CourseCard'
 import { SERVER_ADDRESS } from '../../Secrets/Secrets'
 import CreateCourse from './CreateCourse'
 import Sidebar from '../Sidebar'
+// import { useNavigate } from 'react-router'
 
 const AdminContainer = () => {
 
     const [createdCourses,setCreatedCourses]=useState()
     const user=useRecoilValue(AdminAtom)
+    console.log(user)
+    const jwt=localStorage.getItem('jwtAdmin')
+    // const navigate=useNavigate()
+
+    const getcreatedCourses=async()=>{
+        try {
+            
+            // console.log(jwt)
+            const response= await axios.get(SERVER_ADDRESS+"/admin/course/bulk",{
+                headers:{
+                    authorization:jwt
+                }
+            })
+            // console.log(response)
+            setCreatedCourses(response.data.courses)
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     useEffect(()=>{
-        const getcreatedCourses=async()=>{
-            try {
-                const jwt=localStorage.getItem('jwtAdmin')
-                // console.log(jwt)
-                const response= await axios.get(SERVER_ADDRESS+"/admin/course/bulk",{
-                    headers:{
-                        authorization:jwt
-                    }
-                })
-                // console.log(response)
-                setCreatedCourses(response.data.courses)
-            } catch (error) {
-                console.log(error)
-            }
-        }
-        getcreatedCourses()
+
+        getcreatedCourses();
     },[])
-    
     // console.log(createdCourses)
 
     if(createdCourses){

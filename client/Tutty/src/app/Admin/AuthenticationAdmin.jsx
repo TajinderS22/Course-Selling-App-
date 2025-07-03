@@ -18,9 +18,18 @@ const AuthenticationAdmin = () => {
     const navigate=useNavigate()
 
     const [user,setUser] = useRecoilState(AdminAtom);
+    // eslint-disable-next-line no-unused-vars
+    const {isAdmin,setIsAdmin}=useContext(AppContext)
+    setIsAdmin(true)
+    
 
     const jwtFromStorage=localStorage.getItem('jwtAdmin')
-    if(jwtFromStorage){
+    
+  
+    useEffect(() => {
+      
+      if (!user && jwtFromStorage) {
+
       const ifSessionActive = async () => {
         try {
           // console.log(jwtFromStorage)
@@ -31,30 +40,27 @@ const AuthenticationAdmin = () => {
           })
           // console.log(response)
           const user=response?.data?.user
-    
+        
           if (response.status === 200) {
             setUser(user)
             navigate('/admin/dashboard')
           } else {
             setUser(false)
-            navigate('/authentication')
+            navigate('/admin/authentication')
           }
         } catch (err) {
           console.error("Session check failed:", err)
           setUser(false)
-          navigate('/authentication')
+          navigate('/admin/authentication')
         }
       }
-    
-      useEffect(() => {
-        if (!user && jwtFromStorage) {
-          ifSessionActive()
-        } else if (!jwtFromStorage) {
-          navigate('/authentication')
-        }
+      ifSessionActive()
+      }
+
+      return ()=>{}
       }, [user, jwtFromStorage])
-     
-    }
+   
+  
 
     const handleAuthenticationSubmit =()=>{
       const firstname=fNameRef.current?.value
@@ -124,13 +130,13 @@ return (
                 <p className=' text-2xl font-medium max-w-[400px] m-4   '>
                   {onSignup?"Sign Up to the New Version of yourself":"Login to your bright future"}</p>
                 {onSignup&&
-                <input ref={fNameRef} type="text" className='bg-[#ede7e3] dark:bg-slate-700 dm-2 p-2   rounded-lg' placeholder='First Name ' />
+                <input ref={fNameRef} type="text" className='bg-[#ede7e3]  dark:bg-slate-700 m-2 p-2   rounded-lg' placeholder='First Name ' />
                 }
                 {onSignup&& 
-                <input ref={lNameRef} type="text" className='bg-[#ede7e3] dark:bg-slate-700 d m-2 p-2 rounded-lg' placeholder='Last Name ' />
+                <input ref={lNameRef} type="text" className='bg-[#ede7e3]  dark:bg-slate-700 d m-2 p-2 rounded-lg' placeholder='Last Name ' />
                 }
-                <input ref={emailRef} type="text" className='bg-[#ede7e3] dark:bg-slate-700 d m-2 p-2   rounded-lg' placeholder='email@gmail.com ' />
-                <input ref={passwordRef} type="password" className='bg-[#ede7e3] dark:bg-slate-700  dm-2 p-2   rounded-lg ' placeholder='password ' />
+                <input ref={emailRef} type="text" className='bg-[#ede7e3]  dark:bg-slate-700 d m-2 p-2   rounded-lg' placeholder='email@gmail.com ' />
+                <input ref={passwordRef} type="password" className='bg-[#ede7e3]  dark:bg-slate-700  m-2 p-2   rounded-lg ' placeholder='password ' />
 
                 <p className='m-3 text-red-700 font-semibold'>
                   {authenticationMessage}

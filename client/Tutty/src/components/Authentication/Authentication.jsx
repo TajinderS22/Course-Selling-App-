@@ -16,6 +16,8 @@ const Authentication = () => {
     const emailRef=useRef()
     const passwordRef=useRef()
     const navigate=useNavigate()
+    // eslint-disable-next-line no-unused-vars
+    const {isAdmin,setIsAdmin}=useContext(AppContext)
 
     const [user,setUser] = useRecoilState(UserAtom);
 
@@ -48,6 +50,7 @@ const Authentication = () => {
       }
     
       useEffect(() => {
+        setIsAdmin(false)
         if (!user && jwtFromStorage) {
           ifSessionActive()
         } 

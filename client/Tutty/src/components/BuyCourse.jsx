@@ -49,15 +49,17 @@ const BuyCourse = () => {
     
 
     useEffect(()=>{
-        if(isAdmin){
-            navigate("/admin/Authentication")
-        }
-        if (!user && jwt) {
-            ifSessionActive()
-        } else if (!jwt) {
-          return navigate('/authentication')
-        }
-        getAllCourses()
+        if(jwt){
+            if(isAdmin){
+                navigate("/admin/Authentication")
+            }
+            if (!user && jwt) {
+                ifSessionActive()
+            }
+            getAllCourses()
+        }else{
+            navigate('/authentication')
+        }    
     },[user,jwt])
 
   return (

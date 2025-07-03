@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useContext, useEffect } from 'react'
 import Navbar from '../../components/Navbar'
 import UserContainer from "../User/UserContainer"
@@ -12,6 +13,7 @@ import { SERVER_ADDRESS } from '../../Secrets/Secrets'
 
 const Dashboard = () => {
   const user=useRecoilValue(AdminAtom)
+  console.log()
   const jwt=localStorage.getItem('jwtAdmin')
   // console.log(jwt)
   const {setIsAdmin}=useContext(AppContext)
@@ -28,7 +30,7 @@ const Dashboard = () => {
 
       if (response.status === 200) {
         setUser(user)
-        setIsAdmin(true)
+        
       } else {
         setUser(false)
         navigate('/admin/authentication')
@@ -42,13 +44,11 @@ const Dashboard = () => {
   }
 
   useEffect(() => {
-    if (!user && jwt) {
-      ifSessionActive()
-    } else if (!jwt) {
-      navigate('/admin/authentication')
-    }
-  }, [user, jwt])
- 
+    setIsAdmin(true)
+    ifSessionActive();
+
+  }, [jwt])
+
 
   return (
     <div className='h-fit min-h-[90svh]'>

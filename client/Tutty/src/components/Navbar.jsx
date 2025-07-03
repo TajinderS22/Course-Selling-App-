@@ -1,7 +1,8 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/rules-of-hooks */
 import React,{useContext, useEffect, useState} from 'react'
 import { AppContext } from '../context/AppContext'
-import { Link } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 import { useRecoilState } from 'recoil'
 import { UserAtom } from '../recoil/userAtom'
 import { AdminAtom } from '../recoil/adminAtom'
@@ -11,12 +12,13 @@ const Navbar = () => {
     const {onSignup,setOnSignup,setAuthenticationMessage}=useContext(AppContext)
     const [isExtended,setIsExtended]=useState(false)
     const [isDark,setisDark]=useState(document.querySelector('html').classList[0]=='dark')
-    const {isAdmin,setisAdmin}=useContext(AppContext)
+    const {isAdmin,setIsAdmin}=useContext(AppContext)
     console.log(isAdmin)
 
     const [adminUser,setAdminUser] = useRecoilState(AdminAtom);
     const [normalUser,setNormalUser] = useRecoilState(UserAtom);
     const [user, setUser] = useState(null);
+    const navigate=useNavigate()
 
     useEffect(() => {
       if (isAdmin) {
@@ -61,13 +63,16 @@ const Navbar = () => {
                     About us
                 </li>
                 
-                </Link>
-            <Link to={'/'}>
+            </Link>
+            
+            <Link to={`${user?isAdmin?"/admin/dasbboard":"/dashboard":"/home"}`}>
                 <li className='p-2'>
-                    Pricing
+                    {user?"Dashboard":"Pricing"}
                 </li>
             
             </Link>
+
+
             {isAdmin?
             
             null  
@@ -77,24 +82,6 @@ const Navbar = () => {
                     Courses
                 </li>
             </Link>
-            }
-            {isAdmin?
-                <Link to={'/dashboard'}  onClick={()=>{
-                    setisAdmin(false)
-                }}>
-                    <li className='p-2'>
-                        Learn
-                    </li>
-                </Link>
-            :   
-                <Link to={'/admin/dashboard'} onClick={()=>{
-                    setisAdmin(true)
-                }}>
-                    <li className='p-2'>
-                        Create
-                    </li>
-                </Link>
-
             }
 
             <div  onClick={()=>{
@@ -122,7 +109,6 @@ const Navbar = () => {
 
             {
                 user?
-                <Link to="/authentication">
                     <button className='bg-[#0ABAB5] p-2 rounded-md'
                         onClick={()=>{
                             setOnSignup(true)
@@ -135,13 +121,13 @@ const Navbar = () => {
                                 setNormalUser(null)
                                 localStorage.removeItem('jwt')
                             }
+                            navigate("/admin/authentication")
                             
                         }}
 
                     >
                         Logout
                     </button>
-                </Link>
 
                 :
 

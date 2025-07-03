@@ -57,12 +57,12 @@ const CreateCourse = () => {
             setUser(user)
           } else {
             setUser(false)
-            navigate('/authentication')
+            navigate('/admin/authentication')
           }
         } catch (err) {
           console.error("Session check failed:", err)
           setUser(false)
-          navigate('/authentication')
+          navigate('/admin/authentication')
         }
       }
     
@@ -70,7 +70,7 @@ const CreateCourse = () => {
         if (!user && jwt) {
           ifSessionActive()
         } else if (!jwt) {
-          navigate('/authentication')
+          navigate('/admin/authentication')
         }
       }, [user, jwt])
   return (
