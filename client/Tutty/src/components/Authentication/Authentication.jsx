@@ -118,9 +118,9 @@ const signup=async ({email,password,firstname,lastname})=>{
 
 
 return (
-    <div className=' bg-[#e8fffdcf] dark:bg-slate-800 dark:text-amber-50'>
+    <div className=' bg-[#e8fffdcf] min-h-[90svh] h-fit dark:bg-slate-800 dark:text-amber-50'>
         <Navbar/>
-        <div className=' h-[90svh] flex relative top-48  justify-center '>
+        <div className=' h-[fit] flex relative top-48  justify-center '>
             
             <div action=""  className='flex flex-col justify-around h-fit min-h-[400px] rounded-md dark:bg-[#25303ea1] bg-[#0fa3b1]/50 p-4 /12 min-w-[300px] w-fit '>
                 <p className=' text-2xl font-medium max-w-[400px] m-4   '>

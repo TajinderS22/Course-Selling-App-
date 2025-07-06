@@ -13,7 +13,6 @@ const Navbar = () => {
     const [isExtended,setIsExtended]=useState(false)
     const [isDark,setisDark]=useState(document.querySelector('html').classList[0]=='dark')
     const {isAdmin,setIsAdmin}=useContext(AppContext)
-    console.log(isAdmin)
 
     const [adminUser,setAdminUser] = useRecoilState(AdminAtom);
     const [normalUser,setNormalUser] = useRecoilState(UserAtom);
@@ -27,8 +26,6 @@ const Navbar = () => {
         setUser(normalUser);
       }
     }, [isAdmin, adminUser, normalUser]);
-    console.log(user)
-
   return (
     <div className='h-16'>
         <div className={`w-full max-w-[1920px] absolute z-30 mb-96 top-0 dark:bg-slate-700 dark:text-white bg-[#ADEED9]/80 flex justify-between p-2 px-4
@@ -65,7 +62,7 @@ const Navbar = () => {
                 
             </Link>
             
-            <Link to={`${user?isAdmin?"/admin/dasbboard":"/dashboard":"/home"}`}>
+            <Link to={`${user?isAdmin?"/admin/dashboard":"/dashboard":"/home"}`}>
                 <li className='p-2'>
                     {user?"Dashboard":"Pricing"}
                 </li>
@@ -74,8 +71,13 @@ const Navbar = () => {
 
 
             {isAdmin?
+
+            <Link to={'/admin/create-course'} >
+                <li className='p-2'>
+                    Create
+                </li>
+            </Link>
             
-            null  
             :
             <Link to={'/buyCourse'} >
                 <li className='p-2'>
@@ -88,8 +90,8 @@ const Navbar = () => {
                 document.querySelector("html").classList.toggle("dark")
                 setisDark(!isDark)
             }}
-            className=' flex justify-between p-2 '>
-                <div className=' dark:bg-slate-500 bg-amber-300/40 w-14 h-7 rounded-2xl border-1 hover:w-16 hover:h-8 hover:p-1 border-cyan-700   '>
+            className=' flex justify-between p-2 w-20 '>
+                <div className=' dark:bg-slate-500 bg-amber-300/40 w-14 h-7 rounded-2xl border-1 hover:w-16 hover:h-8 hover:p-1 hover:-translate-x-1 border-cyan-700   '>
                 {(isDark)?
                     <div className='dark:pl-7 flex items-center h-full p-1 transform ease-in-out duration-300'>
                         <LightSvg  />
@@ -117,11 +119,13 @@ const Navbar = () => {
                             if(isAdmin){
                                 setAdminUser(null)
                                 localStorage.removeItem('jwtAdmin')
+                                navigate("/admin/authentication")
                             }else{
                                 setNormalUser(null)
                                 localStorage.removeItem('jwt')
+                                navigate("/authentication")
                             }
-                            navigate("/admin/authentication")
+                            
                             
                         }}
 
@@ -131,7 +135,7 @@ const Navbar = () => {
 
                 :
 
-                <Link to="/authentication">
+                <Link to={`${isAdmin?"/admin/authentication":"/authentication"}`}>
                     <button className='bg-[#0ABAB5] p-2 rounded-md'
                         onClick={()=>{
                             setOnSignup(!onSignup)
@@ -168,7 +172,7 @@ const LightSvg=()=>{
 const DarkSvg=()=>{
     return (
         <div>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"  stroke="currentColor" className="w-6 hover:rotate-50 transform ease-in-out duration-300">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"  stroke="currentColor" className="w-6 hover:rotate-10 transform ease-in-out duration-300">
               <path  d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
             </svg>
 

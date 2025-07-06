@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios from 'axios'
 import CourseCard from './CourseCard';
 import { SERVER_ADDRESS } from '../Secrets/Secrets';
 

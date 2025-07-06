@@ -7,6 +7,7 @@ import CourseCard from '../../components/CourseCard'
 import { AppContext } from '../../context/AppContext'
 import Sidebar from '../Sidebar'
 import { SERVER_ADDRESS } from '../../Secrets/Secrets'
+import { Link } from 'react-router'
 
 const MainContent = () => {
 
@@ -22,18 +23,24 @@ const MainContent = () => {
                         authorization: jwt
                     }
                 })
-                setPurchasedCourses(response.data.coursesData)
+                console.log(response?.data?.coursesData)
+                if(response?.data?.coursesData.length!=0){
+                    setPurchasedCourses(response?.data?.coursesData)
+                }else{
+                    setPurchasedCourses(false)
+                }
             } catch (error) {
                 console.log(error)
             }
         }
         getPurchasedCourses()
+
     },[])
     
     const user=useRecoilValue(UserAtom)
 
     if(purchasedCourses){
-  return (
+    return (
     <div className=' w-full max-w-[1920px] bg-[url("https://images.unsplash.com/photo-1491466424936-e304919aada7?q=80&w=1469&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")] bg-cover bg-center h-96 '>
         
         <div className='dark:bg-slate-800  bg-slate-100  relative w-full min-h-[400px] h-fit  top-[200px] z-20  px-4 md:px-12 flex not-lg:flex-col not-lg:items-center'>
@@ -58,16 +65,15 @@ const MainContent = () => {
                     <p className='text-2xl'>Date and time </p>
                     <p className='text-4xl font-semibold'>Good morning, {user.firstname+" "+user.lastname}</p>
                 </div>
-
                 <div className='flex not-lg:flex-col items-center w-full flex-wrap i  '>
-                    
                     {purchasedCourses.map((course)=>{
                         return(
                             <CourseCard  key={course._id} data={course} />
                         )
                     })}
-
                 </div>
+                
+                
             </div>
         </div>
         {/* <div className='  absolute  -top-[200px] max-w-[1920px]  bg-black z-0'>
@@ -75,7 +81,51 @@ const MainContent = () => {
         </div> */}
     </div>
   )
-}}
+}else{
+    return(
+    <div className=' w-full max-w-[1920px] bg-[url("https://images.unsplash.com/photo-1491466424936-e304919aada7?q=80&w=1469&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")] bg-cover bg-center h-96 '>
+        
+        <div className='dark:bg-slate-800  bg-slate-100  relative w-full min-h-[400px] h-fit  top-[200px] z-20  px-4 md:px-12 flex not-lg:flex-col not-lg:items-center'>
+            <div className={`block md:hidden top-0   ${open&&"w-[30px] "} h-fit backdrop-blur-2xl bg-amber-200 rounded-2xl  pr-96  z-30`}>
+                <Sidebar/>
+            </div>
+            <div className={`dark:bg-slate-600 bg-slate-300 shadow-lg  h-fit min-w-[200px] col-span-3 rounded-xl max-w-[250px] -translate-y-16  `}>
+                
+                <div className='flex flex-col  justify-around items-center p-4'>
+                    <img className='w-28 mt-8 rounded-2xl my-2 font-bold text-4xl' src="https://images.pexels.com/photos/18932250/pexels-photo-18932250.jpeg" alt="profile image" />
+                    <p className='dark:text-white'>{user.firstname+" "+user.lastname}</p>
+                    <p className='dark:text-gray-100 my-1'>{user.email}</p>
+                    <p className='dark:text-gray-100 my-1'>{user.mNumber || "Please update your profile"}</p>
+                    <p className='dark:text-gray-100 my-4'>{user.location || "Please update your profile"}</p>
+
+                </div>
+            </div>
+           
+            <div className='col-span-9 lg:mt-14 no-lg:-translate-y-48 flex-1 md:ml-12 text-black dark:text-white'>
+
+                <div className='pb-8'>
+                    <p className='text-2xl'>Date and time </p>
+                    <p className='text-4xl font-semibold'>Good morning, {user.firstname+" "+user.lastname}</p>
+                </div>
+                <Link to={'/buyCourse'}>
+                    <div className='flex not-lg:flex-col items-center w-full flex-wrap i  '>
+                      Click Here to Buy courses of your Choice
+                    </div>
+                </Link>
+                
+                
+            </div>
+        </div>
+        {/* <div className='  absolute  -top-[200px] max-w-[1920px]  bg-black z-0'>
+            <img className='max-w-[1920px] w-full' src="https://images.unsplash.com/photo-1491466424936-e304919aada7?q=80&w=1469&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="background image" />
+        </div> */}
+    </div>
+    )
+
+}
+
+
+}
 
 
 const WorkComp = ({time,task, status})=>{

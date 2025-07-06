@@ -58,7 +58,7 @@ const Dashboard = () => {
             <div className='hidden md:block'>
               <Sidebar ></Sidebar>
             </div>
-            <div className='overflow-y-scroll w-full '>
+            <div className='overflow-y-scroll h-[full] w-full '>
               <UserContainer ></UserContainer>
             </div>
             

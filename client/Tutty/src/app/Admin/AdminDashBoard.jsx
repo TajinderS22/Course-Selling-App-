@@ -45,7 +45,10 @@ const Dashboard = () => {
 
   useEffect(() => {
     setIsAdmin(true)
-    ifSessionActive();
+    console.log(user)
+    if(!user){
+      ifSessionActive();
+    }
 
   }, [jwt])
 
