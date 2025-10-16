@@ -50,7 +50,7 @@ function App() {
     }
   ]);
   return (
-    <div className='max-w-[1920px] mx-auto'>
+    <div className='max-w-[1920px] bg-slate-300 mx-auto'>
       <AppProvider>
         <RecoilRoot>
           <RouterProvider router={router}/>

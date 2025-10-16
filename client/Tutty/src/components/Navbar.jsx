@@ -8,7 +8,7 @@ import { UserAtom } from '../recoil/userAtom'
 import { AdminAtom } from '../recoil/adminAtom'
 
 
-const Navbar = () => {
+const Navbar = ({BgColor}) => {
     const {onSignup,setOnSignup,setAuthenticationMessage}=useContext(AppContext)
     const [isExtended,setIsExtended]=useState(false)
     const [isDark,setisDark]=useState(document.querySelector('html').classList[0]=='dark')
@@ -27,8 +27,8 @@ const Navbar = () => {
       }
     }, [isAdmin, adminUser, normalUser]);
   return (
-    <div className='h-16'>
-        <div className={`w-full max-w-[1920px] absolute z-30 mb-96 top-0 dark:bg-slate-700 dark:text-white bg-[#ADEED9]/80 flex justify-between p-2 px-4
+    <div className='h-16 rounded-lg mx-auto'>
+        <div className={`w-full max-w-[1920px] rounded-lg absolute z-30 mb-96 top-0 dark:bg-slate-700 dark:text-white ${ BgColor? BgColor: "bg-[#ADEED9]/80"} flex justify-between p-2 px-4
     ${isExtended&&"items-center justify-around flex-col h-[600px]"}
     `}>
         <div className='flex justify-between md:w-[10%] w-full'>

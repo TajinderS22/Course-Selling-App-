@@ -52,8 +52,8 @@ const Dashboard = () => {
   // const [open] = useState(isMdUp);
 
   return (
-    <div className=' h-fit min-h-[90svh] '>
-        <Navbar></Navbar>
+    <div className=' h-fit min-h-[100svh] '>
+        <Navbar BgColor={""} ></Navbar>
         <div className='  flex  min-h-[95svh]   '>
             <div className='hidden md:block'>
               <Sidebar ></Sidebar>

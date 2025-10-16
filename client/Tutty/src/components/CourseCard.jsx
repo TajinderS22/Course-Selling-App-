@@ -24,7 +24,7 @@ const CourseCard = ({data}) => {
         const jwt=localStorage.getItem('jwt')
         // console.log(jwt)
         try {
-            const response= await axios.post('http://192.168.1.7:3000/course/purchase',{courseId},{
+            const response= await axios.post('http://localhost:3000/course/purchase',{courseId},{
                 headers:{
                     authorization: jwt
                 }

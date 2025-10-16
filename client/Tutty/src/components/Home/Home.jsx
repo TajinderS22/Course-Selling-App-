@@ -10,10 +10,10 @@ import { AppContext } from '../../context/AppContext'
 const Home = () => {
     const {setOnSignup}=useContext(AppContext)
   return (
-    <div className='mx-auto dark:bg-slate-800 dark:text-white bg-[#e8fffdcf] min-h-[100svh]'>
+    <div className='mx-auto dark:bg-slate-800  dark:text-white bg-[#e8fffdcf] min-h-[100svh]'>
         
         <Navbar/>
-        <div className='pb-6 flex not-md:flex-col-reverse justify-between mt-16'>
+        <div className='pb-6 w-11/12 flex not-md:flex-col-reverse justify-between mt-16'>
             <div className='mx-6 mt-8 max-w-[600px] xl:ml-32 pr-4'>
                 <p className='md:text-4xl text-3xl font-bold max-w-[600px]'>
                     Shape Your Future with Expert-Led Courses
@@ -38,7 +38,7 @@ const Home = () => {
         </div>
 
         {/* Courses Preview */}
-        <div className='text-center relative top-18 text-6xl font-semibold dark:bg-slate-700 dark:text-[#98faeba1] text-[#014442] bg-[#56DFCF]/40 p-6 md:rounded-[50%] rounded-[40%] mx-2 '>
+        <div className='text-center w-11/12 mx-auto relative top-18 text-6xl font-semibold dark:bg-teal-300/20 dark:text-[#98faeba1] text-[#014442] bg-[#56DFCF]/40 p-6 md:rounded-[50px] dark:border border-teal-200/80 rounded-2xl backdrop-blur-3xl   '>
             Browse All Courses
         </div>
         <Courses/>
