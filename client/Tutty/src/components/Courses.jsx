@@ -31,9 +31,9 @@ const Courses = () => {
     
     <div className='md:flex flex-wrap max-h-[1000px] w-11/12 justify-center not-md:flex-col not-md:items-center overflow-scroll h-fit pb-8  mx-auto mt-24 border-b-2 border-cyan-700 not-md:max-h-[1320px] not-md:overflow-clip '>
       
-      {allCourses.map((course)=>{
+      {allCourses.map((course,index)=>{
         return(
-            <div className='hover:scale-105 hover:mx-2 transform duration-300'>
+            <div key={index} className='hover:scale-105 hover:mx-2 transform duration-300'>
               <CourseCard data={course}/>
             </div>
 

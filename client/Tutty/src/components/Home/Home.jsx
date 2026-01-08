@@ -14,26 +14,26 @@ const Home = () => {
         
         <Navbar/>
         <div className='pb-6 w-11/12 flex not-md:flex-col-reverse justify-between mt-16'>
-            <div className='mx-6 mt-8 max-w-[600px] xl:ml-32 pr-4'>
-                <p className='md:text-4xl text-3xl font-bold max-w-[600px]'>
+            <div className='mx-6 mt-8 max-w-[600px] flex-1 xl:ml-32 pr-4'>
+                <p className='md:text-6xl text-4xl font-bold  w-full'>
                     Shape Your Future with Expert-Led Courses
                 </p>
-                <p className='text-lg font-normal mt-6 md:max-w-[300px] '> 
+                <p className='text-lg font-normal mt-6 w-[80%] ml-4 '> 
                     Kickstart your career with 100+ high-quality, job-focused courses. Learn at your pace, anytime, anywhere.
                 </p>
                 <Link to='/authentication'>
-                <button className='bg-[#0ABAB5] p-3 rounded-lg mt-6 ml-4' 
-                    onClick={()=>{
+                <button className='bg-[#0ABAB5] p-3 rounded-lg mt-10 ml-4' 
+                    onClick={()=>{ 
                         setOnSignup(true)
                     }}
                 >
-                    Sign up
+                    Start your Journey
                 </button>
                 </Link>
             </div>
 
             <div>
-                <img className='md:w-[600px] not-md:mx-auto w-96 md:rounded-l-4xl  not-md:rounded-2xl  ' src="https://images.pexels.com/photos/1438081/pexels-photo-1438081.jpeg" alt=" Langing image top" />
+                <img className='not-lg:w-[300px] lg:w-[400px] xl:w-[600px] not-md:mx-auto w-96 md:rounded-l-4xl  not-md:rounded-2xl  ' src="https://images.pexels.com/photos/1438081/pexels-photo-1438081.jpeg" alt=" Langing image top" />
             </div>
         </div>
 

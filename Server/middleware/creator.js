@@ -1,8 +1,7 @@
 import jwt from "jsonwebtoken"
 
-export const adminMiddleware= (req,res,next)=>{
+export const creatorMiddleware= (req,res,next)=>{
     const token=req.headers.authorization;
-    console.log(token)
     const decoded=jwt.verify(token,process.env.JWT_ADMIN_PASSWORD)
 
     if(decoded){
@@ -16,5 +15,5 @@ export const adminMiddleware= (req,res,next)=>{
 }
 
 // module.exports={
-//     adminMiddleware
+//     creatorMiddleware
 // }

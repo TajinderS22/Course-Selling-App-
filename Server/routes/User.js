@@ -27,7 +27,6 @@ userRouter.post("/signup",async (req,res)=>{
         firstname,
         lastname
     }
-    console.log(data)
 
     try {
         zodschema.parse(data);
@@ -63,7 +62,6 @@ userRouter.post("/signup",async (req,res)=>{
 
 userRouter.post("/signin",async (req,res)=>{
     const {email,password}=req.body;
-    console.log(email,password)
 
     try{
         const User= await userModel.findOne({
@@ -83,7 +81,6 @@ userRouter.post("/signin",async (req,res)=>{
             token=jwt.sign({
                 id:User._id
             },process.env.JWT_USER_PASSWORD)
-            console.log(token)
             // WE can add cookies logic here 
         }
 
@@ -96,17 +93,26 @@ userRouter.post("/signin",async (req,res)=>{
 
 })
 
+userRouter.get("/courses",userMiddleware,async(req,res)=>{
+    const userId=req.userId
+    const courses= await purchaseModel.find({
+        userId
+    })
+
+    res.status(200).json({
+        courseIds:courses.map(x=>x.courseId)
+    })
+    
+})
 
 userRouter.post("/verify",async(req,res)=>{
     const token=req.headers.authorization
 
-    console.log(token)
     const decoded=jwt.verify(token,process.env.JWT_USER_PASSWORD)
     const user = await userModel.findOne({
         _id:decoded.id
     })
     if(!token) return null
-    console.log(user)
     if(user){
     res.json({user})
     } 
@@ -123,7 +129,6 @@ userRouter.get("/verify",async(req,res)=>{
 
 userRouter.get("/purchases",userMiddleware,async(req,res)=>{
     const userId=req.userId
-    console.log(req.userId)
     const jwt = req.headers.authorization;
     if (!jwt) return res.status(401).json({ message: "Token missing" });
     const purchasedCourses=await purchaseModel.find({

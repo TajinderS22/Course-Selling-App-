@@ -1,19 +1,17 @@
 import mongoose, { Schema } from "mongoose";
-import dotenv from 'dotenv';
+import { number, string } from "zod/v4";
 
-dotenv.config();
-// const Schema=mongoose.Schema;
 const ObjectId=mongoose.Types.ObjectId;
 
 const userSchema= new Schema({
     email:{type:String, unique:true},
     password:String,
     firstname:String,
-    lastname:String
-
+    lastname:String,
+    profileImageUrl:string
 })
 
-const adminSchema= new Schema({
+const creatorSchema= new Schema({
     email:{type:String, unique:true},
     password:String,
     firstname:String,
@@ -25,22 +23,34 @@ const courseSchema= new Schema({
     description:String,
     price: Number,
     imageUrl:String,
-    creatorId:ObjectId
+    creatorId:ObjectId,
+    chapters:[
+        {
+            number:number,
+            chapterName:String,
+            chapterDescription:String
+        }
+    ]
 })
 
-const purchaseSchema= new Schema({
-    userId:ObjectId,
-    courseId:ObjectId
-})
+const purchaseSchema = new Schema({
+  userId: ObjectId,
+  courseId: ObjectId,
+  razorpay_order_id:String,
+  razorpay_payment_id:String,
+});
+
+
+
 
 export const userModel=mongoose.model("user",userSchema)
-export const adminModel=mongoose.model("admin",adminSchema)
+export const creatorModel=mongoose.model("creator",creatorSchema)
 export const courseModel=mongoose.model("course",courseSchema)
 export const purchaseModel=mongoose.model("purchase",purchaseSchema)
 
 // module.export={
 //     userModel,
-//     adminModel,
+//     creatorModel,
 //     courseModel,
 //     purchaseModel
 // } 

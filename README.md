@@ -4,13 +4,13 @@
 
 ## Overview
 
-This is a full-stack web application for selling online courses. It features user authentication, course management, purchasing functionality, and admin dashboards. The backend handles data persistence with MongoDB, while the frontend provides a responsive UI built with React.
+This is a full-stack web application for selling online courses. It features user authentication, course management, purchasing functionality, and creator dashboards. The backend handles data persistence with MongoDB, while the frontend provides a responsive UI built with React.
 
 ## Features
 
 - **User Authentication**: Register, login, and OTP verification for users.
 - **Course Browsing and Purchase**: View courses, add to cart, and complete purchases.
-- **Admin Panel**: Create, manage courses; view users and purchases.
+- **Creator Panel**: Create, manage courses; view users and purchases.
 - **Responsive Design**: Mobile-friendly interface with Tailwind CSS.
 - **Image Upload**: Integrated with Cloudinary for course images.
 - **State Management**: Using Recoil for efficient frontend state handling.
@@ -19,7 +19,7 @@ This is a full-stack web application for selling online courses. It features use
 
 ### Backend
 - **Node.js** with **Express.js** for API server
-- **MongoDB** with **Mongoose** for database models (Users, Admins, Courses, Purchases)
+- **MongoDB** with **Mongoose** for database models (Users, Creators, Courses, Purchases)
 - **JWT** for authentication
 - **Cloudinary** for image storage
 - **CORS** enabled for frontend integration
@@ -55,7 +55,7 @@ This is a full-stack web application for selling online courses. It features use
    ```
    MONGO_DB_URL="your_mongodb_connection_string"
    JWT_USER_PASSWORD="your_jwt_secret_for_users"
-   JWT_ADMIN_PASSWORD="your_jwt_secret_for_admins"
+   JWT_ADMIN_PASSWORD="your_jwt_secret_for_creators"
    CLOUDINARY_SECRET="your_cloudinary_secret"
    CLOUDINARY_API_KEY="your_cloudinary_api_key"
    CLOUDINARY_CLOUD_NAME="your_cloud_name"
@@ -95,15 +95,15 @@ This is a full-stack web application for selling online courses. It features use
    - **Course Routes** (`/course`):
      - `GET /course/all` - Fetch all courses
      - `POST /course/purchase` - Purchase a course (protected)
-   - **Admin Routes** (`/admin`):
-     - `POST /admin/login` - Admin login
-     - `POST /admin/create-course` - Create new course (protected)
-     - `GET /admin/courses` - View all courses (protected)
+   - **Creator Routes** (`/creator`):
+     - `POST /creator/login` - Creator login
+     - `POST /creator/create-course` - Create new course (protected)
+     - `GET /creator/courses` - View all courses (protected)
 
 2. **Frontend Navigation**:
    - Home page with course categories and featured courses.
    - User dashboard for purchased courses.
-   - Admin dashboard for course creation and management.
+   - Creator dashboard for course creation and management.
    - Authentication pages for login/register.
 
 Ensure the backend is running before starting the frontend, as it makes API calls to `http://localhost:3000`.
@@ -113,15 +113,15 @@ Ensure the backend is running before starting the frontend, as it makes API call
 - **Server/**: Backend API
   - `db.js`: Database models and connection
   - `index.js`: Express app setup
-  - `routes/`: API route handlers (User.js, Courses.js, Admin.js)
-  - `middleware/`: Authentication middleware (User.js, admin.js)
+  - `routes/`: API route handlers (User.js, Courses.js, Creator.js)
+  - `middleware/`: Authentication middleware (User.js, creator.js)
   - `uploads/`: Local upload directory (uses Cloudinary)
 
 - **client/Tutty/**: React frontend
-  - `src/app/`: Main app components (Sidebar, Admin/User containers)
+  - `src/app/`: Main app components (Sidebar, Creator/User containers)
   - `src/components/`: Reusable UI (Navbar, Footer, CourseCard, etc.)
   - `src/context/`: App context for global state
-  - `src/recoil/`: Recoil atoms for user/admin state
+  - `src/recoil/`: Recoil atoms for user/creator state
 
 ## Contributing
 

@@ -7,7 +7,6 @@ const Otp = ({number}) => {
     const ref=useRef(Array(number).fill(0))
     const [value,setValue]=useState("")
     const inputvalue=''
-    console.log(value)
   return (
     <div className='flex justify-center p-6'>
 

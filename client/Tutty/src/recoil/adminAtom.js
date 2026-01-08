@@ -1,6 +1,6 @@
 import {atom} from 'recoil'
 
-export const AdminAtom= atom({
-    key:"AdminAtom",
+export const CreatorAtom= atom({
+    key:"CreatorAtom",
     default:false
 })

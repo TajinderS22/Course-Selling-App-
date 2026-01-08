@@ -1,9 +1,9 @@
 import { Router } from "express"
 import { z } from "zod/v4"
 import bcrypt from "bcrypt"
-import { adminModel, courseModel } from "../db.js";
+import { creatorModel, courseModel } from "../db.js";
 import jwt from 'jsonwebtoken'
-import {adminMiddleware} from "../middleware/admin.js"
+import {creatorMiddleware} from "../middleware/creator.js"
 
 
 const zodschema=z.object({
@@ -15,19 +15,18 @@ const zodschema=z.object({
 const saltRounds=10;
 
 
-export const adminRouter=Router()
+export const creatorRouter=Router()
 
-adminRouter.get("/stats",(req,res)=>{
+creatorRouter.get("/stats",(req,res)=>{
     res.json({
         message:"This page will show the stats such as number of Users and all "
     })
 })
-adminRouter.post("/signin",async (req,res)=>{
+creatorRouter.post("/signin",async (req,res)=>{
     const {email,password}=req.body;
-    console.log(email,password)
 
     try{
-        const User= await adminModel.findOne({
+        const User= await creatorModel.findOne({
             email
         })
 
@@ -44,7 +43,6 @@ adminRouter.post("/signin",async (req,res)=>{
             token=jwt.sign({
                 id:User._id
             },process.env.JWT_ADMIN_PASSWORD)
-            console.log(token)
             // WE can add cookies logic here 
         }
 
@@ -57,7 +55,7 @@ adminRouter.post("/signin",async (req,res)=>{
 
 })
 
-adminRouter.post("/signup",async (req,res)=>{
+creatorRouter.post("/signup",async (req,res)=>{
     const {email,password,firstname,lastname}=req.body;
     
         const data={
@@ -69,7 +67,7 @@ adminRouter.post("/signup",async (req,res)=>{
     
         try {
             zodschema.parse(data);
-            const isUserRegistered= await adminModel.findOne({
+            const isUserRegistered= await creatorModel.findOne({
                 email
             })
             if(isUserRegistered){
@@ -79,7 +77,7 @@ adminRouter.post("/signup",async (req,res)=>{
             const hashedPassword= await bcrypt.hash(password,saltRounds);
         
     
-            adminModel.create({
+            creatorModel.create({
                 email,
                 password:hashedPassword,
                 firstname,
@@ -98,13 +96,13 @@ adminRouter.post("/signup",async (req,res)=>{
         }
 })
 
-adminRouter.post("/course",adminMiddleware,async(req,res)=>{
-    const adminId=req.userId;
-    const {title,description,price,imageUrl}=req.body;
-    console.log(req.body)
+creatorRouter.post("/course",creatorMiddleware,async(req,res)=>{
+    const creatorId=req.userId;
+    const {title,description,price,imageUrl,chapters}=req.body;
     const course=await courseModel.create({
         title,description,price,imageUrl,
-        creatorId:adminId
+        creatorId:creatorId,
+        chapters
     })
 
     res.status(200).json({
@@ -114,22 +112,20 @@ adminRouter.post("/course",adminMiddleware,async(req,res)=>{
 
 })
 
-adminRouter.put("/course",adminMiddleware,async(req,res)=>{
-    const adminId=req.userId;
-    const {title,description,price,imageUrl,courseId}=req.body;
+creatorRouter.put("/course",creatorMiddleware,async(req,res)=>{
+    const creatorId=req.userId;
+    const {title,description,price,imageUrl,courseId,chapters}=req.body;
 
     const course=await courseModel.updateOne({
-        // make sure to have both checks 
-        // else any creator can update datails of any course
-        // which is unwanted
         _id:courseId,
-        creatorId:adminId
+        creatorId:creatorId
     },
         {
             title,
             description,
             price,
             imageUrl,
+            chapters
         }
     )
 
@@ -139,16 +135,14 @@ adminRouter.put("/course",adminMiddleware,async(req,res)=>{
     })
 })
 
-adminRouter.post("/verify",async(req,res)=>{
+creatorRouter.post("/verify",async(req,res)=>{
     const token=req.headers.authorization
 
-    console.log(token)
     const decoded=jwt.verify(token,process.env.JWT_ADMIN_PASSWORD)
-    const user = await adminModel.findOne({
+    const user = await creatorModel.findOne({
         _id:decoded.id
     })
     if(!token) return null
-    console.log(user)
     if(user){
     res.json({user})
     } 
@@ -156,17 +150,16 @@ adminRouter.post("/verify",async(req,res)=>{
     
 })
 
-adminRouter.get("/course/bulk",adminMiddleware,async(req,res)=>{
-    const adminId=req.userId;
+creatorRouter.get("/course/bulk",creatorMiddleware,async(req,res)=>{
+    const creatorId=req.userId;
     // const {title,discription,price,imageUrl}=req.body;
-    console.log("I got here")
 
     const course=await courseModel.find({
-       creatorId:adminId
+       creatorId:creatorId
     })
 
     res.status(200).json({
-        message:`all the courses of ${adminId} ` ,
+        message:`all the courses of ${creatorId} ` ,
         courses:course
     })
 })
