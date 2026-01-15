@@ -44,22 +44,22 @@ const Footer = () => {
           <h2 className="text-lg font-semibold mb-3">Support</h2>
           <ul className="space-y-2 text-sm">
             <li>
-              <a href="/" className="hover:underline">
+              <a href="/faqs" className="hover:underline">
                 FAQs
               </a>
             </li>
             <li>
-              <a href="/" className="hover:underline">
+              <a href="/contact" className="hover:underline">
                 Contact
               </a>
             </li>
             <li>
-              <a href="/" className="hover:underline">
+              <a href="/terms" className="hover:underline">
                 Terms of Service
               </a>
             </li>
             <li>
-              <a href="/" className="hover:underline">
+              <a href="/privacy" className="hover:underline">
                 Privacy Policy
               </a>
             </li>

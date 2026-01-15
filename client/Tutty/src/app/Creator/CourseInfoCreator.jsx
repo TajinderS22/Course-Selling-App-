@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
 import React, { useEffect } from "react";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { SERVER_ADDRESS } from "../../Secrets/Secrets";
 import { useState } from "react";
 import Navbar from "../../components/Navbar";
@@ -25,6 +25,7 @@ const CourseInfoCreator = () => {
       console.error(err);
     }
   };
+  const navigate= useNavigate()
 
   useEffect(() => {
     getCourseInfoCreator();
@@ -43,6 +44,14 @@ const CourseInfoCreator = () => {
               <p className="my-6  ml-4 mt-15  dark:bg-stone-700 ring-stone-400/50 ring w-fit p-2 rounded-lg  bg-stone-300 ">
                 {info.description}
               </p>
+            </div>
+
+            <div
+            onClick={()=>{
+              navigate(`/creator/course/${courseId}/upload-content`)
+            }}
+            className="bg-emerald-600/60 w-fit p-2 rounded-full px-4">
+              Add content
             </div>
             
           </div>

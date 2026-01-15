@@ -2,8 +2,9 @@ import jwt from "jsonwebtoken"
 
 export const creatorMiddleware= (req,res,next)=>{
     const token=req.headers.authorization;
-    const decoded=jwt.verify(token,process.env.JWT_ADMIN_PASSWORD)
 
+    const decoded=jwt.verify(token,process.env.JWT_ADMIN_PASSWORD)
+    
     if(decoded){
         req.userId=decoded.id;
         next()

@@ -10,6 +10,7 @@ import { AppContext } from "../../context/AppContext";
 import { useDispatch, useSelector } from "react-redux";
 import { clearCreator, setCreator } from "../../store/slices/creatorSlice";
 import CoursePlan from "../../components/courses/CoursePlan";
+import useActiveSessionCreator from "../../hooks/useActiveSessionCreator";
 
 const CreateCourse = () => {
   const user = useSelector((state) => state.creator);
@@ -17,7 +18,7 @@ const CreateCourse = () => {
   const navigate = useNavigate();
   const { setIsCreator } = useContext(AppContext);
 
-  const jwt = localStorage.getItem("jwtCreator");
+  const {jwtCreator}= useActiveSessionCreator()
 
   const dispatch = useDispatch();
 
@@ -42,6 +43,11 @@ const CreateCourse = () => {
     const description = descriptionRef?.current?.value;
     const price = priceRef?.current?.value;
 
+    if(price>1000){
+      alert("Price should be less than 1000")
+      return
+    }
+
     const data = {
       title,
       description,
@@ -54,7 +60,7 @@ const CreateCourse = () => {
       data,
       {
         headers: {
-          authorization: jwt,
+          authorization: jwtCreator,
         },
       }
     );
@@ -73,7 +79,7 @@ const CreateCourse = () => {
         {},
         {
           headers: {
-            authorization: jwt,
+            authorization: jwtCreator,
           },
         }
       );
@@ -94,12 +100,12 @@ const CreateCourse = () => {
   };
 
   useEffect(() => {
-    if (!user && jwt) {
+    if (!user && jwtCreator) {
       ifSessionActive();
-    } else if (!jwt) {
+    } else if (!jwtCreator) {
       navigate("/creator/authentication");
     }
-  }, [user, jwt]);
+  }, [user, jwtCreator]);
 
   const handleImagUpload = async () => {
     if (!imageRef.current) return alert("Please select an image");
@@ -118,7 +124,7 @@ const CreateCourse = () => {
           { image: base64Image },
           {
             headers: {
-              authorization: jwt,
+              authorization: jwtCreator,
             },
           }
         );
@@ -250,7 +256,7 @@ const CreateCourse = () => {
               >
                 <p
                   className={` text-2xl p-2 shadow-lg w-fit bg-stone-400/40 dark:bg-stone-800/80 rounded-lg font-serif 
-                  font-stretch-125% font-bold mb-4 `}
+                  font-stretch-125% font-bold  `}
                 >
                   Create lecture plan here
                 </p>

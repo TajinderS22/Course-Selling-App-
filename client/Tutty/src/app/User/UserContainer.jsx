@@ -1,38 +1,49 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, {  } from "react";
 import CourseCard from "../../components/CourseCard";
 import Sidebar from "../Sidebar";
 import { SERVER_ADDRESS } from "../../Secrets/Secrets";
 import { Link } from "react-router";
 import { useSelector } from "react-redux";
+import useActiveSession from "../../hooks/useActiveSession";
+import Loading from "../../components/Loading";
 
 const MainContent = () => {
-  const [purchasedCourses, setPurchasedCourses] = useState();
+  const purchasedCourses = useSelector(state=>state.userCourses);
+
+  const {loading}=useActiveSession()
 
   // const {open}=useContext(AppContext)
 
-  useEffect(() => {
-    const getPurchasedCourses = async () => {
-      try {
-        const jwt = localStorage.getItem("jwt");
-        const response = await axios.get(SERVER_ADDRESS + "/user/purchases", {
-          headers: {
-            authorization: jwt,
-          },
-        });
-        if (response?.data?.coursesData.length != 0) {
-          setPurchasedCourses(response?.data?.coursesData);
-        } else {
-          setPurchasedCourses(false);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getPurchasedCourses();
-  }, []);
+  // useEffect(() => {
+  //   const getPurchasedCourses = async () => {
+  //     try {
+  //       const response = await axios.get(SERVER_ADDRESS + "/user/courses", {
+  //         headers: {
+  //           authorization: jwt,
+  //         },
+  //       });
+  //       if (response?.data?.coursesData.length != 0) {
+  //         setPurchasedCourses(response?.data?.coursesData);
+  //       } else {
+  //         setPurchasedCourses(false);
+  //       }
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
+  //   getPurchasedCourses();
+  // }, []);
 
   const user = useSelector((state) => state.user);
+
+  if(loading){
+    return(
+      <div className="min-h-[90svh]">
+        <Loading/>
+      </div>
+    )
+  }
+
   if (purchasedCourses) {
     return (
       <div className=' w-full max-w-[1920px] bg-[url("https://images.unsplash.com/photo-1491466424936-e304919aada7?q=80&w=1469&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")] bg-cover bg-center h-96 '>
@@ -50,7 +61,9 @@ const MainContent = () => {
             <div className="flex flex-col  justify-around items-center p-4">
               <img
                 className="w-28 mt-8 rounded-2xl my-2 font-bold text-4xl"
-                src="https://images.pexels.com/photos/18932250/pexels-photo-18932250.jpeg"
+                src={user.profileImageUrl ||
+                  "https://res.cloudinary.com/dcpz5001o/image/upload/v1720769605/christopher-burns-Kj2SaNHG-hg-unsplash_d3pouz.jpg"
+                }
                 alt="profile image"
               />
               <p className="dark:text-white">
@@ -58,7 +71,7 @@ const MainContent = () => {
               </p>
               <p className="dark:text-gray-100 my-1">{user.email}</p>
               <p className="dark:text-gray-100 my-1">
-                {user.mNumber || "Please update your profile"}
+                {user.phoneNumber || "Please update your profile"}
               </p>
               <p className="dark:text-gray-100 my-4">
                 {user.location || "Please update your profile"}

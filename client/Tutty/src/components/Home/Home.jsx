@@ -1,4 +1,4 @@
-import React,{useContext} from 'react'
+import React from 'react'
 import Navbar from '../Navbar'
 import Courses from '../Courses'
 import HomePageChooseUs from './HomePageChooseUs'
@@ -8,7 +8,7 @@ import { AppContext } from '../../context/AppContext'
 
 
 const Home = () => {
-    const {setOnSignup}=useContext(AppContext)
+
   return (
     <div className='mx-auto dark:bg-slate-800  dark:text-white bg-[#e8fffdcf] min-h-[100svh]'>
         
@@ -23,9 +23,7 @@ const Home = () => {
                 </p>
                 <Link to='/authentication'>
                 <button className='bg-[#0ABAB5] p-3 rounded-lg mt-10 ml-4' 
-                    onClick={()=>{ 
-                        setOnSignup(true)
-                    }}
+                
                 >
                     Start your Journey
                 </button>

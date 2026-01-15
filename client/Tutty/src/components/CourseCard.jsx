@@ -5,6 +5,8 @@ import axios from "axios";
 import { useLocation, useNavigate } from "react-router";
 
 import { useSelector } from "react-redux";
+import useActiveSession from "../hooks/useActiveSession";
+import useActiveSessionCreator from "../hooks/useActiveSessionCreator"
 
 const CourseCard = ({ data }) => {
   const { isCreator } = useContext(AppContext);
@@ -15,14 +17,32 @@ const CourseCard = ({ data }) => {
 
   const user = useSelector((state) => state.user);
   const creator = useSelector((state) => state.creator);
-  const userCourses=useSelector(state=>state.userCourses)
+  const userCourses = useSelector((state) => state.userCourses);
+  const [courseBought, setCourseBought] = useState(false);
+
+  const { jwt } = useActiveSession();
+
+
+  const checkBought = async () => {
+    const bought = userCourses?.find((course) => course?._id === data._id);
+    if (bought) {
+      setCourseBought(true);
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      checkBought();
+    }
+  }, [userCourses]);
+
   const [imageUrl, setImageUrl] = useState(
     "https://res.cloudinary.com/dcpz5001o/image/upload/v1720769605/christopher-burns-Kj2SaNHG-hg-unsplash_d3pouz.jpg"
   );
 
   const buyCourse = async () => {
     const courseId = data._id;
-    const jwt = localStorage.getItem("jwt");
+
     try {
       const response = await axios.post(
         "http://localhost:3000/course/purchase",
@@ -68,13 +88,24 @@ const CourseCard = ({ data }) => {
       <p className="text-xl font-bold mt-4 mx-3">{data.price}</p>
       {!isCreator ? (
         <div className="flex w-full justify-between p-2 px-6 ">
-          <button
-            className="bg-[#0ABAB5]/80 w-[40%] p-2 rounded-2xl "
-            onClick={() => {
-              navigate(`/course/${data._id}`)
-            }}
-          >
-            {user && userCourses.includes(data._id) ? "Start Learning" : "Buy Now"}
+          <button className="bg-[#0ABAB5]/80 w-[40%] p-2 rounded-2xl ">
+            {user && courseBought ? (
+              <div
+                onClick={() => {
+                  navigate(`/learn/${data._id}`);
+                }}
+              >
+                Start Learning
+              </div>
+            ) : (
+              <div
+                onClick={() => {
+                  navigate(`/course/${data._id}`);
+                }}
+              >
+                Buy Now
+              </div>
+            )}
           </button>
           <button
             className="bg-[#c1caca]/80 w-[40%] p-2 rounded-2xl "
@@ -100,10 +131,10 @@ const CourseCard = ({ data }) => {
           <button
             className="bg-[#c1caca]/80 w-[40%] p-2 rounded-2xl "
             onClick={() => {
-              if(creator){
-                navigate(`/creator/course/${data._id}`)
-              }else{
-              navigate(`/course/${data._id}`);
+              if (creator) {
+                navigate(`/creator/course/${data._id}`);
+              } else {
+                navigate(`/course/${data._id}`);
               }
             }}
           >

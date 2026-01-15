@@ -10,6 +10,7 @@ import { AppContext } from "../../context/AppContext";
 import { useDispatch, useSelector } from "react-redux";
 import { clearCreator, setCreator } from "../../store/slices/creatorSlice";
 import CoursePlan from "../../components/courses/CoursePlan";
+import useActiveSessionCreator from "../../hooks/useActiveSessionCreator";
 
 const EditCourse = () => {
   const user = useSelector((state) => state.creator);
@@ -17,7 +18,7 @@ const EditCourse = () => {
   const navigate = useNavigate();
   const { setIsCreator } = useContext(AppContext);
 
-  const jwt = localStorage.getItem("jwtCreator");
+  const { jwtCreator } = useActiveSessionCreator();
 
 
   const dispatch = useDispatch();
@@ -80,7 +81,7 @@ const EditCourse = () => {
     };
     const response = await axios.put(SERVER_ADDRESS + "/creator/course", data, {
       headers: {
-        authorization: jwt,
+        authorization: jwtCreator,
       },
     });
     if (response.status == 200) {
@@ -98,7 +99,7 @@ const EditCourse = () => {
         {},
         {
           headers: {
-            authorization: jwt,
+            authorization: jwtCreator,
           },
         }
       );
@@ -119,12 +120,12 @@ const EditCourse = () => {
   };
 
   useEffect(() => {
-    if (!user && jwt) {
+    if (!user && jwtCreator) {
       ifSessionActive();
-    } else if (!jwt) {
+    } else if (!jwtCreator) {
       navigate("/creator/authentication");
     }
-  }, [user, jwt]);
+  }, [user, jwtCreator]);
 
   const handleImagUpload = async () => {
     if (!imageRef.current) return alert("Please select an image");
@@ -143,7 +144,7 @@ const EditCourse = () => {
           { image: base64Image },
           {
             headers: {
-              authorization: jwt,
+              authorization: jwtCreator,
             },
           }
         );

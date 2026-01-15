@@ -1,0 +1,55 @@
+name: Deploy on Prod
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v3
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 22
+
+            - name: Install dependencies
+              working-directory: .
+              run: npm install
+
+            - name: Install dependencies
+              working-directory: client/Tutty
+              run: npm install
+
+            - name: Build React app
+              working-directory: client/Tutty
+              run: npm run build
+
+            - name: Upload build to server
+              env:
+                  HOST: ${{ secrets.PROD_HOST }}
+                  USER: ${{ secrets.PROD_USER }}
+                  KEY: ${{ secrets.PROD_SSH_KEY }}
+              run: |
+                  echo "$KEY" > key.pem
+                  chmod 600 key.pem
+
+
+                  ssh -i key.pem -o StrictHostKeyChecking=no $USER@$HOST '
+                    export NVM_DIR="$HOME/.nvm"
+                    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+                    cd /home/ubuntu/${{github.repository}}/
+                    git pull
+                    npm i
+                    cd client/Tutty
+                    npm i
+                    npm run build 
+                    cd ../../
+                    pm2 reload all
+                    cd
+                  '

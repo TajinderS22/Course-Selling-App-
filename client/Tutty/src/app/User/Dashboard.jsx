@@ -13,8 +13,7 @@ import useActiveSession from "../../hooks/useActiveSession";
 
 const Dashboard = () => {
   const user = useSelector((state) => state.user);
-  // const jwt = localStorage.getItem("jwt");
-  const jwt =useActiveSession()
+  const {jwt} =useActiveSession()
   const { setIsCreator } = useContext(AppContext);
   const [loading, setLoading] = useState(true);
 

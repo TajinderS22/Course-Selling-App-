@@ -16,6 +16,17 @@ import Error from "./pages/Error";
 import CourseInfo from "./pages/CourseInfo";
 import EditCourse from "./pages/creator/EditCourse";
 import CourseInfoCreator from "./app/Creator/CourseInfoCreator";
+import SettingsPage from "./app/User/SettingsPage";
+import UploadContent from "./app/Creator/UploadContent";
+import Learn from "./components/Learning/Learn";
+import UserManagement from "./app/Creator/UserManagement/UserManagement";
+import CourseUsersInfo from "./app/Creator/UserManagement/CourseUsersInfo";
+import Revenue from "./app/Creator/revenue/Revenue";
+import Purchases from "./app/User/purchases/Purchases";
+import TermsAndConditions from "./components/FooterLinks/TermsAndConditions";
+import Contact from "./components/FooterLinks/Contact";
+import FAQs from "./components/FooterLinks/FAQs";
+import PrivacyPolicy from "./components/FooterLinks/PrivacyPolicy";
 
 function App() {
   const router = createBrowserRouter([
@@ -67,6 +78,45 @@ function App() {
       path: "/creator/course/:id",
       element: <CourseInfoCreator />,
     },
+    {
+      path: "/settings",
+      element: <SettingsPage />,
+    },
+    {
+      path: "/creator/course/:id/upload-content",
+      element:<UploadContent/>
+    },{
+      path:"/learn/:id",
+      element:<Learn/>
+    },{
+      path:"/creator/user-management",
+      element:<UserManagement/>
+    },{
+      path:"creator/user-management/:id",
+      element:<CourseUsersInfo/>
+    },{
+      path:"/creator/revenue",
+      element:<Revenue/>
+    },{
+      path:"/user/purchases",
+      element:<Purchases/>
+    },
+    {
+      path: "/terms",
+      element: <TermsAndConditions />,
+    },
+    {
+      path: "/contact",
+      element: <Contact />,
+    },
+    {
+      path: "/faqs",
+      element: <FAQs />,
+    },
+    {
+      path: "/privacy",
+      element: <PrivacyPolicy />,
+    }
   ]);
   return (
     <div className="max-w-[1920px] bg-slate-300 mx-auto">

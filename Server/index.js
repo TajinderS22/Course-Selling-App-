@@ -6,11 +6,12 @@ import mongoose from "mongoose";
 import cors from 'cors'
 
 import dotenv from "dotenv"
+import { s3Router } from './routes/S3.js';
 dotenv.config()
 
 
 const app=express()
-const port =3000;
+const port =process.env.SERVER_PORT||3000;
 app.use(cors())
 
 

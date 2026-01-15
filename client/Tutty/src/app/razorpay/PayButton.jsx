@@ -3,14 +3,14 @@ import React from 'react'
 import { useEffect } from 'react';
 import { SERVER_ADDRESS } from '../../Secrets/Secrets';
 import useActiveSession from '../../hooks/useActiveSession';
-import { setUserCourses } from '../../store/slices/userCourses';
-import { useDispatch } from 'react-redux';
+// import { setUserCourses } from '../../store/slices/userCourses';
+// import { useDispatch } from 'react-redux';
 
 const PayButton = ({courseId,setPayPopup}) => {
 
-    const dispatch=useDispatch()
+    // const dispatch=useDispatch()
 
-    const jwt=useActiveSession()
+    const {jwt}=useActiveSession()
 
     useEffect(() => {
       const script = document.createElement("script");
@@ -25,14 +25,14 @@ const PayButton = ({courseId,setPayPopup}) => {
             courseId
         },{
             headers:{
-                Authorization:jwt
+                authorization:jwt
             }
         })
 
         const order=res.data.order;
 
         const options = {
-          key: "rzp_test_S1JhBzJmS1Fr1b",
+          key: "rzp_live_S1iZX0P0U2cyQO",
           amount: order.amount,
           vurrency: "INR",
           order_id: order.id,
@@ -46,10 +46,8 @@ const PayButton = ({courseId,setPayPopup}) => {
                 },
               }
             );
-            console.log(res);
             if (res.data.success) {
                 setPayPopup(false);
-                dispatch(setUserCourses([...courseId,courseId]))
               alert("payment success");
               
             } else alert("payment failed");
@@ -65,7 +63,9 @@ const PayButton = ({courseId,setPayPopup}) => {
 
 
   return (
-    <button className='bg-emerald-500 p-2 border rounded-lg w-full' onClick={handlePayment}>
+    <button className='bg-emerald-500 p-2 border
+    
+    rounded-lg w-full' onClick={handlePayment}>
         Pay now
     </button>
   )

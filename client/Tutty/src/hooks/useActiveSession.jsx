@@ -1,23 +1,26 @@
 /* eslint-disable no-unused-vars */
-import React from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { clearUser, setUser } from '../store/slices/userSlice'
 import {setUserCourses} from '../store/slices/userCourses'
 import { SERVER_ADDRESS } from '../Secrets/Secrets'
 import axios from 'axios'
-import { useNavigate } from 'react-router'
+import { useLocation, useNavigate } from 'react-router'
 import { useState } from 'react'
 
 const useActiveSession = () => {
     const user=useSelector(state=>state.user) 
     const dispatch=useDispatch()
+    const pathname=useLocation().pathname
     const jwt=localStorage.getItem("jwt");
     const navigate=useNavigate()
     // eslint-disable-next-line no-unused-vars
     const [loading,setLoading]=useState(true)
     const userCourses=useSelector(state=>state.userCourses)
 
+    if(jwt){
+      localStorage.removeItem("jwtCreator")
+    }
 
 
     const getAllCoursesOfUser=async()=>{
@@ -26,9 +29,7 @@ const useActiveSession = () => {
           authorization:jwt
         }
       })
-      console.log(courses)
-
-      dispatch(setUserCourses(courses.data.courseIds))
+      dispatch(setUserCourses(courses.data.courses))
     }
 
     
@@ -45,6 +46,7 @@ const useActiveSession = () => {
             }
           );
           const user = response.data.user;
+
     
           if (response.status === 200) {
             dispatch(setUser(user));
@@ -63,19 +65,21 @@ const useActiveSession = () => {
 
     useEffect(()=>{
         if (!user && jwt) {
-          ifSessionActive();
-        } else if (!jwt) {
-          navigate("/authentication");
+          ifSessionActive()
+        } else if (!jwt && pathname!=="/") {
+          dispatch(clearUser());
+          navigate("/authentication")
         } else if (user) {
            if(!userCourses){
-            getAllCoursesOfUser();
+            getAllCoursesOfUser()
            }
           setLoading(false)
         }
+
     },[user,jwt])
 
 
-    return jwt
+    return {loading,jwt,setLoading}
 
 }
 

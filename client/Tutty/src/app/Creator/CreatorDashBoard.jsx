@@ -9,11 +9,12 @@ import { AppContext } from "../../context/AppContext";
 import { SERVER_ADDRESS } from "../../Secrets/Secrets";
 import { useDispatch, useSelector } from "react-redux";
 import { clearCreator, setCreator } from "../../store/slices/creatorSlice";
+import useActiveSessionCreator from "../../hooks/useActiveSessionCreator";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.creator);
-  const jwt = localStorage.getItem("jwtCreator");
+  const { jwtCreator } = useActiveSessionCreator();
   const { setIsCreator } = useContext(AppContext);
   const navigate = useNavigate();
   const ifSessionActive = async () => {
@@ -23,7 +24,7 @@ const Dashboard = () => {
         {},
         {
           headers: {
-            authorization: jwt,
+            authorization: jwtCreator,
           },
         }
       );

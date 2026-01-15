@@ -4,6 +4,8 @@ import bcrypt from "bcrypt"
 import { courseModel, purchaseModel, userModel } from "../db.js";
 import jwt from 'jsonwebtoken'
 import { userMiddleware } from "../middleware/User.js";
+import { Cloudinary } from "../upload/Cloudinary.js";
+import {instance} from "../Razorpay/razorpay.js"
 
 
 
@@ -17,6 +19,41 @@ const saltRounds=10;
 
 
 export const userRouter=Router()
+
+userRouter.post("/update/profile",userMiddleware,async(req,res)=>{
+    const userId= req.userId
+    try {
+        const existing =await userModel.findOne({
+            _id:userId
+        })
+        if(existing){
+            await userModel.updateOne({
+                _id:userId
+            },{
+                firstname:req.body.firstname,
+                lastname:req.body.lastname,
+                email:req.body.email,
+                phoneNumber:req.body.phone,
+                profileImageUrl:req.body.profileImage,
+                address:req.body.address
+            })
+
+            res.status(200).json({
+                message:"Profile Updated"
+            })
+            return 
+        }else{
+            res.status(404).json({
+                message:"Some error occured please report devs"
+            })
+        }
+    } catch (error) {
+        console.error(error)
+    }
+})
+
+
+
 
 userRouter.post("/signup",async (req,res)=>{
     const {email,password,firstname,lastname}=req.body;
@@ -95,15 +132,25 @@ userRouter.post("/signin",async (req,res)=>{
 
 userRouter.get("/courses",userMiddleware,async(req,res)=>{
     const userId=req.userId
-    const courses= await purchaseModel.find({
-        userId
+    const response= await purchaseModel.find({
+        userId:userId
+    })
+    const courseIds=response.map(x=>x.courseId)
+
+    const courses=await courseModel.find({
+        _id:{
+            $in:courseIds
+        }
     })
 
     res.status(200).json({
-        courseIds:courses.map(x=>x.courseId)
+        courses
     })
     
 })
+
+
+
 
 userRouter.post("/verify",async(req,res)=>{
     const token=req.headers.authorization
@@ -120,27 +167,40 @@ userRouter.post("/verify",async(req,res)=>{
     
 })
 
-userRouter.get("/verify",async(req,res)=>{
-    const jwt=req.headers.Authorization
-    res.json({
-        text:"fuckyourself"
-    })
-})
 
 userRouter.get("/purchases",userMiddleware,async(req,res)=>{
     const userId=req.userId
-    const jwt = req.headers.authorization;
-    if (!jwt) return res.status(401).json({ message: "Token missing" });
-    const purchasedCourses=await purchaseModel.find({
-        userId
-    })
-    const coursesData= await courseModel.find({
-        _id:{ $in: purchasedCourses.map(x=>x.courseId)}
+    const userPayments= (await instance.payments.all()).items
+    const paymentsAll=userPayments.filter((payment)=>{
+        return payment.notes.userId===userId
     })
 
-    res.json({
-        purchasedCourses,
-        coursesData
+    res.status(200).json({
+        payments:paymentsAll
     })
 })
 
+
+
+
+userRouter.post("/image/upload", userMiddleware, async (req, res) => {
+  const image = req.body?.image;
+  try {
+    Cloudinary.uploader.upload(
+      image,
+      {
+        upload_preset: "TuttyCourseHub",
+        allowed_formats: ["png", "jpg", "jpeg", "svg", "ioc", "webp"],
+      },
+      function (error, result) {
+        if (error) {
+          return console.error(error);
+        }
+
+        res.status(200).json(result.secure_url);
+      }
+    );
+  } catch (error) {
+    console.error(error);
+  }
+});

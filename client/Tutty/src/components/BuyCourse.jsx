@@ -8,13 +8,14 @@ import { SERVER_ADDRESS } from "../Secrets/Secrets";
 import { AppContext } from "../context/AppContext";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../store/slices/userSlice";
+import useActiveSession from "../hooks/useActiveSession";
 
 const BuyCourse = () => {
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.user);
 
-  const jwt = localStorage.getItem("jwt");
+  const { jwt } = useActiveSession();
   const navigate = useNavigate();
   const [courses, setCourses] = useState("");
   const { isCreator } = useContext(AppContext);

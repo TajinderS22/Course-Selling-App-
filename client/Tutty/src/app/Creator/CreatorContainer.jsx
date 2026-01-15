@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import CourseCard from "../../components/CourseCard";
+import CourseCardCreator from "../../components/CourseCardCreator";
 import { SERVER_ADDRESS } from "../../Secrets/Secrets";
 import Sidebar from "../Sidebar";
 import { useSelector } from "react-redux";
+import useActiveSessionCreator from "../../hooks/useActiveSessionCreator";
 
 const CreatorContainer = () => {
   const [createdCourses, setCreatedCourses] = useState();
 
   const user = useSelector((state) => state.creator);
-  const jwt = localStorage.getItem("jwtCreator");
+  const { jwtCreator } = useActiveSessionCreator();
   // const navigate=useNavigate()
 
   const getcreatedCourses = async () => {
@@ -18,7 +19,7 @@ const CreatorContainer = () => {
         SERVER_ADDRESS + "/creator/course/bulk",
         {
           headers: {
-            authorization: jwt,
+            authorization: jwtCreator,
           },
         }
       );
@@ -35,11 +36,11 @@ const CreatorContainer = () => {
   if (createdCourses) {
     return (
       <div className=' pb-6 w-full max-w-[1920px]  bg-[url("https://images.unsplash.com/photo-1491466424936-e304919aada7?q=80&w=1469&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")] bg-cover bg-center min-h-96 '>
-        <div className="dark:bg-slate-800  bg-slate-100 rounded-lg relative w-full min-h-[400px] h-fit  top-[200px] z-20  px-4 md:px-12 flex not-lg:flex-col not-lg:items-center">
+        <div className="dark:bg-slate-800  bg-slate-100 rounded-lg relative w-full min-h-[400px]   top-[200px] z-20  px-4 md:px-12 flex not-lg:flex-col not-lg:items-center">
           <div
             className={`block md:hidden top-0   ${
               open && "w-[30px] "
-            } h-fit backdrop-blur-2xl bg-amber-200 rounded-2xl  pr-96  z-30`}
+            } h-full backdrop-blur-2xl bg-amber-200 rounded-2xl  pr-96  z-30`}
           >
             <Sidebar />
           </div>
@@ -49,7 +50,7 @@ const CreatorContainer = () => {
             <div className="flex flex-col  justify-around items-center p-4">
               <img
                 className="w-28 mt-8 rounded-2xl my-2 font-bold text-4xl"
-                src="https://images.pexels.com/photos/18932250/pexels-photo-18932250.jpeg"
+                src={user?.profileImageUrl||"https://res.cloudinary.com/dcpz5001o/image/upload/v1720769605/christopher-burns-Kj2SaNHG-hg-unsplash_d3pouz.jpg"}
                 alt="profile image"
               />
               <p className="dark:text-white">
@@ -57,7 +58,7 @@ const CreatorContainer = () => {
               </p>
               <p className="dark:text-gray-100 my-1">{user?.email}</p>
               <p className="dark:text-gray-100 my-1">
-                {user?.mNumber || "Please update your profile"}
+                {user?.phoneNumber || "Please update your profile"}
               </p>
               <p className="dark:text-gray-100 my-4">
                 {user?.location || "Please update your profile"}
@@ -75,7 +76,7 @@ const CreatorContainer = () => {
 
             <div className="flex not-lg:flex-col items-center w-full flex-wrap i  ">
               {createdCourses.map((course) => {
-                return <CourseCard key={course._id} data={course} />;
+                return <CourseCardCreator key={course._id} data={course} />;
               })}
             </div>
           </div>
