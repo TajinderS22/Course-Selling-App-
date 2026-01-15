@@ -44,15 +44,20 @@ jobs:
                     [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
             
                     cd /home/ubuntu/Course-Selling-App- || exit 1
+
+                    git stash 
             
                     git pull origin main
             
                     
                     npm install
-            
+                    npm audit fix
+                    npm i 
                     
                     cd client/Tutty
                     npm install
+                    npm audit fix
+                    npm i
                     npm run build
             
 
