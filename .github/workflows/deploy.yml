@@ -38,18 +38,24 @@ jobs:
               run: |
                   echo "$KEY" > key.pem
                   chmod 600 key.pem
-
-
+            
                   ssh -i key.pem -o StrictHostKeyChecking=no $USER@$HOST '
                     export NVM_DIR="$HOME/.nvm"
-                    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-                    cd /home/ubuntu/${{github.repository}}/
-                    git pull
-                    npm i
+                    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+            
+                    cd /home/ubuntu/Course-Selling-App- || exit 1
+            
+                    git pull origin main
+            
+                    
+                    npm install
+            
+                    
                     cd client/Tutty
-                    npm i
-                    npm run build 
-                    cd ../../
-                    pm2 reload all
-                    cd
+                    npm install
+                    npm run build
+            
+
+                    pm2 reload all --update-env
                   '
+            
