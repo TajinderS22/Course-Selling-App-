@@ -283,7 +283,7 @@ const handleSidebarCompClick = async (text, navigate, user, creator) => {
   } else if (text.toLowerCase() == "home" && creator) {
     navigate("/creator/dashboard");
   } else if (text.toLowerCase() == "home" && user) {
-    navigate("/creator/dashboard");
+    navigate("/dashboard");
   } else if (text.toLowerCase() =="purchases" && user){
     navigate(`/user/purchases`)
   }
