@@ -3,6 +3,7 @@ import React from 'react'
 import { useEffect } from 'react';
 import { SERVER_ADDRESS } from '../../Secrets/Secrets';
 import useActiveSession from '../../hooks/useActiveSession';
+import { useNavigate } from 'react-router';
 // import { setUserCourses } from '../../store/slices/userCourses';
 // import { useDispatch } from 'react-redux';
 
@@ -11,6 +12,7 @@ const PayButton = ({courseId,setPayPopup}) => {
     // const dispatch=useDispatch()
 
     const {jwt}=useActiveSession()
+    const navigate= useNavigate()
 
     useEffect(() => {
       const script = document.createElement("script");
@@ -49,6 +51,7 @@ const PayButton = ({courseId,setPayPopup}) => {
             if (res.data.success) {
                 setPayPopup(false);
               alert("payment success");
+              navigate("/dashboard")
               
             } else alert("payment failed");
           },
