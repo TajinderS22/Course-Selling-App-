@@ -23,6 +23,7 @@ const Learn = () => {
   const [url, setUrl] = useState(null);
   const [isMediaLoaded, setIsMediaLoaded] = useState(false);
   const [currentContent, setCurrentContent] = useState(null);
+  const [gotCoursesResFromServer,setGotCoursesResFromServer]= useState(false)
 
 
 
@@ -32,6 +33,7 @@ const Learn = () => {
         SERVER_ADDRESS + "/course/info/" + courseId
       );
       setInfo(response.data.info);
+      setGotCoursesResFromServer(true)
     } catch (error) {
       console.error(error);
     }
@@ -88,6 +90,7 @@ const Learn = () => {
   useEffect(() => {
     if (info) {
       setChapters(info?.chapters);
+      
       setSelectedChapter(info?.chapters[0]);
     }
   }, [info]);
@@ -106,11 +109,19 @@ const Learn = () => {
 
 
   if(!chapters){
-    return(
-      <div className="flex min-h-[800px] items-center w-10/12 mx-auto ">
-        <p>Stay Tuned Content coming soon</p>
+    return (
+      <div>
+        {!gotCoursesResFromServer ? (
+          <div className="w-full mx-auto h-svh">
+            <Loading/>
+          </div>
+        ) : (
+          <div className="flex min-h-[800px] items-center w-10/12 mx-auto ">
+            <p>Stay Tuned Content coming soon</p>
+          </div>
+        )}
       </div>
-    )
+    );
   }
 
   return (

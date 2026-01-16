@@ -85,13 +85,15 @@ const Navbar = ({ BgColor }) => {
             <li className="p-2">About us</li>
           </Link>
 
-          <Link
-            to={`${
-              user ? (isCreator ? "/creator/dashboard" : "/dashboard") : "/home"
-            }`}
-          >
-            <li className="p-2">{user ? "Dashboard" : null}</li>
-          </Link>
+          {user && (
+            <Link
+              to={`${
+                user && (isCreator ? "/creator/dashboard" : "/dashboard")
+              }`}
+            >
+              <li className="p-2">{user && "Dashboard" }</li>
+            </Link>
+          )}
 
           {isCreator ? (
             <Link to={"/creator/create-course"}>
