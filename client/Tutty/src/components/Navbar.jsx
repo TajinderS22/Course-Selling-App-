@@ -90,7 +90,7 @@ const Navbar = ({ BgColor }) => {
               user ? (isCreator ? "/creator/dashboard" : "/dashboard") : "/home"
             }`}
           >
-            <li className="p-2">{user ? "Dashboard" : "Pricing"}</li>
+            <li className="p-2">{user ? "Dashboard" : null}</li>
           </Link>
 
           {isCreator ? (
