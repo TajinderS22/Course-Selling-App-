@@ -15,6 +15,7 @@ const port =process.env.SERVER_PORT||3000;
 app.use(cors({
   origin: [
     "https://tutty.tajinder.xyz",
+    "https://tutty.tajinder.in",
     "http://localhost:5173"
   ],
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
