@@ -1,166 +1,107 @@
-import React, {  } from "react";
+import React from "react";
 import CourseCard from "../../components/CourseCard";
-import Sidebar from "../Sidebar";
-import { SERVER_ADDRESS } from "../../Secrets/Secrets";
 import { Link } from "react-router";
 import { useSelector } from "react-redux";
 import useActiveSession from "../../hooks/useActiveSession";
 import Loading from "../../components/Loading";
+import { BookOpen, ShoppingBag } from "lucide-react";
 
 const MainContent = () => {
-  const purchasedCourses = useSelector(state=>state.userCourses);
+  const purchasedCourses = useSelector((state) => state.userCourses);
 
-  const {loading}=useActiveSession()
-
-  // const {open}=useContext(AppContext)
-
-  // useEffect(() => {
-  //   const getPurchasedCourses = async () => {
-  //     try {
-  //       const response = await axios.get(SERVER_ADDRESS + "/user/courses", {
-  //         headers: {
-  //           authorization: jwt,
-  //         },
-  //       });
-  //       if (response?.data?.coursesData.length != 0) {
-  //         setPurchasedCourses(response?.data?.coursesData);
-  //       } else {
-  //         setPurchasedCourses(false);
-  //       }
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-  //   getPurchasedCourses();
-  // }, []);
+  const { loading } = useActiveSession();
 
   const user = useSelector((state) => state.user);
 
-  if(loading){
-    return(
+  if (loading) {
+    return (
       <div className="min-h-[90svh]">
-        <Loading/>
+        <Loading />
       </div>
-    )
+    );
   }
 
-  if (purchasedCourses) {
-    return (
-      <div className=' w-full max-w-[1920px] bg-[url("https://images.unsplash.com/photo-1491466424936-e304919aada7?q=80&w=1469&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")] bg-cover bg-center h-96 '>
-        <div className="dark:bg-slate-800  bg-slate-100  relative w-full min-h-[400px] h-fit  top-[200px] z-20  px-4 md:px-12 flex not-lg:flex-col not-lg:items-center">
-          <div
-            className={`block md:hidden top-0   ${
-              open && "w-[30px] "
-            } h-fit backdrop-blur-2xl bg-amber-200 rounded-2xl  pr-96  z-30`}
-          >
-            <Sidebar />
-          </div>
-          <div
-            className={`dark:bg-slate-600 bg-slate-300 shadow-lg  h-fit min-w-[200px] col-span-3 rounded-xl max-w-[250px] -translate-y-16  `}
-          >
-            <div className="flex flex-col  justify-around items-center p-4">
-              <img
-                className="w-28 mt-8 rounded-2xl my-2 font-bold text-4xl"
-                src={user.profileImageUrl ||
-                  "https://res.cloudinary.com/dcpz5001o/image/upload/v1720769605/christopher-burns-Kj2SaNHG-hg-unsplash_d3pouz.jpg"
-                }
-                alt="profile image"
-              />
-              <p className="dark:text-white">
-                {user.firstname + " " + user.lastname}
-              </p>
-              <p className="dark:text-gray-100 my-1">{user.email}</p>
-              <p className="dark:text-gray-100 my-1">
-                {user.phoneNumber || "Please update your profile"}
-              </p>
-              <p className="dark:text-gray-100 my-4">
-                {user.location || "Please update your profile"}
-              </p>
-            </div>
-          </div>
+  return (
+    <div className="min-h-svh w-full bg-app pb-6 text-ink">
+      {/* Hero band */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-primary-soft via-surface to-secondary-soft px-4 pb-8 pt-20 md:px-12">
+        <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-md bg-primary/10 blur-3xl" />
+        <div className="mx-auto max-w-6xl">
+          <p className="text-sm font-medium uppercase tracking-wider text-ink-soft">
+            My dashboard
+          </p>
+          <p className="font-display mt-1 text-3xl font-bold md:text-4xl">
+            Good morning, {user.firstname + " " + user.lastname}
+          </p>
+        </div>
+      </div>
 
-          <div className="col-span-9 lg:mt-14 no-lg:-translate-y-48 flex-1 md:ml-12 text-black dark:text-white">
-            <div className="pb-8">
-              <p className="text-2xl">Date and time </p>
-              <p className="text-4xl font-semibold">
-                Good morning, {user.firstname + " " + user.lastname}
-              </p>
+      <div className="mx-auto max-w-6xl px-4 md:px-12">
+        {/* Profile card */}
+        <div className="card flex mt-6 flex-col items-center gap-5 p-6 md:flex-row md:gap-8">
+          <img
+            className="h-24 w-24 shrink-0 rounded-md border border-border object-cover"
+            src={
+              user.profileImageUrl ||
+              "https://res.cloudinary.com/dcpz5001o/image/upload/v1720769605/christopher-burns-Kj2SaNHG-hg-unsplash_d3pouz.jpg"
+            }
+            alt="profile"
+          />
+          <div className="flex min-w-0 flex-col items-center text-center md:items-start md:text-left">
+            <p className="font-display text-xl font-bold">
+              {user.firstname + " " + user.lastname}
+            </p>
+            <p className="text-sm text-ink-soft">{user.email}</p>
+            <div className="mt-3 flex flex-col gap-1.5 text-sm md:flex-row md:gap-6">
+              <span className="pill">
+                📞 {user.phoneNumber || "No phone yet"}
+              </span>
+              <span className="pill">
+                📍 {user.location || "No location yet"}
+              </span>
             </div>
-            <div className="flex not-lg:flex-col items-center w-full flex-wrap i  ">
+          </div>
+        </div>
+
+        {/* Courses */}
+        <div className="mt-8 pb-10">
+          <p className="font-display flex items-center gap-2 text-2xl font-bold">
+            <BookOpen className="h-5 w-5 text-primary" />
+            My courses
+          </p>
+          {purchasedCourses && purchasedCourses.length > 0 ? (
+            <div className="mt-4 grid justify-center gap-2 md:grid-cols-2 xl:grid-cols-3">
               {purchasedCourses.map((course) => {
                 return <CourseCard key={course._id} data={course} />;
               })}
             </div>
-          </div>
-        </div>
-        {/* <div className='  absolute  -top-[200px] max-w-[1920px]  bg-black z-0'>
-            <img className='max-w-[1920px] w-full' src="https://images.unsplash.com/photo-1491466424936-e304919aada7?q=80&w=1469&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="background image" />
-        </div> */}
-      </div>
-    );
-  } else {
-    return (
-      <div className=' w-full max-w-[1920px] bg-[url("https://images.unsplash.com/photo-1491466424936-e304919aada7?q=80&w=1469&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")] bg-cover bg-center h-96 '>
-        <div className="dark:bg-slate-800  bg-slate-100  relative w-full min-h-[400px] h-fit  top-[200px] z-20  px-4 md:px-12 flex not-lg:flex-col not-lg:items-center">
-          <div
-            className={`block md:hidden top-0   ${
-              open && "w-[30px] "
-            } h-fit backdrop-blur-2xl bg-amber-200 rounded-2xl  pr-96  z-30`}
-          >
-            <Sidebar />
-          </div>
-          <div
-            className={`dark:bg-slate-600 bg-slate-300 shadow-lg  h-fit min-w-[200px] col-span-3 rounded-xl max-w-[250px] -translate-y-16  `}
-          >
-            <div className="flex flex-col  justify-around items-center p-4">
-              <img
-                className="w-28 mt-8 rounded-2xl my-2 font-bold text-4xl"
-                src="https://res.cloudinary.com/dcpz5001o/image/upload/v1720769605/christopher-burns-Kj2SaNHG-hg-unsplash_d3pouz.jpg"
-                alt="profile image"
-              />
-              <p className="dark:text-white">
-                {user.firstname + " " + user.lastname}
+          ) : (
+            <div className="card mt-4 flex flex-col items-center gap-3 p-10 text-center">
+              <ShoppingBag className="h-10 w-10 text-ink-soft" />
+              <p className="text-lg text-ink-soft">
+                You haven't bought any courses yet.
               </p>
-              <p className="dark:text-gray-100 my-1">{user.email}</p>
-              <p className="dark:text-gray-100 my-1">
-                {user.mNumber || "Please update your profile"}
-              </p>
-              <p className="dark:text-gray-100 my-4">
-                {user.location || "Please update your profile"}
-              </p>
+              <Link to="/buyCourse">
+                <button className="btn btn-primary">
+                  Click here to buy courses of your choice
+                </button>
+              </Link>
             </div>
-          </div>
-
-          <div className="col-span-9 lg:mt-14 no-lg:-translate-y-48 flex-1 md:ml-12 text-black dark:text-white">
-            <div className="pb-8">
-              <p className="text-2xl">Date and time </p>
-              <p className="text-4xl font-semibold">
-                Good morning, {user.firstname + " " + user.lastname}
-              </p>
-            </div>
-            <Link to={"/buyCourse"}>
-              <div className="flex not-lg:flex-col items-center w-full flex-wrap i  ">
-                Click Here to Buy courses of your Choice
-              </div>
-            </Link>
-          </div>
+          )}
         </div>
-        {/* <div className='  absolute  -top-[200px] max-w-[1920px]  bg-black z-0'>
-            <img className='max-w-[1920px] w-full' src="https://images.unsplash.com/photo-1491466424936-e304919aada7?q=80&w=1469&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="background image" />
-        </div> */}
       </div>
-    );
-  }
+    </div>
+  );
 };
 
 const WorkComp = ({ time, task, status }) => {
   return (
-    <div className="flex border-b-2 p-2  ">
-      <div className="flex flex-col px-2 items-start w-fit border-r-2 min-w-[100px] text-xs  dark:border-zinc-300 border-zinc-800">
-        <div className="text-base  font-semibold">{time}</div>
+    <div className="flex border-b-2 p-2">
+      <div className="flex w-fit min-w-[100px] flex-col items-start border-r-2 border-border px-2 text-xs">
+        <div className="text-base font-semibold">{time}</div>
         <p>{time}</p>
       </div>
-      <div className="w-full mx-2">
+      <div className="mx-2 w-full">
         <div className="text-xs">{status}</div>
         <div className="text-lg font-bold">{task}</div>
       </div>
@@ -170,8 +111,8 @@ const WorkComp = ({ time, task, status }) => {
 
 const DateBar = ({ Date }) => {
   return (
-    <div className="bg-slate-600   sticky -top-20  mt-2 p-4">
-      <div className="flex justify-between  p-6 dark:bg-slate-500 bg-slate-400/70 rounded-lg py-2">
+    <div className="card sticky -top-20 mt-2 p-4">
+      <div className="flex justify-between rounded-md bg-app p-6 py-2">
         <div>
           <svg
             xmlns="http://www.w3.org/2000/svg"

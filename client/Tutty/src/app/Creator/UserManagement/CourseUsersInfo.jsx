@@ -42,29 +42,30 @@ const CourseUsersInfo = () => {
     },[])
 
 return (
-    <div className='min-h-[90svh] dark:bg-slate-800 dark:text-white '>
-        <Navbar/>
-        <div className='flex h-svh overflow-scroll '>
-            <Sidebar/>
-            <div className='not-dark:bg-white/50 h-full overflow-scroll  flex-1'>    
-                <p className='p-2 m-2 text-lg font-medium '>
-                    Users of the course
-                </p>
+  <div className="min-h-[100svh] bg-app text-ink">
+    <Navbar />
+    <div className="flex min-h-svh">
+      <Sidebar />
+      <div className="h-full flex-1 overflow-y-auto pb-10 pt-20">
+        <p className="font-display m-2 p-2 text-lg font-semibold">
+          Users of the course
+        </p>
 
-                {users &&(
-                    <div className='w-9/12 m-4'>
-                        {users.map((user)=>{
-                            return(
-                                <UserCard user={user}/>
-                            )
-                        })}
-                    </div>
-                )}
-
-            </div>
-        </div>
+        {users && users.length > 0 ? (
+          <div className="m-2 w-full max-w-2xl md:m-4">
+            {users.map((user) => {
+              return <UserCard key={user._id} user={user} />;
+            })}
+          </div>
+        ) : (
+          <div className="card m-4 w-fit p-6 text-ink-soft">
+            No users have purchased this course yet.
+          </div>
+        )}
+      </div>
     </div>
-  )
+  </div>
+);
 }
 
 export default CourseUsersInfo

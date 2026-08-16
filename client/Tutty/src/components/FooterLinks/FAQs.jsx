@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Navbar from "../Navbar";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 const faqs = [
   {
@@ -33,20 +34,22 @@ const FaqItem = ({ faq }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="border-b border-gray-200 dark:border-slate-700 py-4">
+    <div className="border-b border-border py-4">
       <button
-        className="w-full flex justify-between items-center text-left"
+        className="flex w-full items-center justify-between text-left"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <span className="text-lg font-medium text-gray-900 dark:text-white">
-          {faq.question}
-        </span>
-        <span className="text-xl text-gray-500 dark:text-gray-400">
-          {isOpen ? "-" : "+"}
+        <span className="font-medium">{faq.question}</span>
+        <span className="text-ink-soft">
+          {isOpen ? (
+            <ChevronUp className="h-5 w-5" />
+          ) : (
+            <ChevronDown className="h-5 w-5" />
+          )}
         </span>
       </button>
       {isOpen && (
-        <div className="mt-4 text-gray-600 dark:text-gray-300">
+        <div className="mt-4 text-ink-soft">
           <p>{faq.answer}</p>
         </div>
       )}
@@ -56,14 +59,14 @@ const FaqItem = ({ faq }) => {
 
 const FAQs = () => {
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-slate-900">
+    <div className="min-h-svh bg-app text-ink">
       <Navbar />
-      <div className="p-8">
-        <div className="max-w-4xl mx-auto bg-white dark:bg-slate-800 p-10 rounded-lg shadow-lg mt-16">
-          <h1 className="text-4xl font-bold text-gray-800 dark:text-white mb-6 text-center">
+      <div className="p-6">
+        <div className="card mx-auto mt-24 max-w-4xl p-8 md:p-10">
+          <h1 className="font-display mb-6 text-center text-3xl font-bold md:text-4xl">
             Frequently Asked Questions
           </h1>
-          <div className="space-y-4">
+          <div className="space-y-1">
             {faqs.map((faq, index) => (
               <FaqItem key={index} faq={faq} />
             ))}

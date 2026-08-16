@@ -6,13 +6,15 @@ import { Link, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { clearCreator } from "../store/slices/creatorSlice";
 import { clearUser } from "../store/slices/userSlice";
+import { Menu, Moon, Sun, X } from "lucide-react";
 
 const Navbar = ({ BgColor }) => {
   const { onSignup, setOnSignup, setAuthenticationMessage } =
     useContext(AppContext);
   const [isExtended, setIsExtended] = useState(false);
   const [isDark, setisDark] = useState(
-    document.querySelector("html").classList[0] == "dark"
+    typeof document !== "undefined" &&
+      document.querySelector("html")?.classList?.contains("dark")
   );
   const { isCreator, setIsCreator } = useContext(AppContext);
 
@@ -30,129 +32,96 @@ const Navbar = ({ BgColor }) => {
       setUser(normalUser);
     }
   }, [isCreator, creatorUser, normalUser]);
+
+  const toggleDark = () => {
+    document.querySelector("html").classList.toggle("dark");
+    setisDark(!isDark);
+  };
+
+  const handleLogout = () => {
+    setOnSignup(true);
+    setAuthenticationMessage(null);
+    setUser(null);
+    if (isCreator) {
+      dispatch(clearCreator());
+      localStorage.removeItem("jwtCreator");
+      navigate("/creator/authentication");
+    } else {
+      dispatch(clearUser());
+      localStorage.removeItem("jwt");
+      navigate("/authentication");
+    }
+  };
+
   return (
-    <div className="h-16 rounded-lg mx-auto">
+    <div className="fixed top-0 z-50 w-full glass">
       <div
-        className={`w-full max-w-[1920px] rounded-lg absolute z-30 mb-96 top-0 dark:bg-slate-700 dark:text-white ${
-          BgColor ? BgColor : "bg-[#ADEED9]/80"
-        } flex justify-between p-2 px-4
-    ${isExtended && "items-center justify-around flex-col h-[600px]"}
-    `}
+        className={`mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:px-6 ${
+          BgColor ? BgColor : ""
+        }`}
       >
-        <div className="flex justify-between md:w-[10%] w-full">
-          <div className="w-full">
-            <img
-              className="w-14"
-              src="https://res.cloudinary.com/dcpz5001o/image/upload/v1750935602/Tuty_pffuhw.png"
-              alt="Tuty Logo "
-            />
-          </div>
+        {/* Logo */}
+        <Link to="/" className="flex items-center gap-2">
+          <img
+            className="h-10 w-10 rounded-md object-contain"
+            src="https://res.cloudinary.com/dcpz5001o/image/upload/v1750935602/Tuty_pffuhw.png"
+            alt="Tuty Logo"
+          />
+          <span className="font-display text-xl font-bold tracking-tight">
+            Tuty
+          </span>
+        </Link>
 
-          <div
-            className={`md:hidden m-3   `}
-            onClick={() => {
-              setIsExtended(!isExtended);
-            }}
+        {/* Desktop nav */}
+        <div className="hidden items-center gap-1 md:flex">
+          <Link
+            to="/"
+            className="rounded-md px-3 py-2 text-sm font-medium text-ink-soft transition hover:bg-surface-2 hover:text-ink"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className={`size-6 `}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-              />
-            </svg>
-          </div>
-        </div>
-
-        <div
-          className={`list-none md:flex justify-between items-center min-w-[400px] mx-2 ${
-            isExtended
-              ? "flex flex-col justify-between flex-1 mt-14 font-bold items-end pr-8 pb-14 "
-              : "hidden"
-          } `}
-        >
-          <Link to={"/"}>
-            <li className="p-2">Home</li>
+            Home
           </Link>
-          <Link to={"/Aboutus"}>
-            <li className="p-2">About us</li>
+          <Link
+            to="/Aboutus"
+            className="rounded-md px-3 py-2 text-sm font-medium text-ink-soft transition hover:bg-surface-2 hover:text-ink"
+          >
+            About us
           </Link>
-
           {user && (
             <Link
-              to={`${
-                user && (isCreator ? "/creator/dashboard" : "/dashboard")
-              }`}
+              to={isCreator ? "/creator/dashboard" : "/dashboard"}
+              className="rounded-md px-3 py-2 text-sm font-medium text-ink-soft transition hover:bg-surface-2 hover:text-ink"
             >
-              <li className="p-2">{user && "Dashboard" }</li>
+              Dashboard
             </Link>
           )}
-
-          {isCreator ? (
-            <Link to={"/creator/create-course"}>
-              <li className="p-2">Create</li>
-            </Link>
-          ) : (
-            <Link to={"/buyCourse"}>
-              <li className="p-2">Courses</li>
-            </Link>
-          )}
-
-          <div
-            onClick={() => {
-              document.querySelector("html").classList.toggle("dark");
-              setisDark(!isDark);
-            }}
-            className=" flex justify-between p-2 w-20 "
+          <Link
+            to={isCreator ? "/creator/create-course" : "/buyCourse"}
+            className="rounded-md px-3 py-2 text-sm font-medium text-ink-soft transition hover:bg-surface-2 hover:text-ink"
           >
-            <div className=" dark:bg-slate-500 bg-amber-300/40 w-14 h-7 rounded-2xl border-1 hover:w-16 hover:h-8 hover:p-1 hover:-translate-x-1 border-cyan-700   ">
-              {isDark ? (
-                <div className="dark:pl-7 flex items-center h-full p-1 transform ease-in-out duration-300">
-                  <LightSvg />
-                </div>
-              ) : (
-                <div className=" flex items-center h-full p-1 transform ease-in-out duration-300">
-                  <DarkSvg />
-                </div>
-              )}
-            </div>
-          </div>
+            {isCreator ? "Create" : "Courses"}
+          </Link>
+        </div>
+
+        {/* Right actions */}
+        <div className="hidden items-center gap-2 md:flex">
+          <button
+            onClick={toggleDark}
+            aria-label="Toggle dark mode"
+            className="flex h-9 w-9 items-center justify-center rounded-md border border-border bg-surface text-ink-soft transition hover:text-ink"
+          >
+            {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+          </button>
 
           {user ? (
-            <button
-              className="bg-[#0ABAB5] p-2 rounded-md"
-              onClick={() => {
-                setOnSignup(true);
-                setAuthenticationMessage(null);
-                setUser(null);
-                if (isCreator) {
-                  dispatch(clearCreator());
-                  localStorage.removeItem("jwtCreator");
-                  navigate("/creator/authentication");
-                } else {
-                  dispatch(clearUser());
-                  localStorage.removeItem("jwt");
-                  navigate("/authentication");
-                }
-              }}
-            >
+            <button className="btn btn-ghost" onClick={handleLogout}>
               Logout
             </button>
           ) : (
             <Link
-              to={`${
-                isCreator ? "/creator/authentication" : "/authentication"
-              }`}
+              to={isCreator ? "/creator/authentication" : "/authentication"}
             >
               <button
-                className="bg-[#0ABAB5] p-2 rounded-md"
+                className="btn btn-primary"
                 onClick={() => {
                   setOnSignup(!onSignup);
                   setAuthenticationMessage(null);
@@ -163,43 +132,91 @@ const Navbar = ({ BgColor }) => {
             </Link>
           )}
         </div>
-      </div>
-    </div>
-  );
-};
 
-const LightSvg = () => {
-  return (
-    <div>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        strokeWidth={1.5}
-        stroke="currentColor"
-        className="size-6 hover:rotate-90 transform ease-in-out duration-200 "
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
-        />
-      </svg>
-    </div>
-  );
-};
-const DarkSvg = () => {
-  return (
-    <div>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        className="w-6 hover:rotate-10 transform ease-in-out duration-300"
-      >
-        <path d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
-      </svg>
+        {/* Mobile toggles */}
+        <div className="flex items-center gap-2 md:hidden">
+          <button
+            onClick={toggleDark}
+            aria-label="Toggle dark mode"
+            className="flex h-9 w-9 items-center justify-center rounded-md border border-border bg-surface text-ink-soft"
+          >
+            {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+          </button>
+          <button
+            onClick={() => setIsExtended(!isExtended)}
+            aria-label="Toggle menu"
+            className="flex h-9 w-9 items-center justify-center rounded-md border border-border bg-surface text-ink"
+          >
+            {isExtended ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile menu */}
+      {isExtended && (
+        <div className="border-t border-border bg-surface px-6 py-4 md:hidden">
+          <div className="flex flex-col gap-1">
+            <Link
+              to="/"
+              onClick={() => setIsExtended(false)}
+              className="rounded-md px-3 py-2.5 font-medium text-ink-soft hover:bg-surface-2 hover:text-ink"
+            >
+              Home
+            </Link>
+            <Link
+              to="/Aboutus"
+              onClick={() => setIsExtended(false)}
+              className="rounded-md px-3 py-2.5 font-medium text-ink-soft hover:bg-surface-2 hover:text-ink"
+            >
+              About us
+            </Link>
+            {user && (
+              <Link
+                to={isCreator ? "/creator/dashboard" : "/dashboard"}
+                onClick={() => setIsExtended(false)}
+                className="rounded-md px-3 py-2.5 font-medium text-ink-soft hover:bg-surface-2 hover:text-ink"
+              >
+                Dashboard
+              </Link>
+            )}
+            <Link
+              to={isCreator ? "/creator/create-course" : "/buyCourse"}
+              onClick={() => setIsExtended(false)}
+              className="rounded-md px-3 py-2.5 font-medium text-ink-soft hover:bg-surface-2 hover:text-ink"
+            >
+              {isCreator ? "Create" : "Courses"}
+            </Link>
+            <div className="mt-2">
+              {user ? (
+                <button
+                  className="btn btn-ghost w-full"
+                  onClick={() => {
+                    setIsExtended(false);
+                    handleLogout();
+                  }}
+                >
+                  Logout
+                </button>
+              ) : (
+                <Link
+                  to={isCreator ? "/creator/authentication" : "/authentication"}
+                >
+                  <button
+                    className="btn btn-primary w-full"
+                    onClick={() => {
+                      setIsExtended(false);
+                      setOnSignup(!onSignup);
+                      setAuthenticationMessage(null);
+                    }}
+                  >
+                    {onSignup ? "Login" : "Sign Up"}
+                  </button>
+                </Link>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

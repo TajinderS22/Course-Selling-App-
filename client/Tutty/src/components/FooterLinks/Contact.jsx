@@ -3,26 +3,26 @@ import Navbar from "../Navbar";
 
 const Contact = () => {
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-slate-900">
+    <div className="min-h-svh bg-app text-ink">
       <Navbar />
-      <div className="flex items-center justify-center p-8">
-        <div className="max-w-4xl w-full mx-auto bg-white dark:bg-slate-800 p-10 rounded-lg shadow-lg mt-16">
-          <h1 className="text-4xl font-bold text-gray-800 dark:text-white mb-6 text-center">
+      <div className="flex items-center justify-center p-6">
+        <div className="card mx-auto mt-24 w-full max-w-4xl p-8 md:p-10">
+          <h1 className="font-display mb-4 text-center text-3xl font-bold md:text-4xl">
             Contact Us
           </h1>
-          <p className="text-gray-700 dark:text-gray-300 text-center mb-8">
+          <p className="mb-8 text-center text-ink-soft">
             Have questions? We'd love to hear from you.
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             <div className="flex flex-col">
-              <h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-4">
+              <h2 className="font-display mb-4 text-xl font-semibold">
                 Get in Touch
               </h2>
               <form className="space-y-4">
                 <div>
                   <label
                     htmlFor="name"
-                    className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                    className="block text-sm font-medium"
                   >
                     Name
                   </label>
@@ -30,13 +30,13 @@ const Contact = () => {
                     type="text"
                     id="name"
                     name="name"
-                    className="mt-1 block w-full px-3 py-2 bg-white dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-md shadow-sm focus:outline-none focus:ring-[#0ABAB5] focus:border-[#0ABAB5] text-gray-900 dark:text-white"
+                    className="input-base mt-1"
                   />
                 </div>
                 <div>
                   <label
                     htmlFor="email"
-                    className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                    className="block text-sm font-medium"
                   >
                     Email
                   </label>
@@ -44,13 +44,13 @@ const Contact = () => {
                     type="email"
                     id="email"
                     name="email"
-                    className="mt-1 block w-full px-3 py-2 bg-white dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-md shadow-sm focus:outline-none focus:ring-[#0ABAB5] focus:border-[#0ABAB5] text-gray-900 dark:text-white"
+                    className="input-base mt-1"
                   />
                 </div>
                 <div>
                   <label
                     htmlFor="message"
-                    className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                    className="block text-sm font-medium"
                   >
                     Message
                   </label>
@@ -58,32 +58,31 @@ const Contact = () => {
                     id="message"
                     name="message"
                     rows="4"
-                    className="mt-1 block w-full px-3 py-2 bg-white dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-md shadow-sm focus:outline-none focus:ring-[#0ABAB5] focus:border-[#0ABAB5] text-gray-900 dark:text-white"
+                    className="input-base mt-1"
                   ></textarea>
                 </div>
-                <div className="text-center">
-                  <button
-                    type="submit"
-                    className="w-full py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#0ABAB5] hover:bg-[#09a29e] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0ABAB5]"
-                  >
+                <div>
+                  <button type="submit" className="btn btn-primary w-full">
                     Send Message
                   </button>
                 </div>
               </form>
             </div>
             <div className="flex flex-col">
-              <h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-4">
+              <h2 className="font-display mb-4 text-xl font-semibold">
                 Contact Information
               </h2>
-              <div className="text-gray-700 dark:text-gray-300 space-y-4">
+              <div className="space-y-4 text-ink-soft">
                 <p>
-                  <strong>Address:</strong> 123 Tutty Lane, Education City, 12345
+                  <strong className="text-ink">Address:</strong> 123 Tutty Lane,
+                  Education City, 12345
                 </p>
                 <p>
-                  <strong>Email:</strong> singhtajinder0547@gmail.com
+                  <strong className="text-ink">Email:</strong>{" "}
+                  singhtajinder0547@gmail.com
                 </p>
                 <p>
-                  <strong>Phone:</strong> (123) 456-7890
+                  <strong className="text-ink">Phone:</strong> (123) 456-7890
                 </p>
               </div>
             </div>

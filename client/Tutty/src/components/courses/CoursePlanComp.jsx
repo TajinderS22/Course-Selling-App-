@@ -4,22 +4,22 @@ import React, { useState } from "react";
 const CoursePlanComp = ({ props, editing, chapters, setChapters }) => {
   const { number, chapterName, chapterDescription, key } = props;
 
-
   const [expanded, setExpanded] = useState(false);
-
   const [editingNow, setEditingNow] = useState(false);
+
   if (editing) {
     return (
       <div
         key={key}
-        className={`w-11/12 mx-auto ${
-          expanded &&
-          "bg-stone-300/50 dark:bg-stone-700/50 py-2 ring-1 my-4 ring-stone-700 dark:ring-stone-300/50"
-        }  m-1  rounded-md p-1 `}
+        className={`mx-auto my-1 w-11/12 rounded-md p-1 ${
+          expanded && "border border-border bg-app py-2"
+        }`}
       >
-        <div className="flex items-center-safe w-[calc(100%-10px)] mx-auto bg-slate-300/50 dark:bg-slate-700 ring ring-stone-400  p-2 rounded-lg justify-between px-4  ">
-          <div className="flex items-center">
-            <div className="text-2xl font-bold mr-4">{number}</div>
+        <div className="mx-auto flex w-[calc(100%-10px)] items-center justify-between rounded-md border border-border bg-app px-4 py-2.5">
+          <div className="flex items-center gap-4">
+            <div className="font-display text-xl font-bold text-primary">
+              {number}
+            </div>
             <input
               value={chapters.find((x) => x.number == number).chapterName}
               onChange={(e) => {
@@ -34,52 +34,39 @@ const CoursePlanComp = ({ props, editing, chapters, setChapters }) => {
                 }
               }}
               placeholder="Chapter name"
-              className="font-sans p-1 rounde-md  border-0 focus:outline-0 font-semibold"
+              className="border-0 bg-transparent font-sans font-semibold focus:outline-0"
             />
           </div>
-          <div>
-            {expanded ? (
-              <div className="flex items-center gap-2">
-                <Pencil
-                  className={`${
-                    editingNow ? "bg-red-200 dark:bg-red-600/50  " : "bg-green-300 dark:bg-green-600/50"
-                  } p-2  rounded-lg w-8 h-8 `}
-                  onClick={() => {
-                    setEditingNow(!editingNow);
-                  }}
-                />
-                <ArrowUp
-                  onClick={() => {
-                    setExpanded(!expanded);
-                  }}
-                  className="bg-stone-300  ring ring-stone-400 dark:bg-stone-700 p-1 rounded-lg h-8 w-8 "
-                />
-              </div>
-            ) : (
-              <div className="flex items-center gap-2">
-                <Pencil
-                  className={`${
-                    editingNow ? "bg-red-200 dark:bg-red-600/50  " : "bg-green-300 dark:bg-green-600/50"
-                  } p-2  rounded-lg w-8 h-8 `}
-                  onClick={() => {
-                    setEditingNow(!editingNow);
-                  }}
-                />
-                <ArrowDown
-                  onClick={() => {
-                    setExpanded(!expanded);
-                  }}
-                  className="bg-stone-300 ring ring-stone-400 dark:bg-stone-700  p-1 rounded-lg h-8 w-8 "
-                />
-              </div>
-            )}
+          <div className="flex items-center gap-2">
+            <button
+              className={`flex h-8 w-8 items-center justify-center rounded-md transition ${
+                editingNow ? "bg-primary-soft text-primary" : "bg-secondary-soft text-secondary"
+              }`}
+              onClick={() => {
+                setEditingNow(!editingNow);
+              }}
+            >
+              <Pencil className="h-4 w-4" />
+            </button>
+            <button
+              onClick={() => {
+                setExpanded(!expanded);
+              }}
+              className="flex h-8 w-8 items-center justify-center rounded-md border border-border bg-surface text-ink"
+            >
+              {expanded ? (
+                <ArrowUp className="h-4 w-4" />
+              ) : (
+                <ArrowDown className="h-4 w-4" />
+              )}
+            </button>
           </div>
         </div>
 
-        {/* expanded description  */}
+        {/* expanded description */}
         {expanded && (
-          <div className="w-[calc(100%-10px)] mx-auto p-2 px-6 rounded-lg bg-slate-300/50 dark:bg-slate-700/90 ring ring-stone-400  flex gap-2  mt-1  ">
-            <p className="text-md font-bold w-fit   ">Description</p>
+          <div className="mx-auto mt-1 flex w-[calc(100%-10px)] gap-2 rounded-md border border-border bg-app px-6 py-3">
+            <p className="w-fit font-bold">Description</p>
             <input
               value={
                 chapters.find((x) => x.number === number).chapterDescription
@@ -96,7 +83,7 @@ const CoursePlanComp = ({ props, editing, chapters, setChapters }) => {
                 }
               }}
               placeholder="Chapter description"
-              className="w-11/12 mx-auto border-0 focus:outline-none 2 "
+              className="mx-auto w-11/12 border-0 focus:outline-none"
             />
           </div>
         )}
@@ -107,39 +94,41 @@ const CoursePlanComp = ({ props, editing, chapters, setChapters }) => {
   return (
     <div
       key={key}
-      className={`w-11/12 mx-auto ${
-        expanded &&
-        "bg-stone-300/50 dark:bg-stone-700/50 py-2 ring-1 my-4 ring-stone-700 dark:ring-stone-300/50"
-      }  m-1  rounded-md p-1 `}
+      className={`mx-auto my-1 w-11/12 rounded-md p-1 ${
+        expanded && "border border-border bg-app py-2"
+      }`}
     >
       <div
         onClick={() => {
           setExpanded(!expanded);
         }}
-        className="flex items-center-safe w-[calc(100%-10px)] mx-auto bg-slate-300/50 dark:bg-slate-700 ring ring-stone-400  p-2 rounded-lg justify-between px-4  "
+        className="mx-auto flex w-[calc(100%-10px)] cursor-pointer items-center justify-between rounded-md border border-border bg-app px-4 py-2.5 transition hover:bg-surface"
       >
-        <div className="flex items-center  gap-6">
-          <p className="font-bold text-xl">{number}</p>
-          <p className="font-serif font-semibold">{chapterName}</p>
+        <div className="flex items-center gap-5">
+          <p className="font-display text-xl font-bold text-primary">
+            {number}
+          </p>
+          <p className="font-semibold">{chapterName}</p>
         </div>
-        <div
+        <button
           onClick={() => {
             setExpanded(!expanded);
           }}
+          className="flex h-8 w-8 items-center justify-center rounded-md border border-border bg-surface text-ink"
         >
           {expanded ? (
-            <ArrowUp className="bg-stone-300  ring ring-stone-400 dark:bg-stone-700 p-1 rounded-lg h-8 w-8 " />
+            <ArrowUp className="h-4 w-4" />
           ) : (
-            <ArrowDown className="bg-stone-300 ring ring-stone-400 dark:bg-stone-700  p-1 rounded-lg h-8 w-8 " />
+            <ArrowDown className="h-4 w-4" />
           )}
-        </div>
+        </button>
       </div>
 
-      {/* expanded description  */}
+      {/* expanded description */}
       {expanded && (
-        <div className="w-[calc(100%-10px)] mx-auto p-2 px-6 rounded-lg bg-slate-300/50 dark:bg-slate-800/60 ring ring-stone-400  flex gap-2  mt-1  ">
-          <p className="text-md font-bold w-fit  ">Description </p>
-          <div className=" w-11/12 mx-auto">{chapterDescription}</div>
+        <div className="mx-auto mt-1 flex w-[calc(100%-10px)] gap-2 rounded-md border border-border bg-app px-6 py-3">
+          <p className="w-fit font-bold">Description</p>
+          <div className="mx-auto w-11/12 text-ink-soft">{chapterDescription}</div>
         </div>
       )}
     </div>

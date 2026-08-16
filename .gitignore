@@ -25,7 +25,8 @@ dist-ssr
 *.sln
 *.sw?
 
-
+.commandcode/
+docs/
 
 rzp-key.csv
 

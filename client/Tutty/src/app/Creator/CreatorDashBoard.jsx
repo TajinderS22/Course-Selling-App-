@@ -51,13 +51,11 @@ const Dashboard = () => {
   }, [user]);
 
   return (
-    <div className="h-fit min-h-[90svh]">
-      <Navbar></Navbar>
-      <div className="flex h-fit min-h-[95svh]">
-        <div className="not-md:hidden ">
-          <Sidebar></Sidebar>
-        </div>
-        <div className="overflow-y-scroll h-full w-full">
+    <div className="h-fit min-h-[100svh] bg-app text-ink">
+      <Navbar />
+      <div className="flex min-h-[95svh]">
+        <Sidebar />
+        <div className="h-full w-full overflow-y-auto">
           <CreatorContainer />
         </div>
       </div>

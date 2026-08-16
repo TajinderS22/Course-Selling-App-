@@ -2,37 +2,48 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#d0f2e6] text-gray-800 dark:bg-slate-800/90 dark:text-white">
-      <div className="max-w-7xl mx-auto px-6 py-10 grid md:grid-cols-4 grid-cols-2 gap-8">
+    <footer className="bg-footer-bg text-footer-ink">
+      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-8 px-6 py-14 md:grid-cols-4">
         {/* Logo + Tagline */}
         <div className="col-span-2 md:col-span-1">
-          <h1 className="text-xl font-bold">TUTTY</h1>
-          <p className="text-sm mt-2">
+          <div className="flex items-center gap-2">
+            <img
+              className="h-8 w-8 rounded-md object-contain"
+              src="https://res.cloudinary.com/dcpz5001o/image/upload/v1750935602/Tuty_pffuhw.png"
+              alt="Tuty Logo"
+            />
+            <span className="font-display text-xl font-bold text-white">
+              TUTTY
+            </span>
+          </div>
+          <p className="mt-3 text-sm leading-relaxed opacity-70">
             Empowering learners with expert-led courses for a brighter future.
           </p>
         </div>
 
         {/* Navigation */}
         <div>
-          <h2 className="text-lg font-semibold mb-3">Explore</h2>
-          <ul className="space-y-2 text-sm">
+          <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-white">
+            Explore
+          </h2>
+          <ul className="space-y-2.5 text-sm">
             <li>
-              <a href="/" className="hover:underline">
+              <a href="/" className="opacity-70 transition hover:text-white hover:opacity-100">
                 Home
               </a>
             </li>
             <li>
-              <a href="/courses" className="hover:underline">
+              <a href="/courses" className="opacity-70 transition hover:text-white hover:opacity-100">
                 Courses
               </a>
             </li>
             <li>
-              <a href="/creator/authentication" className="hover:underline">
+              <a href="/creator/authentication" className="opacity-70 transition hover:text-white hover:opacity-100">
                 Educators
               </a>
             </li>
             <li>
-              <a href="/Aboutus" className="hover:underline">
+              <a href="/Aboutus" className="opacity-70 transition hover:text-white hover:opacity-100">
                 About Us
               </a>
             </li>
@@ -41,47 +52,50 @@ const Footer = () => {
 
         {/* Support */}
         <div>
-          <h2 className="text-lg font-semibold mb-3">Support</h2>
-          <ul className="space-y-2 text-sm">
+          <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-white">
+            Support
+          </h2>
+          <ul className="space-y-2.5 text-sm">
             <li>
-              <a href="/faqs" className="hover:underline">
+              <a href="/faqs" className="opacity-70 transition hover:text-white hover:opacity-100">
                 FAQs
               </a>
             </li>
             <li>
-              <a href="/contact" className="hover:underline">
+              <a href="/contact" className="opacity-70 transition hover:text-white hover:opacity-100">
                 Contact
               </a>
             </li>
             <li>
-              <a href="/terms" className="hover:underline">
+              <a href="/terms" className="opacity-70 transition hover:text-white hover:opacity-100">
                 Terms of Service
               </a>
             </li>
             <li>
-              <a href="/privacy" className="hover:underline">
+              <a href="/privacy" className="opacity-70 transition hover:text-white hover:opacity-100">
                 Privacy Policy
               </a>
             </li>
           </ul>
         </div>
 
-        {/* Social / Contact */}
+        {/* Social / Connect */}
         <div>
-          <h2 className="text-lg font-semibold mb-3">Connect</h2>
-          <div className="flex space-x-4">
+          <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-white">
+            Connect
+          </h2>
+          <div className="flex space-x-3">
             <a
               href="https://github.com/TajinderS22"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:opacity-70 transition-opacity"
+              className="flex h-10 w-10 items-center justify-center rounded-md bg-white/10 transition hover:bg-white/20"
             >
               <svg
-                fill="#000000"
-                width="24"
-                height="24"
+                width="20"
+                height="20"
                 viewBox="0 0 24 24"
-                className="h-6 w-6 dark:fill-amber-200/50"
+                className="h-5 w-5 fill-white"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <g data-name="Layer 2">
@@ -95,7 +109,7 @@ const Footer = () => {
       </div>
 
       {/* Bottom Bar */}
-      <div className="text-center text-sm py-4 border-t dark:border-slate-600 border-slate-300">
+      <div className="border-t border-white/10 py-5 text-center text-sm opacity-60">
         © {new Date().getFullYear()} TUTTY. All rights reserved.
       </div>
     </footer>

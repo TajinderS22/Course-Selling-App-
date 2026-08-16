@@ -1,27 +1,33 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
+import { ChevronRight } from "lucide-react";
 
 const CourseCard = ({ course }) => {
-    const [hovered, setHovered] = useState(false);
-    const navigate=useNavigate()
+  const [hovered, setHovered] = useState(false);
+  const navigate = useNavigate();
   return (
     <div
-      className={`bg-slate-300/80 dark:bg-slate-600 hover:bg-slate-400/60 hover:scale-102
-        transition-all justify-between flex gap-2 m-2 p-2 min-h-20 rounded-lg md:w-8/12 md:ml-12
-        duration-300 ease-in-out`}
+      className="card card-hover m-2 flex cursor-pointer items-center gap-4 p-3 md:ml-12 md:w-10/12"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      onClick={()=>{
-        navigate(`/creator/user-management/${course._id}`)
+      onClick={() => {
+        navigate(`/creator/user-management/${course._id}`);
       }}
     >
-      <div>
-        <p>{course.title}</p>
-        <p>{course.description}</p>
+      <div className="min-w-0 flex-1">
+        <p className="font-display truncate font-semibold">{course.title}</p>
+        <p className="mt-0.5 line-clamp-2 text-sm text-ink-soft">
+          {course.description}
+        </p>
       </div>
-      <div className="w-50">
-        <img className={`w-full rounded-lg ${hovered&&"scale-110 opacity-85 "} duration-500  `} src={course.imageUrl} alt="" />
-      </div>
+      <img
+        className={`h-14 w-24 shrink-0 rounded-md object-cover transition duration-300 ${
+          hovered ? "scale-105 opacity-85" : ""
+        }`}
+        src={course.imageUrl}
+        alt=""
+      />
+      <ChevronRight className="h-5 w-5 shrink-0 text-ink-soft" />
     </div>
   );
 };

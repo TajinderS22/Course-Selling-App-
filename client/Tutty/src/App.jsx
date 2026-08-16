@@ -28,6 +28,20 @@ import Contact from "./components/FooterLinks/Contact";
 import FAQs from "./components/FooterLinks/FAQs";
 import PrivacyPolicy from "./components/FooterLinks/PrivacyPolicy";
 
+const FOOTER_PAGES = [
+  "/",
+  "/authentication",
+  "/courses",
+  "/buyCourse",
+  "/Aboutus",
+  "/course",
+  "/creator/authentication",
+  "/terms",
+  "/contact",
+  "/faqs",
+  "/privacy",
+];
+
 function App() {
   const router = createBrowserRouter([
     {
@@ -53,6 +67,10 @@ function App() {
     {
       path: "/creator/create-course",
       element: <CreateCourse />,
+    },
+    {
+      path: "/courses",
+      element: <BuyCourse />,
     },
     {
       path: "/buyCourse",
@@ -118,14 +136,19 @@ function App() {
       element: <PrivacyPolicy />,
     }
   ]);
+  const pathname =
+    typeof window !== "undefined" ? window.location.pathname : "/";
+  const showFooter = FOOTER_PAGES.some(
+    (p) => pathname === p || (p.includes("/course") && pathname.startsWith(p))
+  );
   return (
-    <div className="max-w-[1920px] bg-slate-300 mx-auto">
+    <div className="bg-app text-ink mx-auto min-h-svh font-sans">
       <AppProvider>
         <Provider store={store}>
           <RouterProvider router={router} />
         </Provider>
       </AppProvider>
-      <Footer />
+      {showFooter && <Footer />}
     </div>
   );
 }

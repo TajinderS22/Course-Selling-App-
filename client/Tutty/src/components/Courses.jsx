@@ -1,58 +1,61 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from 'react';
-import axios from 'axios'
-import CourseCard from './CourseCard';
-import { SERVER_ADDRESS } from '../Secrets/Secrets';
-import { Loader2 } from 'lucide-react';
-import { useNavigate } from 'react-router';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import CourseCard from "./CourseCard";
+import { SERVER_ADDRESS } from "../Secrets/Secrets";
+import { Loader2 } from "lucide-react";
+import { useNavigate } from "react-router";
 
 const Courses = () => {
-  const [allCourses,setAllCourses]=useState(null);
-  useEffect(()=>{
+  const [allCourses, setAllCourses] = useState(null);
+  useEffect(() => {
     try {
-        const getAllCourses=async()=>{
-            const response= await axios.get(SERVER_ADDRESS+"/course/preview")
-            const courses=(response.data.courses)
-            setAllCourses(courses.slice(0, 3));
-            // setAllCourses(response.data.courses)
-        }
-        getAllCourses()
-
+      const getAllCourses = async () => {
+        const response = await axios.get(SERVER_ADDRESS + "/course/preview");
+        const courses = response.data.courses;
+        setAllCourses(courses.slice(0, 3));
+      };
+      getAllCourses();
     } catch (error) {
-        console.error("couldn't get courses ",error)
+      console.error("couldn't get courses ", error);
     }
-  },[])
+  }, []);
 
-  const navigate=useNavigate()
+  const navigate = useNavigate();
 
-  if(!allCourses){
-    const data={_id:"1",}
+  if (!allCourses) {
     return (
-      <div className="md:flex flex-wrap max-h-[1000px] w-11/12 justify-center not-md:flex-col not-md:items-center overflow-scroll h-fit pb-8  mx-auto mt-24 border-b-2 border-cyan-700 not-md:max-h-[1320px] not-md:overflow-clip ">
-        <Loader2 className="animate-spin w-12 h-12" />
+      <div className="mx-auto flex h-fit w-11/12 justify-center pb-8 pt-16">
+        <Loader2 className="h-12 w-12 animate-spin text-primary" />
       </div>
     );
-    }
-  return(
-    
-    <div 
-    
-    className='md:flex flex-wrap max-h-[1000px] w-11/12 justify-center not-md:flex-col not-md:items-center overflow-scroll h-fit pb-8  mx-auto mt-24 border-b-2 border-cyan-700 not-md:max-h-[1320px] not-md:overflow-clip '>
-      
-      {allCourses.map((course,index)=>{
-        return(
-            <div key={index} onClick={()=>{
-              navigate(`/buyCourse`)
-            }} className='hover:scale-105 hover:mx-2 transform duration-200'>
-              <CourseCard data={course}/>
+  }
+
+  return (
+    <div className="mx-auto h-fit w-11/12 pb-16 pt-10">
+      <div className="grid justify-center gap-2 md:grid-cols-3">
+        {allCourses.map((course, index) => {
+          return (
+            <div
+              key={index}
+              className="transition duration-200 hover:scale-[1.02]"
+            >
+              <CourseCard data={course} />
             </div>
-
-        )
-      })}
-
-    
+          );
+        })}
+      </div>
+      <div className="mt-8 text-center">
+        <button
+          className="btn btn-secondary px-8"
+          onClick={() => {
+            navigate(`/buyCourse`);
+          }}
+        >
+          View all courses
+        </button>
+      </div>
     </div>
-
-  )
-}
-export default Courses
+  );
+};
+export default Courses;

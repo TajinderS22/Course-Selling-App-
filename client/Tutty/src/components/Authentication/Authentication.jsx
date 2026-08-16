@@ -17,7 +17,7 @@ const Authentication = () => {
   const emailRef = useRef();
   const passwordRef = useRef();
   const navigate = useNavigate();
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
   // eslint-disable-next-line no-unused-vars
   const { isCreator, setIsCreator } = useContext(AppContext);
 
@@ -87,10 +87,8 @@ const Authentication = () => {
       const response = await axios.post(SERVER_ADDRESS + "/user/signin", data);
       if (response.status === 200) {
         const jwtToken = response.data.token;
-        // Save token
         localStorage.setItem("jwt", jwtToken);
-        // Set global state if using Recoil
-        dispatch(setUser(response.data.user))
+        dispatch(setUser(response.data.user));
         navigate("/dashboard");
       }
     } catch (error) {
@@ -110,53 +108,56 @@ const Authentication = () => {
   };
 
   return (
-    <div className=" bg-[#e8fffdcf] min-h-[90svh] h-fit dark:bg-slate-800 dark:text-amber-50">
+    <div className="grid-dots min-h-[100svh] bg-app text-ink">
       <Navbar />
-      <div className=" h-[fit] min-h-[800px] flex relative top-48  justify-center ">
-        <div
-          action=""
-          className="flex flex-col dark:border border-teal-300/30 justify-around h-fit min-h-[400px] rounded-xl dark:bg-[#25303ea1] bg-[#0fa3b1]/50 p-4 /12 min-w-[300px] w-fit "
-        >
-          <p className=" text-2xl font-medium max-w-[400px] m-4   ">
+      <div className="flex justify-center pb-16 pt-32">
+        <div className="card w-fit min-w-[320px] max-w-md p-8 md:min-w-[420px]">
+          <p className="font-display text-center text-2xl font-bold md:text-3xl">
             {onSignup
               ? "Sign Up to the New Version of yourself"
               : "Login to your bright future"}
           </p>
-          {onSignup && (
-            <input
-              ref={fNameRef}
-              type="text"
-              className="bg-[#ede7e3] ring ring-stone-400/50 dark:bg-slate-700/40 m-2 p-2   rounded-lg"
-              placeholder="First Name "
-            />
-          )}
-          {onSignup && (
-            <input
-              ref={lNameRef}
-              type="text"
-              className="bg-[#ede7e3] ring ring-stone-400/50 dark:bg-slate-700/40 m-2 p-2 rounded-lg"
-              placeholder="Last Name "
-            />
-          )}
-          <input
-            ref={emailRef}
-            type="text"
-            className="bg-[#ede7e3] ring ring-stone-400/50 dark:bg-slate-700/40 m-2 p-2   rounded-lg"
-            placeholder="email@gmail.com "
-          />
-          <input
-            ref={passwordRef}
-            type="password"
-            className="bg-[#ede7e3] ring ring-stone-400/50 dark:bg-slate-700/40 m-2 p-2   rounded-lg "
-            placeholder="password "
-          />
+          <p className="mt-2 text-center text-sm text-ink-soft">
+            {onSignup ? "Create your account to get started" : "Welcome back — we missed you"}
+          </p>
 
-          <p className="m-3 text-red-700 font-semibold">
+          <div className="mt-8 flex flex-col gap-3">
+            {onSignup && (
+              <input
+                ref={fNameRef}
+                type="text"
+                className="input-base"
+                placeholder="First Name"
+              />
+            )}
+            {onSignup && (
+              <input
+                ref={lNameRef}
+                type="text"
+                className="input-base"
+                placeholder="Last Name"
+              />
+            )}
+            <input
+              ref={emailRef}
+              type="text"
+              className="input-base"
+              placeholder="email@gmail.com"
+            />
+            <input
+              ref={passwordRef}
+              type="password"
+              className="input-base"
+              placeholder="Password"
+            />
+          </div>
+
+          <p className="mt-4 text-sm font-semibold text-red-600 dark:text-red-400">
             {authenticationMessage}
           </p>
 
           <button
-            className=" bg-[#0fa3b1] w-11/12 mx-auto min-w-[80px] p-2 rounded-xl mt-2 "
+            className="btn btn-primary mt-4 w-full"
             onClick={() => {
               handleAuthenticationSubmit();
             }}
@@ -164,36 +165,18 @@ const Authentication = () => {
             {onSignup ? "Signup" : "Login"}
           </button>
 
-          <div className="m-4">
-            {onSignup ? (
-              <div className="flex items-center ">
-                Already a user?
-                <div
-                  className="  min-w-[80px] p-2 text-cya-900 font-semibold rounded-xl "
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setAuthenticationMessage(null);
-                    setOnSignup(!onSignup);
-                  }}
-                >
-                  {onSignup ? "Login" : "Signup"}
-                </div>
-              </div>
-            ) : (
-              <div className="flex items-center ">
-                New here?
-                <div
-                  className="  min-w-[80px] p-2 text-cyan-900 dark:text-stone-200 font-semibold rounded-xl "
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setAuthenticationMessage(null);
-                    setOnSignup(!onSignup);
-                  }}
-                >
-                  {onSignup ? "Login" : "Signup"}
-                </div>
-              </div>
-            )}
+          <div className="mt-5 text-center text-sm text-ink-soft">
+            {onSignup ? "Already a user?" : "New here?"}
+            <span
+              className="ml-1 cursor-pointer font-semibold text-primary hover:underline"
+              onClick={(e) => {
+                e.preventDefault();
+                setAuthenticationMessage(null);
+                setOnSignup(!onSignup);
+              }}
+            >
+              {onSignup ? "Login" : "Signup"}
+            </span>
           </div>
         </div>
       </div>

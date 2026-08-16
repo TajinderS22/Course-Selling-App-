@@ -1,20 +1,30 @@
 import { GetObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
+// export const s3 = new S3Client({
+//   endpoint: "https://s3.tebi.io",
+//   region: "global",
+//   credentials: {
+//     accessKeyId: process.env.TEBI_ACCESS_KEY,
+//     secretAccessKey: process.env.TEBI_SECRET_KEY,
+//   },
+// });
+
+
 export const s3 = new S3Client({
-  endpoint: "https://s3.tebi.io",
-  region: "global",
+  endpoint: "https://s3.us-east-005.backblazeb2.com",
+  region: "us-east-005",
+  requestChecksumCalculation: "WHEN_REQUIRED",
   credentials: {
-    accessKeyId: process.env.TEBI_ACCESS_KEY,
-    secretAccessKey: process.env.TEBI_SECRET_KEY,
+    accessKeyId: process.env.BUCKBLAZE_ACCESS_KEY,
+    secretAccessKey: process.env.BUCKBLAZE_SECRET_KEY,
   },
 });
 
 
-
 export const getViewUrl = async (fileKey) => {
   const command = new GetObjectCommand({
-    Bucket: "tutty",
+    Bucket: "tuttyProject",
     Key: fileKey,
   });
 

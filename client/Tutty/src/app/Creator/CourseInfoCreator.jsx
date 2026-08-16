@@ -6,14 +6,13 @@ import { SERVER_ADDRESS } from "../../Secrets/Secrets";
 import { useState } from "react";
 import Navbar from "../../components/Navbar";
 import CoursePlanComp from "../../components/courses/CoursePlanComp";
-import { ArrowBigDown, ArrowBigUp } from "lucide-react";
+import { ArrowBigDown, ArrowBigUp, Plus } from "lucide-react";
 
 const CourseInfoCreator = () => {
   const pathname = useLocation().pathname;
   const courseId = pathname.split("/").at(-1);
   const [info, setInfo] = useState([] | null);
   const [viewPlan, setViewPlan] = useState(false);
-  
 
   const getCourseInfoCreator = async () => {
     try {
@@ -25,40 +24,41 @@ const CourseInfoCreator = () => {
       console.error(err);
     }
   };
-  const navigate= useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     getCourseInfoCreator();
   }, []);
 
   return (
-    <div className="min-h-[90svh] bg-white dark:bg-[#1D293D]  dark:text-white backdrop-blur-2xl ">
+    <div className="min-h-[100svh] bg-app text-ink">
       <Navbar />
-      <div className="w-9/12 mx-auto p-2 pb-10 ">
-        <div className="flex gap-6 w-11/12 mx-auto  bg-stone-200/50 dark:bg-slate-600/50 p-2 rounded-lg justify-between px-10 mt-20 ">
-          <div className="mt-4 flex flex-col justify-between pb-6 flex-1">
+      <div className="mx-auto w-11/12 max-w-6xl pb-16 pt-28">
+        <div className="card flex flex-col justify-between gap-8 p-6 md:flex-row md:px-10">
+          <div className="flex flex-1 flex-col justify-between pb-2">
             <div className="flex flex-col">
-              <p className="text-4xl bg-stone-300 dark:bg-stone-700 ring-stone-400/50 ring w-fit p-2 rounded-lg dark:text-shadow font-semibold">
+              <p className="font-display w-fit rounded-md bg-app px-3 py-2 text-2xl font-bold md:text-3xl">
                 {info?.title}
               </p>
-              <p className="my-6  ml-4 mt-15  dark:bg-stone-700 ring-stone-400/50 ring w-fit p-2 rounded-lg  bg-stone-300 ">
+              <p className="mt-4 w-fit rounded-md bg-app px-3 py-2 leading-relaxed text-ink-soft">
                 {info.description}
               </p>
             </div>
 
-            <div
-            onClick={()=>{
-              navigate(`/creator/course/${courseId}/upload-content`)
-            }}
-            className="bg-emerald-600/60 w-fit p-2 rounded-full px-4">
+            <button
+              onClick={() => {
+                navigate(`/creator/course/${courseId}/upload-content`);
+              }}
+              className="btn btn-primary mt-6 flex w-fit items-center gap-2 px-6"
+            >
+              <Plus className="h-4 w-4" />
               Add content
-            </div>
-            
+            </button>
           </div>
 
-          <div className=" m-4 ">
+          <div className="shrink-0">
             <img
-              className="w-90 h-80 rounded-md"
+              className="h-64 w-full rounded-md border border-border object-cover md:h-80 md:w-96"
               src={
                 info.imageUrl?.includes("http")
                   ? info.imageUrl
@@ -69,19 +69,19 @@ const CourseInfoCreator = () => {
           </div>
         </div>
 
-        <div className="bg-stone-300/40  dark:bg-stone-600/30 rounded-lg p w-11/12 mx-auto p-2 mt-15 ">
+        <div className="card mt-10 w-full p-3">
           <div
-            className=" bg-stone-300 dark:bg-stone-800/70  flex items-center justify-between rounded-md w-full mx-auto  p-2 "
+            className="flex cursor-pointer items-center justify-between rounded-md bg-app px-4 py-3"
             onClick={() => {
               setViewPlan(!viewPlan);
             }}
           >
-            <p className=" text-2xl font-mono font-medium">Lecture plan</p>
+            <p className="font-display text-xl font-semibold">Lecture plan</p>
             {viewPlan ? <ArrowBigUp /> : <ArrowBigDown />}
           </div>
 
           {viewPlan && (
-            <div>
+            <div className="mt-2">
               {info?.chapters?.map((chapter) => (
                 <CoursePlanComp key={chapter.number} props={chapter} />
               ))}

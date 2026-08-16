@@ -66,25 +66,24 @@ const BuyCourse = () => {
   }, [user, jwt]);
 
   return (
-    <div className="dark:bg-slate-800 pb-6">
-      <Navbar></Navbar>
+    <div className="min-h-svh bg-app pb-6 text-ink">
+      <Navbar />
 
       {courses ? (
-        <div className="h-fit min-h-[800px] p-6 dark:bg-slate-800 dark:text-amber-50 bg-[#ADEED9]/30 ">
-          <p className="text-2xl lg:text-3xl font-semibold dark:text-amber-100 text-teal-900 mx-auto w-11/12 m-6 mb-0">
-            Buy from wide Range of courses covering all the fields.
+        <div className="h-fit min-h-[800px] px-4 pt-28 md:px-8">
+          <p className="font-display mx-auto mb-4 w-11/12 text-center text-2xl font-bold text-ink lg:text-3xl">
+            Buy from a wide range of courses{" "}
+            <span className="text-gradient">covering all fields.</span>
           </p>
-          <div className="flex flex-wrap  md:w-11/12 justify-around md:px-14 mx-auto">
+          <div className="mx-auto grid justify-center gap-2 md:grid-cols-2 md:px-14 xl:grid-cols-3">
             {courses.map((x) => {
               return <CourseCard key={x._id} data={x} />;
             })}
           </div>
         </div>
       ) : (
-        <div className="h-fit min-h-[800px] bg-[#ADEED9]/30  mx-auto ">
-          <div className="flex flex-wrap justify-around w-10/12 mx-auto">
-            <CardShimmer />
-            <CardShimmer />
+        <div className="mx-auto h-fit min-h-[800px] bg-app pt-28">
+          <div className="mx-auto grid w-10/12 justify-center gap-2 md:grid-cols-2 xl:grid-cols-3">
             <CardShimmer />
             <CardShimmer />
             <CardShimmer />

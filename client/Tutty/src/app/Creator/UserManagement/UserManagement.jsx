@@ -36,40 +36,36 @@ const UserManagement = () => {
     },[creator])
 
 
-    if(loading){
-        return(
-            <div className='h-[90svh] mx-auto'>
-                <Loading/>
-            </div>
-        )
-    }
+    if (loading) {
+    return (
+      <div className="mx-auto h-[90svh]">
+        <Loading />
+      </div>
+    );
+  }
   return (
-    <div className='min-h-[90svh] dark:bg-slate-800 dark:text-white'>
+    <div className="min-h-[100svh] bg-app text-ink">
       <Navbar></Navbar>
-      <div className="flex h-[calc(100svh)] overflow-scroll ">
+      <div className="flex min-h-svh">
         <Sidebar />
-        {/* Actual logic and display here  */}
-        <div className="flex-1 min-h-[calc(90svh-10px)] overflow-scroll not-dark:bg-white/50">
-          <div className="md:ml-8 m-4 mb-0 flex  gap-1  ">
-            <p className="text-lg font-medium">
+        {/* Actual logic and display here */}
+        <div className="min-h-[90svh] flex-1 overflow-y-auto pb-10 pt-20">
+          <div className="m-4 mb-0 flex flex-wrap gap-1 md:ml-8">
+            <p className="font-display text-lg font-semibold">
               Hi {creator?.firstname} {creator?.lastname}
             </p>
-            <p className="text-lg font-medium">
-              selcet your course to see info
+            <p className="text-lg text-ink-soft">
+              — select your course to see info
             </p>
           </div>
-            {/* Courses card */}
-            {
-                courses && (
-                    <div>
-                        {courses.map((course)=>{
-                            return (
-                              <CourseCard course={course}/>
-                            );
-                        })}
-                    </div>
-                )
-            }
+          {/* Courses card */}
+          {courses && (
+            <div className="mt-4">
+              {courses.map((course) => {
+                return <CourseCard key={course._id} course={course} />;
+              })}
+            </div>
+          )}
         </div>
       </div>
     </div>

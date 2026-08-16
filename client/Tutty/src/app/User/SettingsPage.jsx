@@ -7,15 +7,15 @@ import Loading from "../../components/Loading";
 import { useNavigate } from "react-router";
 import useActiveSession from "../../hooks/useActiveSession";
 import useActiveSessionCreator from "../../hooks/useActiveSessionCreator";
+import { Upload } from "lucide-react";
 
 const SettingsPage = () => {
-  // const {loading,jwt} = useActiveSession();
-  const {jwt} = useActiveSession
-  const {jwtCreator} = useActiveSessionCreator()
+  const { jwt } = useActiveSession();
+  const { jwtCreator } = useActiveSessionCreator();
 
   const user = useSelector((state) => state.user);
   const creator = useSelector((state) => state.creator);
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   if (!user && !creator) {
     navigate("/");
   }
@@ -33,7 +33,6 @@ const SettingsPage = () => {
   const [address, setAddress] = useState();
 
   const handleImageUpload = async () => {
-
     setLoadingOnPage(true);
 
     const reader = new FileReader();
@@ -80,7 +79,7 @@ const SettingsPage = () => {
     setLoadingOnPage(true);
     try {
       let res;
-      if(user){
+      if (user) {
         res = await axios.post(
           SERVER_ADDRESS + "/user/update/profile",
           {
@@ -97,7 +96,7 @@ const SettingsPage = () => {
             },
           }
         );
-      }else{
+      } else {
         res = await axios.post(
           SERVER_ADDRESS + "/creator/update/profile",
           {
@@ -141,70 +140,51 @@ const SettingsPage = () => {
     }
   }, [user, creator]);
 
-  // if (loading) {
-  //   return (
-  //     <div className="min-h-[90svh] absolute">
-  //       <Loading />
-  //     </div>
-  //   );
-  // }
-
   return (
-    <div className="min-h-[90svh] dark:bg-slate-800 dark:text-white ">
+    <div className="min-h-[100svh] bg-app text-ink">
       <Navbar />
       {loadingOnPage && (
-        <div className="w-full h-full backdrop-blur-md absolute bg-black/30 ">
+        <div className="absolute h-full w-full bg-ink/30 backdrop-blur-md">
           <Loading />
         </div>
       )}
-      <div className="  mx-auto">
-        <div className="w-10/12 mx-auto my-4 font-bold text-4xl ">
+      <div className="mx-auto max-w-4xl px-4 pb-16 pt-28">
+        <div className="font-display my-4 text-3xl font-bold md:text-4xl">
           Update your Profile
         </div>
-        <div className=" border h-full xl:w-10/12 mx-auto px-6 py-4 clear-start">
-          {/* form here  */}
 
-          <div className="flex not-md:flex-col bg-slate-200/30 rounded-md dark:bg-slate-100/10 m-2 xl:w-10/12 md:w-11/12  mx-auto md:justify-between ">
-            <div className="flex  m-1 items-center not-md:flex-col  ">
-              <p className="mx-2 font-semibold p-2 w-20 " htmlFor="firstname">
-                Firstname
-              </p>
+        {/* form here */}
+        <div className="card grid gap-4 p-6">
+          <div className="grid gap-4 md:grid-cols-2">
+            <label className="text-sm font-semibold">
+              First name
               <input
-                className="bg-slate-400 m-2 rounded-md p-2 dark:bg-slate-600 "
+                className="input-base mt-1"
                 value={firstname}
                 onChange={(e) => setFirstname(e.target.value)}
               />
-            </div>
-            <div className="flex m-1 items-center not-md:flex-col  ">
-              <p className="mx-2 font-semibold p-2 w-20 " htmlFor="lastname">
-                Lastname
-              </p>
+            </label>
+            <label className="text-sm font-semibold">
+              Last name
               <input
-                className="bg-slate-400 m-2 rounded-md p-2 dark:bg-slate-600 "
+                className="input-base mt-1"
                 value={lastname}
                 onChange={(e) => setLastname(e.target.value)}
               />
-            </div>
-          </div>
-
-          <div className="flex not-md:flex-col xl:w-10/12 md:w-11/12 mx-auto bg-slate-200/30 rounded-md dark:bg-slate-100/10 m-2 md:justify-between">
-            <div className="flex m-1 items-center not-md:flex-col  ">
-              <p className="mx-2 font-semibold p-2 w-20 " htmlFor="email">
-                Email
-              </p>
+            </label>
+            <label className="text-sm font-semibold">
+              Email
               <input
-                className="bg-slate-400 m-2 rounded-md p-2 dark:bg-slate-600 "
+                className="input-base mt-1"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email"
               />
-            </div>
-            <div className="flex m-1 items-center not-md:flex-col  ">
-              <p className="mx-2 font-semibold p-2 w-20 " htmlFor="email">
-                Phone
-              </p>
+            </label>
+            <label className="text-sm font-semibold">
+              Phone
               <input
-                className="bg-slate-400 m-2 rounded-md p-2 dark:bg-slate-600 "
+                className="input-base mt-1"
                 value={phone}
                 onChange={(e) => {
                   if (
@@ -214,65 +194,57 @@ const SettingsPage = () => {
                     setPhone(e.target.value);
                   }
                 }}
-                placeholder="phone"
+                placeholder="Phone"
               />
-            </div>
+            </label>
           </div>
 
-          <div className="xl:w-10/12 md:w-11/12 flex not-md:flex-col px-auto  bg-slate-200/30 rounded-md dark:bg-slate-100/10 m-2 pr-8 mx-auto ">
-            <div className="flex-1  ">
-              <p className="mx-2 text-lg font-semibold p-2 w-80">
-                Profile Image
-              </p>
-              <div className="flex md:w-6/12 ml-6 px-auto  flex-col">
+          <div className="grid gap-6 md:grid-cols-2">
+            <div>
+              <p className="text-sm font-semibold">Profile image</p>
+              <div className="mt-1 flex flex-col gap-2">
                 <input
                   type="file"
                   accept="image/*"
-                  name={"profileImage" + "_" + user?.email}
-                  className="bg-slate-400/60 h-20 p-2 rounded-sm dark:bg-slate-600 dark:text-white"
+                  name={"profileImage" + "_" + (user?.email || creator?.email)}
+                  className="input-base"
                   onChange={async (e) => {
                     const imageFile = e.target.files[0];
-
                     setImageFile(imageFile);
                   }}
                 />
-
                 <button
                   onClick={handleImageUpload}
-                  className="bg-neutral-500/80 dark:bg-neutral-400/50 md:w-8/12 m-2 p-2 rounded-lg"
+                  className="btn btn-secondary w-fit"
                 >
+                  <Upload className="h-4 w-4" />
                   Upload
                 </button>
               </div>
             </div>
-            <div className="md:w-[40%] w-[70%] mx-auto ">
+            <div>
               <img
-                className="w-full  mx-auto  rounded-lg "
+                className="h-40 w-full rounded-md border border-border object-cover"
                 src={profileImage}
                 alt=""
               />
             </div>
           </div>
 
-          <div className="xl:w-10/12 md:w-11/12 mx-auto bg-slate-200/30 rounded-md p-2  dark:bg-slate-100/10 m-2 ">
-            <p className="text-lg font-semibold">Address</p>
+          <label className="text-sm font-semibold">
+            Address
             <textarea
               value={address}
               onChange={(e) => setAddress(e.target.value)}
-              className="bg-white/50 rounded-md dark:bg-slate-900/30 p-2  w-full "
+              className="input-base mt-1 w-full"
               rows="4"
             ></textarea>
-          </div>
+          </label>
 
-          <div className="">
-            <div className="w-10/12 flex md:justify-end m-2 mx-auto">
-              <button
-                className="bg-slate-400 dark:bg-slate-400/50 m-2 p-2 rounded-md"
-                onClick={handleUserUpdateClick}
-              >
-                Update
-              </button>
-            </div>
+          <div className="flex justify-end">
+            <button className="btn btn-primary px-8" onClick={handleUserUpdateClick}>
+              Update
+            </button>
           </div>
         </div>
       </div>

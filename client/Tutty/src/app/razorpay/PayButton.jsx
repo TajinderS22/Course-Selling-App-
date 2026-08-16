@@ -66,12 +66,10 @@ const PayButton = ({courseId,setPayPopup}) => {
 
 
   return (
-    <button className='bg-emerald-500 p-2 border
-    
-    rounded-lg w-full' onClick={handlePayment}>
-        Pay now
+    <button className="btn btn-primary w-full" onClick={handlePayment}>
+      Pay now
     </button>
-  )
+  );
 }
 
 export default PayButton

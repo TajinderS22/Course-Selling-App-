@@ -1,49 +1,75 @@
-import React from 'react'
-import Navbar from '../Navbar'
-import Courses from '../Courses'
-import HomePageChooseUs from './HomePageChooseUs'
-import HomePageCategories from './HomePageCategories'
-import { Link } from 'react-router'
-import { AppContext } from '../../context/AppContext'
-
+import React from "react";
+import Navbar from "../Navbar";
+import Courses from "../Courses";
+import HomePageChooseUs from "./HomePageChooseUs";
+import HomePageCategories from "./HomePageCategories";
+import { Link } from "react-router";
+import { ArrowRight, Sparkles } from "lucide-react";
 
 const Home = () => {
-
   return (
-    <div className='mx-auto dark:bg-slate-800  dark:text-white bg-[#e8fffdcf] min-h-[100svh]'>
-        
-        <Navbar/>
-        <div className='pb-6 w-11/12 flex not-md:flex-col-reverse justify-between mt-16'>
-            <div className='mx-6 mt-8 max-w-[600px] flex-1 xl:ml-32 pr-4'>
-                <p className='md:text-6xl text-4xl font-bold  w-full'>
-                    Shape Your Future with Expert-Led Courses
-                </p>
-                <p className='text-lg font-normal mt-6 w-[80%] ml-4 '> 
-                    Kickstart your career with 100+ high-quality, job-focused courses. Learn at your pace, anytime, anywhere.
-                </p>
-                <Link to='/authentication'>
-                <button className='bg-[#0ABAB5] p-3 rounded-lg mt-10 ml-4' 
-                
-                >
-                    Start your Journey
+    <div className="mx-auto min-h-[100svh] bg-app text-ink">
+      <Navbar />
+
+      {/* Hero */}
+      <div className="grid-dots relative overflow-hidden">
+        <div className="pointer-events-none absolute -top-40 left-1/2 h-[420px] w-[720px] -translate-x-1/2 rounded-md bg-primary-soft opacity-60 blur-3xl dark:opacity-30" />
+        <div className="pointer-events-none absolute -right-32 top-64 h-[380px] w-[380px] rounded-md bg-secondary-soft opacity-60 blur-3xl dark:opacity-25" />
+
+        <div className="relative mx-auto flex max-w-7xl flex-col-reverse items-center justify-between gap-10 px-6 pb-16 pt-28 md:flex-row md:pt-36 lg:px-10">
+          <div className="max-w-[600px] flex-1 text-center md:text-left">
+            <span className="pill mb-6">
+              <Sparkles className="h-3.5 w-3.5 text-primary" />
+              100+ job-focused courses
+            </span>
+            <p className="font-display text-4xl font-extrabold leading-[1.1] tracking-tight md:text-6xl">
+              Shape Your Future with{" "}
+              <span className="text-gradient">Expert-Led Courses</span>
+            </p>
+            <p className="mx-auto mt-6 max-w-md text-base leading-relaxed text-ink-soft md:mx-0 md:text-lg">
+              Kickstart your career with high-quality, job-focused courses.
+              Learn at your pace, anytime, anywhere.
+            </p>
+            <div className="mt-8 flex flex-col items-center gap-3 md:flex-row md:items-start">
+              <Link to="/authentication">
+                <button className="btn btn-primary px-7 py-3">
+                  Start your Journey
+                  <ArrowRight className="h-4 w-4" />
                 </button>
-                </Link>
+              </Link>
+              <Link to="/courses">
+                <button className="btn btn-ghost px-7 py-3">
+                  Browse Courses
+                </button>
+              </Link>
             </div>
+          </div>
 
-            <div>
-                <img className='not-lg:w-[300px] lg:w-[400px] xl:w-[600px] not-md:mx-auto w-96 md:rounded-l-4xl  not-md:rounded-2xl  ' src="https://images.pexels.com/photos/1438081/pexels-photo-1438081.jpeg" alt=" Langing image top" />
-            </div>
+          <div className="relative shrink-0">
+            <div className="absolute -inset-3 rounded-md bg-gradient-to-tr from-primary/30 to-secondary/30 opacity-60 blur-2xl" />
+            <img
+              className="relative h-72 w-72 rounded-md border border-border object-cover shadow-lift md:h-[380px] md:w-[420px] lg:h-[420px] lg:w-[520px]"
+              src="https://images.pexels.com/photos/1438081/pexels-photo-1438081.jpeg"
+              alt="Landing"
+            />
+          </div>
         </div>
+      </div>
 
-        {/* Courses Preview */}
-        <div className='text-center w-11/12 mx-auto relative top-18 text-6xl font-semibold dark:bg-teal-300/20 dark:text-[#98faeba1] text-[#014442] bg-[#56DFCF]/40 p-6 md:rounded-[50px] dark:border border-teal-200/80 rounded-2xl backdrop-blur-3xl   '>
+      {/* Courses Preview */}
+      <div className="mx-auto w-11/12">
+        <div className="card mx-auto mb-4 max-w-3xl border-none bg-gradient-to-r from-primary-soft to-secondary-soft p-6 text-center">
+          <p className="font-display text-2xl font-bold text-ink md:text-4xl">
             Browse All Courses
+          </p>
         </div>
-        <Courses/>
-        <HomePageChooseUs></HomePageChooseUs>
-        <HomePageCategories/>
-    </div>
-  )
-}
+        <Courses />
+      </div>
 
-export default Home
+      <HomePageChooseUs />
+      <HomePageCategories />
+    </div>
+  );
+};
+
+export default Home;

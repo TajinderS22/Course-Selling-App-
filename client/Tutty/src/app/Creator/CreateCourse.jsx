@@ -1,8 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useContext, useEffect, useRef, useState } from "react";
 import Navbar from "../../components/Navbar";
-// import { useRecoilState } from "recoil";
-// import { CreatorAtom } from "../../recoil/creatorAtom";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import { SERVER_ADDRESS } from "../../Secrets/Secrets";
@@ -11,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearCreator, setCreator } from "../../store/slices/creatorSlice";
 import CoursePlan from "../../components/courses/CoursePlan";
 import useActiveSessionCreator from "../../hooks/useActiveSessionCreator";
+import { Upload } from "lucide-react";
 
 const CreateCourse = () => {
   const user = useSelector((state) => state.creator);
@@ -18,7 +17,7 @@ const CreateCourse = () => {
   const navigate = useNavigate();
   const { setIsCreator } = useContext(AppContext);
 
-  const {jwtCreator}= useActiveSessionCreator()
+  const { jwtCreator } = useActiveSessionCreator();
 
   const dispatch = useDispatch();
 
@@ -34,18 +33,16 @@ const CreateCourse = () => {
 
   const imageRef = useRef();
 
-  const [chapters, setChapters]=useState([])
-
-  
+  const [chapters, setChapters] = useState([]);
 
   const createCourseSubmit = async () => {
     const title = titleRef?.current?.value;
     const description = descriptionRef?.current?.value;
     const price = priceRef?.current?.value;
 
-    if(price>1000){
-      alert("Price should be less than 1000")
-      return
+    if (price > 1000) {
+      alert("Price should be less than 1000");
+      return;
     }
 
     const data = {
@@ -53,17 +50,13 @@ const CreateCourse = () => {
       description,
       price,
       imageUrl,
-      chapters
+      chapters,
     };
-    const response = await axios.post(
-      SERVER_ADDRESS + "/creator/course",
-      data,
-      {
-        headers: {
-          authorization: jwtCreator,
-        },
-      }
-    );
+    const response = await axios.post(SERVER_ADDRESS + "/creator/course", data, {
+      headers: {
+        authorization: jwtCreator,
+      },
+    });
     if (response.status == 200) {
       alert(response?.data?.message);
       navigate("/creator/dashboard");
@@ -145,134 +138,121 @@ const CreateCourse = () => {
   if (!user) return null;
 
   return (
-    <div className="dark:bg-[#1D293D]">
+    <div className="min-h-svh bg-app text-ink">
       <Navbar />
-      <div className="h-fit min-h-[96svh] dark:bg-[#1D293D] dark:text-white bg-[#ADEED9]/40 pb-6 ">
-        <div className=" max-w-[1080px]  mx-auto p-4 pt-12  ">
-          <div className="text-4xl font-semibold">
-            Hi {user?.firstname + " " + user?.lastname}
-          </div>
-          <div className="text-xl mt-4 text-amber-700">
-            Please fill all the details of your course
-          </div>
-          {/* input   form  */}
-          <div className="  ">
-            <div className="flex  flex-col items-center">
-              <div className="flex bg-stone-200 dark:bg-stone-700/70 w-10/12 rounded-lg my-10 py-2 not-md:flex-col justify-center mx-auto ">
-                <div className="flex flex-col mx-2">
-                  <div className="min-w-[300px] flex justify-between flex-col md:block ">
-                    <label htmlFor="title">Title : </label>
-                    <input
-                      required
-                      ref={titleRef}
-                      type="text"
-                      name="title"
-                      placeholder="title"
-                      className="bg-stone-400/50 p-2 m-2 md:w-[80%] rounded-lg"
-                    />
-                  </div>
-                  <div className="min-w-[300px] flex justify-between  flex-col md:block ">
-                    <label htmlFor="description">Discription : </label>
-                    <input
-                      required
-                      ref={descriptionRef}
-                      type="text"
-                      name="description"
-                      placeholder="description"
-                      className="bg-stone-400/50 p-2 m-2  md:w-[66%] rounded-lg"
-                    />
-                  </div>
-                </div>
-                <div className="flex flex-col mx-2">
-                  <div className="min-w-[300px] flex justify-between flex-col md:block ">
-                    <label htmlFor="price">Price : </label>
-                    <input
-                      required
-                      ref={priceRef}
-                      type="text"
-                      name="price"
-                      placeholder="price"
-                      className="bg-stone-400/50 p-2 m-2 md:w-[78%]  rounded-lg"
-                    />
-                  </div>
-                  <div className="min-w-[300px] max-w-[500px] flex not-md:flex-col ">
-                    <p className="top-" htmlFor="img">
-                      Image :{" "}
-                    </p>
-                    <div
-                      className={`bg-stone-400/50  h-fit m-2 md:w-[75%] p-[4px] not-md:w-[95%]  rounded-lg`}
-                    >
-                      <input
-                        required
-                        type="file"
-                        accept="image/*"
-                        name="img"
-                        className={`bg-stone-400/80  ${
-                          file ? "h-[30%]" : "h-[70%]"
-                        } p-3 rounded-lg w-full  `}
-                        onChange={async (e) => {
-                          const imageFile = e.target.files[0];
-                          imageRef.current = imageFile;
-                          setImage(imageFile);
-                        }}
-                      />
-                      {imageUploaded ? (
-                        <div className="p-2">
-                          <img
-                            src={file}
-                            alt="Thumbnail uploaded by creator"
-                            className="rounded-sm"
-                          />
-                        </div>
-                      ) : (
-                        <div className="p-2">
-                          {isImageUploading ? "Uploading..." : null}
-                        </div>
-                      )}
-                      <div className="flex justify-end">
-                        <button
-                          onClick={() => {
-                            setisImageUploading(true);
-                            if (image) {
-                              handleImagUpload();
-                            } else {
-                              alert("Please upload the image");
-                            }
-                          }}
-                          className="ring-1 hover:shadow-sm md:bg-transparent bg-gray-300 shadow-amber-400 ring-stone-800 rounded-lg p-1 my-1 mr-4  w-28 "
-                        >
-                          {file ? "Change" : "Upload"}
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+      <div className="mx-auto max-w-5xl px-4 pb-16 pt-28">
+        <div className="font-display text-3xl font-bold md:text-4xl">
+          Hi {user?.firstname + " " + user?.lastname}
+        </div>
+        <div className="mt-2 text-lg text-primary">
+          Please fill all the details of your course
+        </div>
 
-              <div
-                className={
-                  " bg-amber-100/70 dark:bg-slate-300/10 p-2 rounded-lg w-10/12"
-                }
-              >
-                <p
-                  className={` text-2xl p-2 shadow-lg w-fit bg-stone-400/40 dark:bg-stone-800/80 rounded-lg font-serif 
-                  font-stretch-125% font-bold  `}
-                >
-                  Create lecture plan here
-                </p>
-                <CoursePlan setChapters={setChapters} chapters={chapters} />
-              </div>
-              <div className=" w-10/12 flex p-2 mt-2 justify-end mx-auto">
-                <button
-                  className="bg-blue-400/60 dark:shadow-md shadow-emerald-600 p-3 rounded-lg "
-                  onClick={() => {
-                    createCourseSubmit();
-                  }}
-                >
-                  Submit
-                </button>
+        {/* input form */}
+        <div className="flex flex-col items-center">
+          <div className="card mt-8 grid w-full gap-6 p-6 md:grid-cols-2">
+            <div className="flex flex-col gap-4">
+              <label className="text-sm font-semibold">
+                Title
+                <input
+                  required
+                  ref={titleRef}
+                  type="text"
+                  name="title"
+                  placeholder="Course title"
+                  className="input-base mt-1"
+                />
+              </label>
+              <label className="text-sm font-semibold">
+                Description
+                <input
+                  required
+                  ref={descriptionRef}
+                  type="text"
+                  name="description"
+                  placeholder="Course description"
+                  className="input-base mt-1"
+                />
+              </label>
+            </div>
+            <div className="flex flex-col gap-4">
+              <label className="text-sm font-semibold">
+                Price (₹)
+                <input
+                  required
+                  ref={priceRef}
+                  type="text"
+                  name="price"
+                  placeholder="499"
+                  className="input-base mt-1"
+                />
+              </label>
+              <div className="text-sm font-semibold">
+                Image
+                <div className="mt-1 rounded-md border border-border bg-app p-3">
+                  <input
+                    required
+                    type="file"
+                    accept="image/*"
+                    name="img"
+                    className="input-base"
+                    onChange={async (e) => {
+                      const imageFile = e.target.files[0];
+                      imageRef.current = imageFile;
+                      setImage(imageFile);
+                    }}
+                  />
+                  {imageUploaded ? (
+                    <div className="mt-2">
+                      <img
+                        src={file}
+                        alt="Thumbnail uploaded by creator"
+                        className="rounded-md"
+                      />
+                    </div>
+                  ) : (
+                    <div className="mt-2 text-sm text-ink-soft">
+                      {isImageUploading ? "Uploading..." : "No image yet"}
+                    </div>
+                  )}
+                  <div className="mt-3 flex justify-end">
+                    <button
+                      onClick={() => {
+                        setisImageUploading(true);
+                        if (image) {
+                          handleImagUpload();
+                        } else {
+                          alert("Please upload the image");
+                        }
+                      }}
+                      className="btn btn-secondary"
+                    >
+                      <Upload className="h-4 w-4" />
+                      {file ? "Change" : "Upload"}
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
+          </div>
+
+          <div className="mt-6 w-full rounded-md border border-secondary/40 bg-secondary-soft p-5">
+            <p className="font-display w-fit rounded-md bg-surface px-3 py-2 text-xl font-bold shadow-soft">
+              Create lecture plan here
+            </p>
+            <div className="mt-3">
+              <CoursePlan setChapters={setChapters} chapters={chapters} />
+            </div>
+          </div>
+          <div className="mt-6 flex w-full justify-end">
+            <button
+              className="btn btn-primary px-10"
+              onClick={() => {
+                createCourseSubmit();
+              }}
+            >
+              Submit
+            </button>
           </div>
         </div>
       </div>

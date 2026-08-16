@@ -29,28 +29,20 @@ const PaymentInfoCard = ({ payment }) => {
 
   return (
     <div
-      className="bg-emerald-200/70 dark:bg-emerald-500/30 flex gap-2 justify-between m-1 p-2 rounded-lg  w-full"
+      className="card m-1 grid w-full grid-cols-2 gap-2 p-3 md:grid-cols-4"
       key={payment.id}
     >
-      <div className="flex-1/4">
-        <div className="bg-emerald-300/70 dark:bg-emerald-700/80 hover:opacity-70 ring ring-emerald-500  p-2 rounded-lg">
-          {user?.firstname} {user?.lastname}
-        </div>
+      <div className="truncate rounded-md border border-secondary/40 bg-secondary-soft px-3 py-2 text-sm font-medium">
+        {user?.firstname} {user?.lastname}
       </div>
-      <div className=" flex-1/4 ">
-        <div className="bg-emerald-300/70 dark:bg-emerald-700/80 hover:opacity-70 ring ring-emerald-500  p-2 rounded-lg">
-          {payment?.method}
-        </div>
+      <div className="truncate rounded-md border border-secondary/40 bg-secondary-soft px-3 py-2 text-sm">
+        {payment?.method}
       </div>
-      <div className=" flex-1/4 ">
-        <div className="bg-emerald-300/70 dark:bg-emerald-700/80 hover:opacity-70 ring ring-emerald-500  p-2 rounded-lg">
-          {payment?.amount} {payment?.currency}
-        </div>
+      <div className="truncate rounded-md border border-secondary/40 bg-secondary-soft px-3 py-2 text-sm">
+        {payment?.amount} {payment?.currency}
       </div>
-      <div className=" flex-1/4 ">
-        <div className="bg-emerald-300/70 dark:bg-emerald-700/80 hover:opacity-70 ring ring-emerald-500  p-2 rounded-lg">
-          {payment?.id}
-        </div>
+      <div className="truncate rounded-md border border-secondary/40 bg-secondary-soft px-3 py-2 text-sm">
+        {payment?.id}
       </div>
     </div>
   );

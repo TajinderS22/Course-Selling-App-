@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import PaymentInfoCard from "./PaymentInfoCard";
+import { IndianRupee, ReceiptText } from "lucide-react";
 
 const Revenue = () => {
   const { jwtCreator } = useActiveSessionCreator();
@@ -22,7 +23,6 @@ const Revenue = () => {
         },
       });
       setPayments(res.data.payments);
-      
     } catch (error) {
       console.error("Failed to fetch revenue:", error);
     }
@@ -33,53 +33,76 @@ const Revenue = () => {
   }, [jwtCreator]);
 
   useEffect(() => {
-    const total = payments.reduce((acc, p) => acc + Number(p?.amount/100 || 0), 0);
+    const total = payments.reduce(
+      (acc, p) => acc + Number(p?.amount / 100 || 0),
+      0
+    );
     setTotalRevenue(total);
   }, [payments]);
 
   return (
-    <div className="min-h-[90svh] dark:bg-slate-800 dark:text-white">
+    <div className="min-h-[100svh] bg-app text-ink">
       <Navbar />
-      <div className="flex h-svh overflow-scroll ">
+      <div className="flex min-h-svh">
         <Sidebar />
-        <div className="flex-1 not-dark:bg-white/50  ">
-          <div className="flex w-10/12 mx-auto bg-sky-300/20 m-2 rounded-lg p-2  ">
-            <div className=" bg-sky-300/50 ring ring-sky-500 dark:bg-sky-700 rounded-lg mx-2 flex-1/3 flex items-center  gap-2  p-2">
-              {creator?.firstname} {creator?.lastname}
+        <div className="flex-1 pb-10 pt-20">
+          {/* Stats */}
+          <div className="mx-auto grid w-11/12 gap-3 md:grid-cols-3">
+            <div className="card flex items-center gap-4 p-5">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-primary-soft text-primary">
+                <ReceiptText className="h-5 w-5" />
+              </div>
+              <div className="min-w-0">
+                <p className="text-xs font-semibold uppercase tracking-wider text-ink-soft">
+                  Creator
+                </p>
+                <p className="mt-0.5 truncate text-lg font-bold">
+                  {creator?.firstname} {creator?.lastname}
+                </p>
+              </div>
             </div>
-            <div className=" bg-sky-300/50 ring ring-sky-500 dark:bg-sky-700 rounded-lg mx-2 flex-1/3 flex items-center  gap-2  p-2">
-              <p>Total transactions:</p>
-              <p>{payments.length}</p>
+            <div className="card flex items-center gap-4 p-5">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-secondary-soft text-secondary">
+                <ReceiptText className="h-5 w-5" />
+              </div>
+              <div className="min-w-0">
+                <p className="text-xs font-semibold uppercase tracking-wider text-ink-soft">
+                  Total transactions
+                </p>
+                <p className="mt-0.5 text-lg font-bold">{payments.length}</p>
+              </div>
             </div>
-            <div className=" bg-sky-300/50 ring ring-sky-500 dark:bg-sky-700 rounded-lg mx-2 flex-1/3 flex items-center  gap-2  p-2">
-              <p>Total revenue:</p>
-              <p>{totalRevenue}</p>
+            <div className="card flex items-center gap-4 p-5">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-primary-soft text-primary">
+                <IndianRupee className="h-5 w-5" />
+              </div>
+              <div className="min-w-0">
+                <p className="text-xs font-semibold uppercase tracking-wider text-ink-soft">
+                  Total revenue
+                </p>
+                <p className="mt-0.5 text-lg font-bold">
+                  ₹ {totalRevenue.toLocaleString("en-IN")}
+                </p>
+              </div>
             </div>
           </div>
 
-          <div>
+          {/* Table */}
+          <div className="mx-auto mt-6 w-11/12">
             {payments.length > 0 && (
-              <div className="w-10/12 mx-auto ">
-                <div className="bg-emerald-200/50 dark:bg-emerald-700/50 flex gap-2 justify-between m-2 p-2 rounded-lg  w-full">
-                  <div className=" flex-1/4 ">
-                    <div className="bg-emerald-400/90 dark:bg-emerald-800/80 hover:opacity-90 ring ring-emerald-500 p-2 rounded-lg">
-                      User Name
-                    </div>
+              <div>
+                <div className="card m-1 grid w-full grid-cols-2 gap-2 p-3 md:grid-cols-4">
+                  <div className="rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white">
+                    User Name
                   </div>
-                  <div className=" flex-1/4 ">
-                    <div className="bg-emerald-400/90 dark:bg-emerald-800/80 hover:opacity-90 ring ring-emerald-500 p-2 rounded-lg">
-                      Method
-                    </div>
+                  <div className="rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white">
+                    Method
                   </div>
-                  <div className=" flex-1/4 ">
-                    <div className="bg-emerald-400/90 dark:bg-emerald-800/80 hover:opacity-90 ring ring-emerald-500 p-2 rounded-lg">
-                      Amount
-                    </div>
+                  <div className="rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white">
+                    Amount
                   </div>
-                  <div className=" flex-1/4 ">
-                    <div className="bg-emerald-400/90 dark:bg-emerald-800/80 hover:opacity-90 ring ring-emerald-500 p-2 rounded-lg">
-                      Payment Id
-                    </div>
+                  <div className="rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white">
+                    Payment Id
                   </div>
                 </div>
                 {payments.map((payment) => {

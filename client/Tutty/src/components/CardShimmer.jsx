@@ -1,36 +1,17 @@
-import React, { useContext } from "react";
-import { AppContext } from "../context/AppContext";
+import React from "react";
 
 const CardShimmer = () => {
-  const { isCreator } = useContext(AppContext);
   return (
-    <div className="  bg-[#56DFCF]/40  min-w-[350px] flex flex-col  justify-between  mt-14 min-h-[250px] h-fit max-h-[800px] rounded-xl m-2 p-2 shadow-xl shadow-[#024240]   ">
-      <img
-        className="  w-11/12 rounded-t-xl mx-auto max-w-[400px] max-h-[300px]"
-        src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-        alt="Course Image"
-      />
-      <div className="  text-xl font-semibold mx-3 "></div>
-      <p className="   mx-3  bg-slate-300 h-6 rounded-2xl "></p>
-      <p className="  text-xl font-bold mt-4 mx-3  bg-slate-300 h-6 rounded-2xl"></p>
-      {!isCreator ? (
-        <div className="  flex w-full justify-between p-2 px-6 ">
-          <button
-            className="    w-[40%] p-2  bg-slate-300 h-6 rounded-2xl "
-            onClick={() => {}}
-          ></button>
-          <button className="  bg-[#c1caca]/80 w-[40%] p-2 h-6 rounded-2xl "></button>
-        </div>
-      ) : (
-        <div className="  flex w-full justify-between p-2 px-6">
-          <button className="  bg-[#0ABAB5]/80 w-[40%] p-2 rounded-2xl ">
-            Edit
-          </button>
-          <button className="  bg-[#c1caca]/80 w-[40%] p-2 rounded-2xl ">
-            More Details
-          </button>
-        </div>
-      )}
+    <div className="card m-2 flex min-h-[380px] w-full min-w-[350px] max-w-[416px] flex-col p-3">
+      <div className="shimmer-block h-[220px] w-full rounded-md" />
+      <div className="shimmer-block mx-1 mt-4 h-6 w-3/4 rounded-md" />
+      <div className="shimmer-block mx-1 mt-2 h-4 w-full rounded-md" />
+      <div className="shimmer-block mx-1 mt-1 h-4 w-2/3 rounded-md" />
+      <div className="shimmer-block mx-1 mt-4 h-7 w-1/3 rounded-md" />
+      <div className="mt-4 flex gap-2 px-1">
+        <div className="shimmer-block h-10 flex-1 rounded-md" />
+        <div className="shimmer-block h-10 flex-1 rounded-md" />
+      </div>
     </div>
   );
 };
