@@ -36,12 +36,12 @@ const useActiveSessionCreator = () => {
         dispatch(setCreator(creator));
       } else {
         dispatch(clearCreator());
-        navigate("/authentication");
+        navigate("/creator/authentication");
       }
     } catch (err) {
       console.error("Session check failed:", err);
       dispatch(clearCreator());
-      navigate("/authentication");
+      navigate("/creator/authentication");
     } finally {
       setLoading(false);
     }
@@ -52,7 +52,7 @@ const useActiveSessionCreator = () => {
       ifSessionActive();
     } else if (!jwtCreator) {
       dispatch(clearCreator());
-      navigate("/authentication");
+      navigate("/creator/authentication");
     } else if (creator) {
   
       setLoading(false);

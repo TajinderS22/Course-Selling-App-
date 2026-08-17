@@ -92,7 +92,7 @@ const CreatorSettingsPage = () => {
 
   if (loading) {
     return (
-      <div className="absolute min-h-[90svh]">
+      <div className="min-h-[90svh] w-full">
         <Loading />
       </div>
     );

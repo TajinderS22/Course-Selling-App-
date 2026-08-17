@@ -4,21 +4,12 @@ import Navbar from "../../components/Navbar";
 import axios from "axios";
 import { SERVER_ADDRESS } from "../../Secrets/Secrets";
 import Loading from "../../components/Loading";
-import { useNavigate } from "react-router";
-import useActiveSession from "../../hooks/useActiveSession";
-import useActiveSessionCreator from "../../hooks/useActiveSessionCreator";
 import { Upload } from "lucide-react";
 
 const SettingsPage = () => {
-  const { jwt } = useActiveSession();
-  const { jwtCreator } = useActiveSessionCreator();
+  const { loading, jwt } = useActiveSession();
 
   const user = useSelector((state) => state.user);
-  const creator = useSelector((state) => state.creator);
-  const navigate = useNavigate();
-  if (!user && !creator) {
-    navigate("/");
-  }
 
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
@@ -41,32 +32,17 @@ const SettingsPage = () => {
       const base64Image = reader.result;
 
       try {
-        let res;
-        if (user) {
-          res = await axios.post(
-            SERVER_ADDRESS + "/user/image/upload",
-            {
-              image: base64Image,
+        const res = await axios.post(
+          SERVER_ADDRESS + "/user/image/upload",
+          {
+            image: base64Image,
+          },
+          {
+            headers: {
+              authorization: jwt,
             },
-            {
-              headers: {
-                authorization: jwt,
-              },
-            }
-          );
-        } else {
-          res = await axios.post(
-            SERVER_ADDRESS + "/creator/image/upload",
-            {
-              image: base64Image,
-            },
-            {
-              headers: {
-                authorization: jwtCreator,
-              },
-            }
-          );
-        }
+          }
+        );
         setProfileImage(res.data);
         setLoadingOnPage(false);
       } catch (error) {
@@ -78,42 +54,22 @@ const SettingsPage = () => {
   const handleUserUpdateClick = async () => {
     setLoadingOnPage(true);
     try {
-      let res;
-      if (user) {
-        res = await axios.post(
-          SERVER_ADDRESS + "/user/update/profile",
-          {
-            firstname,
-            lastname,
-            email,
-            phone,
-            profileImage,
-            address,
+      const res = await axios.post(
+        SERVER_ADDRESS + "/user/update/profile",
+        {
+          firstname,
+          lastname,
+          email,
+          phone,
+          profileImage,
+          address,
+        },
+        {
+          headers: {
+            authorization: jwt,
           },
-          {
-            headers: {
-              authorization: jwt,
-            },
-          }
-        );
-      } else {
-        res = await axios.post(
-          SERVER_ADDRESS + "/creator/update/profile",
-          {
-            firstname,
-            lastname,
-            email,
-            phone,
-            profileImage,
-            address,
-          },
-          {
-            headers: {
-              authorization: jwtCreator,
-            },
-          }
-        );
-      }
+        }
+      );
       if (res.status == 200) {
         setLoadingOnPage(false);
       }
@@ -130,15 +86,16 @@ const SettingsPage = () => {
       if (user.phoneNumber) setPhone(user.phoneNumber);
       if (user.profileImageUrl) setProfileImage(user.profileImageUrl);
       if (user.address) setAddress(user.address);
-    } else if (creator) {
-      setFirstname(creator.firstname);
-      setLastname(creator.lastname);
-      setEmail(creator?.email);
-      if (creator.phoneNumber) setPhone(creator.phoneNumber);
-      if (creator.profileImageUrl) setProfileImage(creator.profileImageUrl);
-      if (creator.address) setAddress(creator.address);
     }
-  }, [user, creator]);
+  }, [user]);
+
+  if (loading) {
+    return (
+      <div className="absolute min-h-[90svh]">
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-[100svh] bg-app text-ink">
@@ -206,7 +163,7 @@ const SettingsPage = () => {
                 <input
                   type="file"
                   accept="image/*"
-                  name={"profileImage" + "_" + (user?.email || creator?.email)}
+                  name={"profileImage" + "_" + user?.email}
                   className="input-base"
                   onChange={async (e) => {
                     const imageFile = e.target.files[0];

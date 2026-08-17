@@ -173,7 +173,7 @@ const SidebarComp = ({
 
 const handleSidebarCompClick = async (text, navigate, user, creator) => {
   if (text.toLowerCase() == "settings") {
-    navigate("/settings");
+    navigate(creator ? "/creator/settings" : "/settings");
   } else if (text.toLowerCase() == "user management" && creator) {
     navigate("/creator/user-management");
   } else if (text.toLowerCase() == "revenue" && creator) {

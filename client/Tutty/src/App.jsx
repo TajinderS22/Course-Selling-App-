@@ -17,6 +17,7 @@ import CourseInfo from "./pages/CourseInfo";
 import EditCourse from "./pages/creator/EditCourse";
 import CourseInfoCreator from "./app/Creator/CourseInfoCreator";
 import SettingsPage from "./app/User/SettingsPage";
+import CreatorSettingsPage from "./app/Creator/CreatorSettingsPage";
 import UploadContent from "./app/Creator/UploadContent";
 import Learn from "./components/Learning/Learn";
 import UserManagement from "./app/Creator/UserManagement/UserManagement";
@@ -99,6 +100,10 @@ function App() {
     {
       path: "/settings",
       element: <SettingsPage />,
+    },
+    {
+      path: "/creator/settings",
+      element: <CreatorSettingsPage />,
     },
     {
       path: "/creator/course/:id/upload-content",
