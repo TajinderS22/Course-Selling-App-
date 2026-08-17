@@ -4,6 +4,7 @@ import Navbar from "../../components/Navbar";
 import axios from "axios";
 import { SERVER_ADDRESS } from "../../Secrets/Secrets";
 import Loading from "../../components/Loading";
+import useActiveSession from "../../hooks/useActiveSession";
 import { Upload } from "lucide-react";
 
 const SettingsPage = () => {
